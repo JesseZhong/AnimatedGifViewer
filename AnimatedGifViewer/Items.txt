@@ -1,0 +1,4 @@
+﻿Icons for MenuStrip
+Read Images from Zip files
+Animate/mask buttons
+Fullscreen mode

@@ -9,7 +9,7 @@ using AlphaForms;
 
 namespace AnimatedGifViewer {
 
-	public partial class MainForm : AlphaForm {
+	public partial class MainForm : /*Alpha*/Form {
 
 		// Note: Windows file system is case-insensitive.
 		private const string FILE_TYPES = "*.bmp|*.gif|*.exig|*.jpg|*.jpeg|*.png|*.tiff";
@@ -116,8 +116,10 @@ namespace AnimatedGifViewer {
 		private void MainForm_Load(object sender, EventArgs e) {
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 			
+			/*
 			this.DrawControlBackgrounds = true;
 			this.EnhancedRendering = true;
+			 */
 		}
 
 		/// <summary>
