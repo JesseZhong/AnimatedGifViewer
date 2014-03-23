@@ -12,7 +12,16 @@ namespace AnimatedGifViewer {
 	public partial class MainForm : /*Alpha*/Form {
 
 		// Note: Windows file system is case-insensitive.
-		private const string FILE_TYPES = "*.bmp|*.gif|*.exig|*.jpg|*.jpeg|*.png|*.tiff";
+		private const string FILE_TYPES = "*.bmp|*.gif|*.jpg|*.jpeg|*.png|*.tiff|*.ico";
+		private const string FILE_FILTER =
+			"All Image Files |*.bmp;*.dib;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tiff;*.ico|" +
+			"Bitmap Files (*.bmp; *.dib)|*.bmp;*.dib|" +
+			"JPEG (*.jpg; *.jpeg; *.jpe; *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +
+			"GIF (*.gif)|*.gif|" +
+			"PNG (*.png)|*.png|" +
+			"TIFF (*.tiff)|*.tiff|" +
+			"ICO (*.ico)|*.ico|" +
+			"All Files|*.*";
 		
 		private List<string> filenames;
 		private int filenameIndex;
@@ -25,38 +34,59 @@ namespace AnimatedGifViewer {
 			// Initialize variables.
 			this.filenameIndex = 0;
 
-			// Checks if there was a filename 
-			// passed and if that file exists.
-			string filename;
-			if (args.Any() && File.Exists(filename = args[0])) {
+			// Checks if there was a filename passed.
+			if (args.Any())
+				this.OpenImageFile(args[0]);
+		}
 
-				// Load the file into the image box.
-				this.ImageBox.Load(filename);
-
-				// Set the working directory to that of the passed file.
-				string workingDirectory = Path.GetDirectoryName(filename);
-				Directory.SetCurrentDirectory(workingDirectory);
-
-				// Search the directory for other images.
-				filenames = this.GetFiles(workingDirectory, FILE_TYPES);
-
-				// Find the index of the filename in the list of filenames.
-				// Set the current filename index to that of the filename's.
-				if (this.filenames.Contains(filename))
-					this.filenameIndex = this.filenames.FindIndex(delegate(string name) {
-						return name == filename;
-					});
-
-				Console.WriteLine(this.filenames.Count);
-				Console.WriteLine(this.filenameIndex);
-
-			} else {
+		/// <summary>
+		/// Attempts to open an image and load all other image 
+		/// file names, from the same directory, into the program.
+		/// </summary>
+		/// <param name="filename">Path of the file that will be loaded.</param>
+		/// <returns>Returns true if the file exists and was loaded.</returns>
+		private bool OpenImageFile(string filename) {
+			if (!File.Exists(filename)) {
 
 				// Disable all the buttons.
-				this.NextButton.Enabled = false;
-				this.PrevButton.Enabled = false;
-				this.FullScreenButton.Enabled = false;
+				this.EnableButtons(false);
+				return false;
 			}
+
+			// Load the file into the image box.
+			this.ImageBox.Load(filename);
+
+			// Set the working directory to that of the passed file.
+			string workingDirectory = Path.GetDirectoryName(filename);
+			Directory.SetCurrentDirectory(workingDirectory);
+
+			// Search the directory for other images.
+			filenames = this.GetFiles(workingDirectory, FILE_TYPES);
+
+			// Find the index of the filename in the list of filenames.
+			// Set the current filename index to that of the filename's.
+			if (this.filenames.Contains(filename))
+				this.filenameIndex = this.filenames.FindIndex(delegate(string name) {
+					return name == filename;
+				});
+
+			// Enable the buttons.
+			this.EnableButtons(true);
+			return true;
+		}
+
+		/// <summary>
+		/// Sets the state of the buttons. 
+		/// </summary>
+		/// <param name="enable">
+		/// New status of the buttons.
+		/// True: all buttons are enabled.
+		/// False: all buttons are disabled.
+		/// </param>
+		private void EnableButtons(bool enable) {
+			this.NextButton.Enabled = enable;
+			this.PrevButton.Enabled = enable;
+			this.FullScreenButton.Enabled = enable;
 		}
 
 		/// <summary>
@@ -149,6 +179,25 @@ namespace AnimatedGifViewer {
 		/// <param name="e"></param>
 		private void FullScreenButton_Click(object sender, EventArgs e) {
 
+		}
+
+		/// <summary>
+		/// Opens a file dialog that allows the user to choose an image to open.
+		/// The image will be opened in the image box. The file names of other images
+		/// in the directory will be stored, so the user can cycle through them.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OpenMenuItem_Click(object sender, EventArgs e) {
+
+			// Create a open file dialog with the current directory and file filter.
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+			openFileDialog.Filter = FILE_FILTER;
+
+			// Attempt to open a file the user chooses.
+			if (openFileDialog.ShowDialog() == DialogResult.OK) 
+				this.OpenImageFile(openFileDialog.FileName);
 		}
 	}
 }

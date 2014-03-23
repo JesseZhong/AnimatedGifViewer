@@ -32,11 +32,13 @@
 			this.PropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.OpenInMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuItemSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.FullScreenButton = new System.Windows.Forms.Button();
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
 			this.ImageBox = new System.Windows.Forms.PictureBox();
+			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.CopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuStrip.SuspendLayout();
@@ -49,16 +51,18 @@
 			this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenuItem,
-            this.OpenMenuItem});
+            this.OpenInMenuItem});
 			this.MenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.MenuStrip.Name = "MenuStrip";
-			this.MenuStrip.Size = new System.Drawing.Size(413, 24);
+			this.MenuStrip.Size = new System.Drawing.Size(674, 24);
 			this.MenuStrip.TabIndex = 4;
 			this.MenuStrip.Text = "menuStrip1";
 			// 
 			// FileMenuItem
 			// 
 			this.FileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenMenuItem,
+            this.MenuItemSeparator3,
             this.DeleteMenuItem,
             this.MakeCopyMenuItem,
             this.MenuItemSeparator2,
@@ -74,41 +78,46 @@
 			// MakeCopyMenuItem
 			// 
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
-			this.MakeCopyMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.MakeCopyMenuItem.Size = new System.Drawing.Size(156, 26);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
 			// 
 			// MenuItemSeparator2
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
-			this.MenuItemSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator2.Size = new System.Drawing.Size(153, 6);
 			// 
 			// MenuItemSeparator1
 			// 
 			this.MenuItemSeparator1.Name = "MenuItemSeparator1";
-			this.MenuItemSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator1.Size = new System.Drawing.Size(153, 6);
 			// 
 			// PropertiesMenuItem
 			// 
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
-			this.PropertiesMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.PropertiesMenuItem.Size = new System.Drawing.Size(156, 26);
 			this.PropertiesMenuItem.Text = "Properties";
 			// 
 			// MenuItemSeparator
 			// 
 			this.MenuItemSeparator.Name = "MenuItemSeparator";
-			this.MenuItemSeparator.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator.Size = new System.Drawing.Size(153, 6);
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ExitMenuItem.Size = new System.Drawing.Size(156, 26);
 			this.ExitMenuItem.Text = "Exit";
 			// 
-			// OpenMenuItem
+			// OpenInMenuItem
 			// 
-			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(48, 20);
-			this.OpenMenuItem.Text = "Open";
+			this.OpenInMenuItem.Name = "OpenInMenuItem";
+			this.OpenInMenuItem.Size = new System.Drawing.Size(60, 20);
+			this.OpenInMenuItem.Text = "Open In";
+			// 
+			// MenuItemSeparator3
+			// 
+			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
+			this.MenuItemSeparator3.Size = new System.Drawing.Size(153, 6);
 			// 
 			// FullScreenButton
 			// 
@@ -118,7 +127,7 @@
 			this.FullScreenButton.FlatAppearance.BorderSize = 0;
 			this.FullScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.FullScreenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.FullScreenButton.Location = new System.Drawing.Point(184, 258);
+			this.FullScreenButton.Location = new System.Drawing.Point(315, 363);
 			this.FullScreenButton.Margin = new System.Windows.Forms.Padding(0);
 			this.FullScreenButton.Name = "FullScreenButton";
 			this.FullScreenButton.Size = new System.Drawing.Size(44, 48);
@@ -134,7 +143,7 @@
 			this.NextButton.FlatAppearance.BorderSize = 0;
 			this.NextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.NextButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.NextButton.Location = new System.Drawing.Point(228, 271);
+			this.NextButton.Location = new System.Drawing.Point(359, 376);
 			this.NextButton.Margin = new System.Windows.Forms.Padding(0);
 			this.NextButton.Name = "NextButton";
 			this.NextButton.Size = new System.Drawing.Size(51, 25);
@@ -150,7 +159,7 @@
 			this.PrevButton.FlatAppearance.BorderSize = 0;
 			this.PrevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.PrevButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.PrevButton.Location = new System.Drawing.Point(133, 270);
+			this.PrevButton.Location = new System.Drawing.Point(264, 375);
 			this.PrevButton.Margin = new System.Windows.Forms.Padding(0);
 			this.PrevButton.Name = "PrevButton";
 			this.PrevButton.Size = new System.Drawing.Size(51, 25);
@@ -167,15 +176,23 @@
 			this.ImageBox.Location = new System.Drawing.Point(0, 24);
 			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
 			this.ImageBox.Name = "ImageBox";
-			this.ImageBox.Size = new System.Drawing.Size(415, 234);
+			this.ImageBox.Size = new System.Drawing.Size(676, 339);
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
+			// 
+			// OpenMenuItem
+			// 
+			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
+			this.OpenMenuItem.Name = "OpenMenuItem";
+			this.OpenMenuItem.Size = new System.Drawing.Size(156, 26);
+			this.OpenMenuItem.Text = "Open";
+			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
 			// DeleteMenuItem
 			// 
 			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.delete;
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.DeleteMenuItem.Size = new System.Drawing.Size(156, 26);
 			this.DeleteMenuItem.Text = "Delete";
 			// 
 			// CopyMenuItem
@@ -190,7 +207,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(413, 305);
+			this.ClientSize = new System.Drawing.Size(674, 410);
 			this.Controls.Add(this.FullScreenButton);
 			this.Controls.Add(this.NextButton);
 			this.Controls.Add(this.PrevButton);
@@ -221,12 +238,14 @@
 		private System.Windows.Forms.ToolStripMenuItem PropertiesMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator;
 		private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem OpenInMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CopyMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem DeleteMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem MakeCopyMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
+		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator3;
 	}
 }
 

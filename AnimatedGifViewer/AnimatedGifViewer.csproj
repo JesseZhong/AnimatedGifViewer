@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Items.txt" />
+    <None Include="Resources\folder_open.ico" />
     <None Include="Resources\delete.ico" />
     <None Include="Resources\copy.ico" />
   </ItemGroup>
