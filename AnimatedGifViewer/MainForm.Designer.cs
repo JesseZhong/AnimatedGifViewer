@@ -27,8 +27,8 @@
 			this.FullScreenButton = new System.Windows.Forms.Button();
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
-			this.PictureBox = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
+			this.ImageBox = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// FullScreenButton
@@ -79,18 +79,18 @@
 			this.PrevButton.UseVisualStyleBackColor = false;
 			this.PrevButton.Click += new System.EventHandler(this.PrevButton_Click);
 			// 
-			// PictureBox
+			// ImageBox
 			// 
-			this.PictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.ImageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.PictureBox.BackColor = System.Drawing.SystemColors.Window;
-			this.PictureBox.Location = new System.Drawing.Point(0, -1);
-			this.PictureBox.Margin = new System.Windows.Forms.Padding(0);
-			this.PictureBox.Name = "PictureBox";
-			this.PictureBox.Size = new System.Drawing.Size(415, 258);
-			this.PictureBox.TabIndex = 0;
-			this.PictureBox.TabStop = false;
+			this.ImageBox.BackColor = System.Drawing.SystemColors.Window;
+			this.ImageBox.Location = new System.Drawing.Point(0, 0);
+			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
+			this.ImageBox.Name = "ImageBox";
+			this.ImageBox.Size = new System.Drawing.Size(415, 258);
+			this.ImageBox.TabIndex = 0;
+			this.ImageBox.TabStop = false;
 			// 
 			// MainForm
 			// 
@@ -101,20 +101,20 @@
 			this.Controls.Add(this.FullScreenButton);
 			this.Controls.Add(this.NextButton);
 			this.Controls.Add(this.PrevButton);
-			this.Controls.Add(this.PictureBox);
+			this.Controls.Add(this.ImageBox);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
 			this.Text = "MainForm";
 			this.TransparencyKey = System.Drawing.Color.Fuchsia;
 			this.Load += new System.EventHandler(this.MainForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.PictureBox PictureBox;
+		private System.Windows.Forms.PictureBox ImageBox;
 		private System.Windows.Forms.Button PrevButton;
 		private System.Windows.Forms.Button NextButton;
 		private System.Windows.Forms.Button FullScreenButton;
