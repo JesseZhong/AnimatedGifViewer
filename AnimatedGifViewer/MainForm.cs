@@ -2,14 +2,13 @@
 using System.Linq;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using AlphaForms;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace AnimatedGifViewer {
 
-	public partial class MainForm : /*Alpha*/Form {
+	public partial class MainForm : GlassForm {
 
 		// Note: Windows file system is case-insensitive.
 		private const string FILE_TYPES = "*.bmp|*.gif|*.jpg|*.jpeg|*.png|*.tiff|*.ico";
@@ -25,7 +24,14 @@ namespace AnimatedGifViewer {
 		
 		private List<string> filenames;
 		private int filenameIndex;
+		private string[] arguments;
 
+		/// <summary>
+		/// Initializes the components of the main form.
+		/// If a file name is passed in through the arguments
+		/// of the program, attempt to open the image.
+		/// </summary>
+		/// <param name="args">Program arguments.</param>
 		public MainForm(string[] args = null) {
 
 			// Initialize the form's components.
@@ -33,10 +39,7 @@ namespace AnimatedGifViewer {
 
 			// Initialize variables.
 			this.filenameIndex = 0;
-
-			// Checks if there was a filename passed.
-			if (args.Any())
-				this.OpenImageFile(args[0]);
+			this.arguments = args;
 		}
 
 		/// <summary>
@@ -145,11 +148,19 @@ namespace AnimatedGifViewer {
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e) {
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
-			
-			/*
-			this.DrawControlBackgrounds = true;
-			this.EnhancedRendering = true;
-			 */
+		}
+
+		/// <summary>
+		/// If a file name was passed through arguments,
+		/// attempt to open file into the image box.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_Shown(object sender, EventArgs e) {
+
+			// Checks if there was a filename passed.
+			if (this.arguments.Any())
+				this.OpenImageFile(this.arguments[0]);
 		}
 
 		/// <summary>
@@ -194,10 +205,22 @@ namespace AnimatedGifViewer {
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
 			openFileDialog.Filter = FILE_FILTER;
+			openFileDialog.RestoreDirectory = false;
 
 			// Attempt to open a file the user chooses.
 			if (openFileDialog.ShowDialog() == DialogResult.OK) 
 				this.OpenImageFile(openFileDialog.FileName);
+		}
+
+		/// <summary>
+		/// Prompts the user and attempts to delete the current image's file.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteMenuItem_Click(object sender, EventArgs e) {
+
+			// Confirm with the user that they wish to delete the file.
+			//if(MessageBox.Show("Are you sure you wish to move this"))
 		}
 	}
 }

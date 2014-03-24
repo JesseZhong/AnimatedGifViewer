@@ -194,6 +194,7 @@
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
 			this.DeleteMenuItem.Size = new System.Drawing.Size(156, 26);
 			this.DeleteMenuItem.Text = "Delete";
+			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
 			// 
 			// CopyMenuItem
 			// 
@@ -219,6 +220,7 @@
 			this.Text = "MainForm";
 			this.TransparencyKey = System.Drawing.Color.Fuchsia;
 			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.MenuStrip.ResumeLayout(false);
 			this.MenuStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).EndInit();
