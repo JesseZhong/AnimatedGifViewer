@@ -151,8 +151,8 @@ namespace AnimatedGifViewer {
 		/// <summary>
 		/// Loads additional content when the form is created.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
 		private void MainForm_Load(object sender, EventArgs e) {
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
@@ -173,14 +173,24 @@ namespace AnimatedGifViewer {
 			this.PrevButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
 			this.NextButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
 			this.FullScreenButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+
+			// Mouse down events.
+			this.PrevButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+			this.NextButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+			this.FullScreenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+
+			// Mouse up events.
+			this.PrevButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+			this.NextButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+			this.FullScreenButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 		}
 
 		/// <summary>
 		/// If a file name was passed through arguments,
 		/// attempt to open file into the image box.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
 		private void MainForm_Shown(object sender, EventArgs e) {
 
 			// Checks if there was a filename passed.
@@ -192,8 +202,8 @@ namespace AnimatedGifViewer {
 		/// Attempts to load the next image
 		/// in the directory into the image box.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">NextButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void NextButton_Click(object sender, EventArgs e) {
 			if(this.filenames.Any())
 				this.ImageBox.Load(this.NextImage());
@@ -203,8 +213,8 @@ namespace AnimatedGifViewer {
 		/// Attempts to load the previous image
 		/// in the directory into the image box.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">PrevButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void PrevButton_Click(object sender, EventArgs e) {
 			if (this.filenames.Any())
 				this.ImageBox.Load(this.PrevImage());
@@ -224,8 +234,8 @@ namespace AnimatedGifViewer {
 		/// The image will be opened in the image box. The file names of other images
 		/// in the directory will be stored, so the user can cycle through them.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">OpenMenuItem</param>
+		/// <param name="e">Event arguments.</param>
 		private void OpenMenuItem_Click(object sender, EventArgs e) {
 
 			// Create a open file dialog with the current directory and file filter.
@@ -242,8 +252,8 @@ namespace AnimatedGifViewer {
 		/// <summary>
 		/// Prompts the user and attempts to delete the current image's file.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">DeleteMenuItem</param>
+		/// <param name="e">Event arguments.</param>
 		private void DeleteMenuItem_Click(object sender, EventArgs e) {
 
 			// Confirm with the user that they wish to delete the file.
@@ -251,7 +261,12 @@ namespace AnimatedGifViewer {
 		}
 
 		#region Mouse Events
-
+		/// <summary>
+		/// Changes the image of the button to the
+		/// hover state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
 		private void Button_MouseEnter(object sender, EventArgs e) {
 			
 			Button button = (Button)sender;
@@ -261,7 +276,43 @@ namespace AnimatedGifViewer {
 			}
 		}
 
+		/// <summary>
+		/// Changes the image of the button to the
+		/// active state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
 		private void Button_MouseLeave(object sender, EventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.buttonImages.ContainsKey(button))
+					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Active);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// clicked/pressed state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseDown(object sender, MouseEventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.buttonImages.ContainsKey(button))
+					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Clicked);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// active state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseUp(object sender, MouseEventArgs e) {
 
 			Button button = (Button)sender;
 			if (button.Enabled) {
