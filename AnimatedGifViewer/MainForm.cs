@@ -99,6 +99,10 @@ namespace AnimatedGifViewer {
 			this.NextButton.Enabled = enable;
 			this.PrevButton.Enabled = enable;
 			this.FullScreenButton.Enabled = enable;
+			this.SizeButton.Enabled = enable;
+			this.RotateCounterButton.Enabled = enable;
+			this.RotateClockwiseButton.Enabled = enable;
+			this.DeleteButton.Enabled = enable;
 
 			ButtonImageSet.EState state = (enable)
 				? ButtonImageSet.EState.Active
@@ -175,26 +179,50 @@ namespace AnimatedGifViewer {
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
 			this.buttonImages.Add(this.FullScreenButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
+			this.buttonImages.Add(this.SizeButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Size));
+			this.buttonImages.Add(this.RotateCounterButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter));
+			this.buttonImages.Add(this.RotateClockwiseButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise));
+			this.buttonImages.Add(this.DeleteButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Delete));
 
 			// Mouse enter events.
 			this.PrevButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
 			this.NextButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
 			this.FullScreenButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+			this.SizeButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+			this.RotateCounterButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+			this.RotateClockwiseButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+			this.DeleteButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
 
 			// Mouse leave events.
 			this.PrevButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
 			this.NextButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
 			this.FullScreenButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+			this.SizeButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+			this.RotateCounterButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+			this.RotateClockwiseButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+			this.DeleteButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
 
 			// Mouse down events.
 			this.PrevButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
 			this.NextButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
 			this.FullScreenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+			this.SizeButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+			this.RotateCounterButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+			this.RotateClockwiseButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
+			this.DeleteButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Button_MouseDown);
 
 			// Mouse up events.
 			this.PrevButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 			this.NextButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 			this.FullScreenButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+			this.SizeButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+			this.RotateCounterButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+			this.RotateClockwiseButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+			this.DeleteButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 		}
 
 		/// <summary>
@@ -334,7 +362,7 @@ namespace AnimatedGifViewer {
 			Button button = (Button)sender;
 			if (button.Enabled) {
 				if (this.buttonImages.ContainsKey(button))
-					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Active);
+					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Hover);
 			}
 		}
 		#endregion
