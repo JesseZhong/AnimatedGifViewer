@@ -26,21 +26,21 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
 			this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuItemSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MakeCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.CopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.PropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenInMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuItemSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.FullScreenButton = new System.Windows.Forms.Button();
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
 			this.ImageBox = new System.Windows.Forms.PictureBox();
-			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.CopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
 			this.SuspendLayout();
@@ -75,37 +75,65 @@
 			this.FileMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.FileMenuItem.Text = "File";
 			// 
+			// OpenMenuItem
+			// 
+			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
+			this.OpenMenuItem.Name = "OpenMenuItem";
+			this.OpenMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.OpenMenuItem.Text = "Open";
+			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
+			// 
+			// MenuItemSeparator3
+			// 
+			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
+			this.MenuItemSeparator3.Size = new System.Drawing.Size(147, 6);
+			// 
+			// DeleteMenuItem
+			// 
+			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.delete;
+			this.DeleteMenuItem.Name = "DeleteMenuItem";
+			this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.DeleteMenuItem.Text = "Delete";
+			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
+			// 
 			// MakeCopyMenuItem
 			// 
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
-			this.MakeCopyMenuItem.Size = new System.Drawing.Size(156, 26);
+			this.MakeCopyMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
 			// 
 			// MenuItemSeparator2
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
-			this.MenuItemSeparator2.Size = new System.Drawing.Size(153, 6);
+			this.MenuItemSeparator2.Size = new System.Drawing.Size(147, 6);
+			// 
+			// CopyMenuItem
+			// 
+			this.CopyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CopyMenuItem.Image")));
+			this.CopyMenuItem.Name = "CopyMenuItem";
+			this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.CopyMenuItem.Text = "Copy";
 			// 
 			// MenuItemSeparator1
 			// 
 			this.MenuItemSeparator1.Name = "MenuItemSeparator1";
-			this.MenuItemSeparator1.Size = new System.Drawing.Size(153, 6);
+			this.MenuItemSeparator1.Size = new System.Drawing.Size(147, 6);
 			// 
 			// PropertiesMenuItem
 			// 
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
-			this.PropertiesMenuItem.Size = new System.Drawing.Size(156, 26);
+			this.PropertiesMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.PropertiesMenuItem.Text = "Properties";
 			// 
 			// MenuItemSeparator
 			// 
 			this.MenuItemSeparator.Name = "MenuItemSeparator";
-			this.MenuItemSeparator.Size = new System.Drawing.Size(153, 6);
+			this.MenuItemSeparator.Size = new System.Drawing.Size(147, 6);
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(156, 26);
+			this.ExitMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.ExitMenuItem.Text = "Exit";
 			// 
 			// OpenInMenuItem
@@ -113,11 +141,6 @@
 			this.OpenInMenuItem.Name = "OpenInMenuItem";
 			this.OpenInMenuItem.Size = new System.Drawing.Size(60, 20);
 			this.OpenInMenuItem.Text = "Open In";
-			// 
-			// MenuItemSeparator3
-			// 
-			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
-			this.MenuItemSeparator3.Size = new System.Drawing.Size(153, 6);
 			// 
 			// FullScreenButton
 			// 
@@ -180,34 +203,11 @@
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
 			// 
-			// OpenMenuItem
-			// 
-			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
-			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(156, 26);
-			this.OpenMenuItem.Text = "Open";
-			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
-			// 
-			// DeleteMenuItem
-			// 
-			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.delete;
-			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(156, 26);
-			this.DeleteMenuItem.Text = "Delete";
-			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
-			// 
-			// CopyMenuItem
-			// 
-			this.CopyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CopyMenuItem.Image")));
-			this.CopyMenuItem.Name = "CopyMenuItem";
-			this.CopyMenuItem.Size = new System.Drawing.Size(156, 26);
-			this.CopyMenuItem.Text = "Copy";
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Window;
+			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(674, 410);
 			this.Controls.Add(this.FullScreenButton);
 			this.Controls.Add(this.NextButton);
@@ -218,7 +218,7 @@
 			this.MainMenuStrip = this.MenuStrip;
 			this.Name = "MainForm";
 			this.Text = "MainForm";
-			this.TransparencyKey = System.Drawing.Color.Fuchsia;
+			this.TransparencyKey = System.Drawing.SystemColors.Control;
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.MenuStrip.ResumeLayout(false);

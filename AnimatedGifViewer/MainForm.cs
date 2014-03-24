@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Drawing;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
 
 namespace AnimatedGifViewer {
 
-	public partial class MainForm : GlassForm {
+	public partial class MainForm : Form {
 
 		// Note: Windows file system is case-insensitive.
 		private const string FILE_TYPES = "*.bmp|*.gif|*.jpg|*.jpeg|*.png|*.tiff|*.ico";
@@ -222,5 +224,106 @@ namespace AnimatedGifViewer {
 			// Confirm with the user that they wish to delete the file.
 			//if(MessageBox.Show("Are you sure you wish to move this"))
 		}
+
+		#region Glass Form
+		#region Properties
+
+		/// <summary>
+		/// Get determines if AeroGlass is enabled on the desktop. Set enables/disables AreoGlass on the desktop.
+		/// </summary>
+		public static bool AeroGlassCompositionEnabled {
+			set {
+				DesktopWindowManagerNativeMethods.DwmEnableComposition(
+					value ? CompositionEnable.Enable : CompositionEnable.Disable);
+			}
+			get {
+				return DesktopWindowManagerNativeMethods.DwmIsCompositionEnabled();
+			}
+		}
+
+		#endregion
+
+		#region Events
+
+		/// <summary>
+		/// Fires when the availability of Glass effect changes.
+		/// </summary>
+		public event EventHandler<AeroGlassCompositionChangedEventArgs> AeroGlassCompositionChanged;
+
+		#endregion
+
+		#region Operations
+
+		/// <summary>
+		/// Makes the background of current window transparent
+		/// </summary>
+		public void SetAeroGlassTransparency() {
+			this.BackColor = Color.Transparent;
+		}
+
+		/// <summary>
+		/// Excludes a Control from the AeroGlass frame.
+		/// </summary>
+		/// <param name="control">The control to exclude.</param>
+		/// <remarks>Many non-WPF rendered controls (i.e., the ExplorerBrowser control) will not 
+		/// render properly on top of an AeroGlass frame. </remarks>
+		public void ExcludeControlFromAeroGlass(Control control) {
+			if (control == null) { throw new ArgumentNullException("control"); }
+
+			if (AeroGlassCompositionEnabled) {
+				Rectangle clientScreen = this.RectangleToScreen(this.ClientRectangle);
+				Rectangle controlScreen = control.RectangleToScreen(control.ClientRectangle);
+
+				Margins margins = new Margins();
+				margins.LeftWidth = controlScreen.Left - clientScreen.Left;
+				margins.RightWidth = clientScreen.Right - controlScreen.Right;
+				margins.TopHeight = controlScreen.Top - clientScreen.Top;
+				margins.BottomHeight = clientScreen.Bottom - controlScreen.Bottom;
+
+				// Extend the Frame into client area
+				DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(Handle, ref margins);
+			}
+		}
+
+		/// <summary>
+		/// Resets the AeroGlass exclusion area.
+		/// </summary>
+		public void ResetAeroGlass() {
+			if (this.Handle != IntPtr.Zero) {
+				Margins margins = new Margins(true);
+				DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
+			}
+		}
+		#endregion
+
+		#region Implementation
+		/// <summary>
+		/// Catches the DWM messages to this window and fires the appropriate event.
+		/// </summary>
+		/// <param name="m"></param>
+
+		protected override void WndProc(ref System.Windows.Forms.Message m) {
+			if (m.Msg == DWMMessages.WM_DWMCOMPOSITIONCHANGED
+				|| m.Msg == DWMMessages.WM_DWMNCRENDERINGCHANGED) {
+				if (AeroGlassCompositionChanged != null) {
+					AeroGlassCompositionChanged.Invoke(this,
+						new AeroGlassCompositionChangedEventArgs(AeroGlassCompositionEnabled));
+				}
+			}
+
+			base.WndProc(ref m);
+		}
+
+		/// <summary>
+		/// Initializes the Form for AeroGlass
+		/// </summary>
+		/// <param name="e">The arguments for this event</param>
+		protected override void OnLoad(EventArgs e) {
+			base.OnLoad(e);
+			this.ResetAeroGlass();
+		}
+
+		#endregion
+		#endregion
 	}
 }
