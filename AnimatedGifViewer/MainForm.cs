@@ -30,6 +30,8 @@ namespace AnimatedGifViewer {
 		private int filenameIndex;
 		private string[] arguments;
 
+		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
+
 		/// <summary>
 		/// Initializes the components of the main form.
 		/// If a file name is passed in through the arguments
@@ -44,6 +46,7 @@ namespace AnimatedGifViewer {
 			// Initialize variables.
 			this.filenameIndex = 0;
 			this.arguments = args;
+			this.filenames = new List<string>();
 		}
 
 		/// <summary>
@@ -153,7 +156,23 @@ namespace AnimatedGifViewer {
 		private void MainForm_Load(object sender, EventArgs e) {
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
-			//this.PrevButton.MouseHover = 
+			// Load the image sets for each button.
+			this.buttonImages.Add(this.PrevButton, 
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Previous));
+			this.buttonImages.Add(this.NextButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
+			this.buttonImages.Add(this.FullScreenButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
+
+			// Mouse enter events.
+			this.PrevButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+			this.NextButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+			this.FullScreenButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+
+			// Mouse leave events.
+			this.PrevButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+			this.NextButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+			this.FullScreenButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
 		}
 
 		/// <summary>
@@ -176,7 +195,8 @@ namespace AnimatedGifViewer {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void NextButton_Click(object sender, EventArgs e) {
-			this.ImageBox.Load(this.NextImage());
+			if(this.filenames.Any())
+				this.ImageBox.Load(this.NextImage());
 		}
 
 		/// <summary>
@@ -186,7 +206,8 @@ namespace AnimatedGifViewer {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void PrevButton_Click(object sender, EventArgs e) {
-			this.ImageBox.Load(this.PrevImage());
+			if (this.filenames.Any())
+				this.ImageBox.Load(this.PrevImage());
 		}
 
 		/// <summary>
@@ -228,6 +249,27 @@ namespace AnimatedGifViewer {
 			// Confirm with the user that they wish to delete the file.
 			//if(MessageBox.Show("Are you sure you wish to move this"))
 		}
+
+		#region Mouse Events
+
+		private void Button_MouseEnter(object sender, EventArgs e) {
+			
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.buttonImages.ContainsKey(button))
+					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Hover);
+			}
+		}
+
+		private void Button_MouseLeave(object sender, EventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.buttonImages.ContainsKey(button))
+					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Active);
+			}
+		}
+		#endregion
 
 		#region Glass Form
 		#region Properties

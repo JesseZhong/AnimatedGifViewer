@@ -16,7 +16,7 @@ namespace AnimatedGifViewer {
 		}
 
 		private readonly int clips = Enum.GetNames(typeof(EState)).Length;
-		private List<Image> images;
+		private List<Image> images = new List<Image>();
 
 		/// <summary>
 		/// Constructor.
