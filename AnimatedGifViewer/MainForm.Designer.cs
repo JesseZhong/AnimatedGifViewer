@@ -23,7 +23,6 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
 			this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +41,6 @@
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
 			this.ImageBox = new System.Windows.Forms.PictureBox();
-			this.PrevButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.MenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
 			this.SuspendLayout();
@@ -148,7 +146,7 @@
 			// 
 			this.FullScreenButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.FullScreenButton.BackColor = System.Drawing.SystemColors.Control;
-			this.FullScreenButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_FullScreen;
+			this.FullScreenButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("FullScreenButton.BackgroundImage")));
 			this.FullScreenButton.FlatAppearance.BorderSize = 0;
 			this.FullScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.FullScreenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -164,7 +162,7 @@
 			// 
 			this.NextButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.NextButton.BackColor = System.Drawing.SystemColors.Control;
-			this.NextButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Next;
+			this.NextButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NextButton.BackgroundImage")));
 			this.NextButton.FlatAppearance.BorderSize = 0;
 			this.NextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.NextButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -180,7 +178,7 @@
 			// 
 			this.PrevButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.PrevButton.BackColor = System.Drawing.SystemColors.Control;
-			this.PrevButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Previous;
+			this.PrevButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PrevButton.BackgroundImage")));
 			this.PrevButton.FlatAppearance.BorderSize = 0;
 			this.PrevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.PrevButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -204,12 +202,6 @@
 			this.ImageBox.Size = new System.Drawing.Size(676, 339);
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
-			// 
-			// PrevButtonImageList
-			// 
-			this.PrevButtonImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-			this.PrevButtonImageList.ImageSize = new System.Drawing.Size(16, 16);
-			this.PrevButtonImageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// MainForm
 			// 
@@ -256,7 +248,6 @@
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator3;
-		private System.Windows.Forms.ImageList PrevButtonImageList;
 	}
 }
 

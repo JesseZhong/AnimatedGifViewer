@@ -1,12 +1,12 @@
 ﻿// MainForm.cs
 // Authored by Jesse Z. Zhong
 using System;
+using System.IO;
 using System.Linq;
 using System.Drawing;
+using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
 using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
 
@@ -47,6 +47,7 @@ namespace AnimatedGifViewer {
 			this.filenameIndex = 0;
 			this.arguments = args;
 			this.filenames = new List<string>();
+			this.EnableButtons(false);
 		}
 
 		/// <summary>
@@ -97,6 +98,14 @@ namespace AnimatedGifViewer {
 			this.NextButton.Enabled = enable;
 			this.PrevButton.Enabled = enable;
 			this.FullScreenButton.Enabled = enable;
+
+			ButtonImageSet.EState state = (enable)
+				? ButtonImageSet.EState.Active
+				: ButtonImageSet.EState.Inactive;
+
+			foreach (KeyValuePair<Button, ButtonImageSet> item in this.buttonImages) {
+				item.Key.BackgroundImage = item.Value.GetImage(state);
+			}
 		}
 
 		/// <summary>
