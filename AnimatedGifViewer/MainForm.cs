@@ -66,7 +66,7 @@ namespace AnimatedGifViewer {
 			}
 
 			// Load the file into the image box.
-			this.ImageBox.Load(filename);
+			this.ImageBox.Image = this.LoadImage(filename);
 
 			// Set the working directory to that of the passed file.
 			string workingDirectory = Path.GetDirectoryName(filename);
@@ -131,6 +131,19 @@ namespace AnimatedGifViewer {
 			filenames.Sort();
 			return filenames;
 		}
+
+		/// <summary>
+		/// Loads an image from file, makes a copy 
+		/// to memory, and then releases the file.
+		/// </summary>
+		/// <param name="filename">Name of the image.</param>
+		/// <returns>Returns a copy of the image.</returns>
+		private Image LoadImage(string filename) {
+			var bytes = File.ReadAllBytes(filename);
+			var ms = new MemoryStream(bytes);
+			var img = Image.FromStream(ms);
+			return img;
+		}
 		
 		/// <summary>
 		/// Increments the current file index up 
@@ -160,6 +173,19 @@ namespace AnimatedGifViewer {
 
 			this.filenameIndex = ((this.filenameIndex - 1) < 0) ? (this.filenames.Count - 1) : (this.filenameIndex - 1);
 			return this.filenames[this.filenameIndex];
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private void DeleteImage() {
+
+			bool deleted = FileOperationAPIWrapper.Send(this.filenames[this.filenameIndex]);
+			if (deleted) {
+				this.filenames.RemoveAt(filenameIndex);
+				if (this.filenames.Any())
+					this.NextImage();
+			}
 		}
 		#endregion
 
@@ -223,6 +249,9 @@ namespace AnimatedGifViewer {
 			this.RotateCounterButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 			this.RotateClockwiseButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 			this.DeleteButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
+
+			// Set to handle keyboard events.
+			this.KeyPreview = true;
 		}
 
 		/// <summary>
@@ -248,7 +277,7 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void NextButton_Click(object sender, EventArgs e) {
 			if(this.filenames.Any())
-				this.ImageBox.Load(this.NextImage());
+				this.ImageBox.Image = this.LoadImage(this.NextImage());
 		}
 
 		/// <summary>
@@ -259,7 +288,7 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void PrevButton_Click(object sender, EventArgs e) {
 			if (this.filenames.Any())
-				this.ImageBox.Load(this.PrevImage());
+				this.ImageBox.Image = this.LoadImage(this.PrevImage());
 		}
 
 		/// <summary>
@@ -302,6 +331,36 @@ namespace AnimatedGifViewer {
 
 			// Confirm with the user that they wish to delete the file.
 			//if(MessageBox.Show("Are you sure you wish to move this"))
+			this.DeleteImage();
+		}
+		#endregion
+
+		#region Keyboard Events
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+
+			if ((keyData == Keys.Left) ||
+				(keyData == Keys.A) ||
+				(keyData == Keys.S)) {
+				this.PrevButton.PerformClick();
+			}
+
+			if ((keyData == Keys.Right) ||
+				(keyData == Keys.D) ||
+				(keyData == Keys.F)) {
+				this.NextButton.PerformClick();
+			}
+
+			if ((keyData == Keys.Up) ||
+				(keyData == Keys.W) ||
+				(keyData == Keys.E)) {
+				this.FullScreenButton.PerformClick();
+			}
+
+			if (keyData == Keys.Delete) {
+
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		#endregion
 
