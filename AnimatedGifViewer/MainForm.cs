@@ -1,4 +1,6 @@
-﻿using System;
+﻿// MainForm.cs
+// Authored by Jesse Z. Zhong
+using System;
 using System.Linq;
 using System.Drawing;
 using System.ComponentModel;
@@ -150,6 +152,8 @@ namespace AnimatedGifViewer {
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e) {
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
+
+			//this.PrevButton.MouseHover = 
 		}
 
 		/// <summary>

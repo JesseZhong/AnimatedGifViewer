@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
 			this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +42,7 @@
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
 			this.ImageBox = new System.Windows.Forms.PictureBox();
+			this.PrevButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.MenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
 			this.SuspendLayout();
@@ -203,6 +205,12 @@
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
 			// 
+			// PrevButtonImageList
+			// 
+			this.PrevButtonImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+			this.PrevButtonImageList.ImageSize = new System.Drawing.Size(16, 16);
+			this.PrevButtonImageList.TransparentColor = System.Drawing.Color.Transparent;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +256,7 @@
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator3;
+		private System.Windows.Forms.ImageList PrevButtonImageList;
 	}
 }
 

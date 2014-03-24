@@ -124,7 +124,7 @@
   <data name="CopyMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsAAAA7AAWrWiQkAAAIGSURBVFhH7ZSvT8NQEMeXYFAYDAkGj8Ig0SRoBA6DxyEI
+        YQUAAAAJcEhZcwAADr8AAA6/ATgFUyQAAAIGSURBVFhH7ZSvT8NQEMeXYFAYDAkGj8Ig0SRoBA6DxyEI
         GwI1g8GAWEBiCISFH2Fk2UTDMpJlgYTwI8v4B+bY1nbbcdfS8ta8vt5rKxBc8klF9+4+2b1vM3+mGo0G
         6JDNZnfx2DQy4TRIWtSUW5/tNjwYRroSOgJUxWLREUlNggRGoxEbEqBnahJxBYhUJIICtacWXBivcFz+
         gPx1y8d7TwJBsM0iMuU01C0SGA6H2nQ6HWjjP9BsNklgFZl1GuoWR4Buvg5aayGBwWDgU39uQan2Ape4
@@ -136,6 +136,9 @@
         ByuT+QbXO9bRRbpJKwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="PrevButtonImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>118, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABABAAQEAQAAEABABoCgAABgEAADAwEAABAAQAaAYAAG4LAAAgIBAAAQAEAOgCAADWEQAAGBgQAAEA
