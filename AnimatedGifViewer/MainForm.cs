@@ -32,6 +32,7 @@ namespace AnimatedGifViewer {
 
 		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
 
+		#region Work
 		/// <summary>
 		/// Initializes the components of the main form.
 		/// If a file name is passed in through the arguments
@@ -126,7 +127,7 @@ namespace AnimatedGifViewer {
 			filenames.Sort();
 			return filenames;
 		}
-
+		
 		/// <summary>
 		/// Increments the current file index up 
 		/// and returns the next image's filename.
@@ -156,7 +157,9 @@ namespace AnimatedGifViewer {
 			this.filenameIndex = ((this.filenameIndex - 1) < 0) ? (this.filenames.Count - 1) : (this.filenameIndex - 1);
 			return this.filenames[this.filenameIndex];
 		}
+		#endregion
 
+		#region Loading
 		/// <summary>
 		/// Loads additional content when the form is created.
 		/// </summary>
@@ -206,7 +209,9 @@ namespace AnimatedGifViewer {
 			if (this.arguments.Any())
 				this.OpenImageFile(this.arguments[0]);
 		}
+		#endregion
 
+		#region Button Events
 		/// <summary>
 		/// Attempts to load the next image
 		/// in the directory into the image box.
@@ -237,7 +242,9 @@ namespace AnimatedGifViewer {
 		private void FullScreenButton_Click(object sender, EventArgs e) {
 
 		}
+		#endregion
 
+		#region Menu Bar Events
 		/// <summary>
 		/// Opens a file dialog that allows the user to choose an image to open.
 		/// The image will be opened in the image box. The file names of other images
@@ -268,6 +275,7 @@ namespace AnimatedGifViewer {
 			// Confirm with the user that they wish to delete the file.
 			//if(MessageBox.Show("Are you sure you wish to move this"))
 		}
+		#endregion
 
 		#region Mouse Events
 		/// <summary>

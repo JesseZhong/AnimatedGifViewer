@@ -26,21 +26,26 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
 			this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MakeCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.CopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.PropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenInMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.SizeButton = new System.Windows.Forms.Button();
+			this.FitSizeButton = new System.Windows.Forms.Button();
+			this.DeleteButton = new System.Windows.Forms.Button();
+			this.RotateClockwiseButton = new System.Windows.Forms.Button();
+			this.RotateCounterButton = new System.Windows.Forms.Button();
 			this.FullScreenButton = new System.Windows.Forms.Button();
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
 			this.ImageBox = new System.Windows.Forms.PictureBox();
+			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.CopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
 			this.SuspendLayout();
@@ -75,26 +80,10 @@
 			this.FileMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.FileMenuItem.Text = "File";
 			// 
-			// OpenMenuItem
-			// 
-			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
-			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(150, 22);
-			this.OpenMenuItem.Text = "Open";
-			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
-			// 
 			// MenuItemSeparator3
 			// 
 			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
 			this.MenuItemSeparator3.Size = new System.Drawing.Size(147, 6);
-			// 
-			// DeleteMenuItem
-			// 
-			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.delete;
-			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
-			this.DeleteMenuItem.Text = "Delete";
-			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
 			// 
 			// MakeCopyMenuItem
 			// 
@@ -106,13 +95,6 @@
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
 			this.MenuItemSeparator2.Size = new System.Drawing.Size(147, 6);
-			// 
-			// CopyMenuItem
-			// 
-			this.CopyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CopyMenuItem.Image")));
-			this.CopyMenuItem.Name = "CopyMenuItem";
-			this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
-			this.CopyMenuItem.Text = "Copy";
 			// 
 			// MenuItemSeparator1
 			// 
@@ -142,15 +124,97 @@
 			this.OpenInMenuItem.Size = new System.Drawing.Size(60, 20);
 			this.OpenInMenuItem.Text = "Open In";
 			// 
+			// SizeButton
+			// 
+			this.SizeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.SizeButton.BackColor = System.Drawing.SystemColors.Control;
+			this.SizeButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Size;
+			this.SizeButton.FlatAppearance.BorderSize = 0;
+			this.SizeButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+			this.SizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.SizeButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.SizeButton.Location = new System.Drawing.Point(151, 365);
+			this.SizeButton.Margin = new System.Windows.Forms.Padding(0);
+			this.SizeButton.Name = "SizeButton";
+			this.SizeButton.Size = new System.Drawing.Size(37, 25);
+			this.SizeButton.TabIndex = 9;
+			this.SizeButton.UseVisualStyleBackColor = false;
+			// 
+			// FitSizeButton
+			// 
+			this.FitSizeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.FitSizeButton.BackColor = System.Drawing.SystemColors.Control;
+			this.FitSizeButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_FitToWindow;
+			this.FitSizeButton.FlatAppearance.BorderSize = 0;
+			this.FitSizeButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+			this.FitSizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.FitSizeButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.FitSizeButton.Location = new System.Drawing.Point(212, 365);
+			this.FitSizeButton.Margin = new System.Windows.Forms.Padding(0);
+			this.FitSizeButton.Name = "FitSizeButton";
+			this.FitSizeButton.Size = new System.Drawing.Size(27, 25);
+			this.FitSizeButton.TabIndex = 8;
+			this.FitSizeButton.UseVisualStyleBackColor = false;
+			// 
+			// DeleteButton
+			// 
+			this.DeleteButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.DeleteButton.BackColor = System.Drawing.SystemColors.Control;
+			this.DeleteButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Delete;
+			this.DeleteButton.FlatAppearance.BorderSize = 0;
+			this.DeleteButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+			this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.DeleteButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.DeleteButton.Location = new System.Drawing.Point(512, 365);
+			this.DeleteButton.Margin = new System.Windows.Forms.Padding(0);
+			this.DeleteButton.Name = "DeleteButton";
+			this.DeleteButton.Size = new System.Drawing.Size(25, 25);
+			this.DeleteButton.TabIndex = 7;
+			this.DeleteButton.UseVisualStyleBackColor = false;
+			// 
+			// RotateClockwiseButton
+			// 
+			this.RotateClockwiseButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.RotateClockwiseButton.BackColor = System.Drawing.SystemColors.Control;
+			this.RotateClockwiseButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise;
+			this.RotateClockwiseButton.FlatAppearance.BorderSize = 0;
+			this.RotateClockwiseButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+			this.RotateClockwiseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.RotateClockwiseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.RotateClockwiseButton.Location = new System.Drawing.Point(471, 365);
+			this.RotateClockwiseButton.Margin = new System.Windows.Forms.Padding(0);
+			this.RotateClockwiseButton.Name = "RotateClockwiseButton";
+			this.RotateClockwiseButton.Size = new System.Drawing.Size(25, 25);
+			this.RotateClockwiseButton.TabIndex = 6;
+			this.RotateClockwiseButton.UseVisualStyleBackColor = false;
+			// 
+			// RotateCounterButton
+			// 
+			this.RotateCounterButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.RotateCounterButton.BackColor = System.Drawing.SystemColors.Control;
+			this.RotateCounterButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter;
+			this.RotateCounterButton.FlatAppearance.BorderSize = 0;
+			this.RotateCounterButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+			this.RotateCounterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.RotateCounterButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.RotateCounterButton.Location = new System.Drawing.Point(437, 365);
+			this.RotateCounterButton.Margin = new System.Windows.Forms.Padding(0);
+			this.RotateCounterButton.Name = "RotateCounterButton";
+			this.RotateCounterButton.Size = new System.Drawing.Size(25, 25);
+			this.RotateCounterButton.TabIndex = 5;
+			this.RotateCounterButton.UseVisualStyleBackColor = false;
+			// 
 			// FullScreenButton
 			// 
 			this.FullScreenButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.FullScreenButton.BackColor = System.Drawing.SystemColors.Control;
 			this.FullScreenButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("FullScreenButton.BackgroundImage")));
 			this.FullScreenButton.FlatAppearance.BorderSize = 0;
+			this.FullScreenButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.FullScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.FullScreenButton.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.FullScreenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.FullScreenButton.Location = new System.Drawing.Point(315, 363);
+			this.FullScreenButton.Location = new System.Drawing.Point(320, 353);
 			this.FullScreenButton.Margin = new System.Windows.Forms.Padding(0);
 			this.FullScreenButton.Name = "FullScreenButton";
 			this.FullScreenButton.Size = new System.Drawing.Size(44, 48);
@@ -164,9 +228,10 @@
 			this.NextButton.BackColor = System.Drawing.SystemColors.Control;
 			this.NextButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NextButton.BackgroundImage")));
 			this.NextButton.FlatAppearance.BorderSize = 0;
+			this.NextButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.NextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.NextButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.NextButton.Location = new System.Drawing.Point(359, 376);
+			this.NextButton.Location = new System.Drawing.Point(364, 365);
 			this.NextButton.Margin = new System.Windows.Forms.Padding(0);
 			this.NextButton.Name = "NextButton";
 			this.NextButton.Size = new System.Drawing.Size(51, 25);
@@ -180,9 +245,10 @@
 			this.PrevButton.BackColor = System.Drawing.SystemColors.Control;
 			this.PrevButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PrevButton.BackgroundImage")));
 			this.PrevButton.FlatAppearance.BorderSize = 0;
+			this.PrevButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.PrevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.PrevButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.PrevButton.Location = new System.Drawing.Point(264, 375);
+			this.PrevButton.Location = new System.Drawing.Point(269, 365);
 			this.PrevButton.Margin = new System.Windows.Forms.Padding(0);
 			this.PrevButton.Name = "PrevButton";
 			this.PrevButton.Size = new System.Drawing.Size(51, 25);
@@ -199,9 +265,32 @@
 			this.ImageBox.Location = new System.Drawing.Point(0, 24);
 			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
 			this.ImageBox.Name = "ImageBox";
-			this.ImageBox.Size = new System.Drawing.Size(676, 339);
+			this.ImageBox.Size = new System.Drawing.Size(676, 322);
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
+			// 
+			// OpenMenuItem
+			// 
+			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
+			this.OpenMenuItem.Name = "OpenMenuItem";
+			this.OpenMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.OpenMenuItem.Text = "Open";
+			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
+			// 
+			// DeleteMenuItem
+			// 
+			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.delete;
+			this.DeleteMenuItem.Name = "DeleteMenuItem";
+			this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.DeleteMenuItem.Text = "Delete";
+			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
+			// 
+			// CopyMenuItem
+			// 
+			this.CopyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CopyMenuItem.Image")));
+			this.CopyMenuItem.Name = "CopyMenuItem";
+			this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.CopyMenuItem.Text = "Copy";
 			// 
 			// MainForm
 			// 
@@ -209,6 +298,11 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(674, 410);
+			this.Controls.Add(this.SizeButton);
+			this.Controls.Add(this.FitSizeButton);
+			this.Controls.Add(this.DeleteButton);
+			this.Controls.Add(this.RotateClockwiseButton);
+			this.Controls.Add(this.RotateCounterButton);
 			this.Controls.Add(this.FullScreenButton);
 			this.Controls.Add(this.NextButton);
 			this.Controls.Add(this.PrevButton);
@@ -248,6 +342,11 @@
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator3;
+		private System.Windows.Forms.Button RotateCounterButton;
+		private System.Windows.Forms.Button RotateClockwiseButton;
+		private System.Windows.Forms.Button DeleteButton;
+		private System.Windows.Forms.Button FitSizeButton;
+		private System.Windows.Forms.Button SizeButton;
 	}
 }
 

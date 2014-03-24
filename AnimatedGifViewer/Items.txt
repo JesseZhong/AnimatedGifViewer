@@ -3,3 +3,4 @@ Read Images from Zip files
 Animate/mask buttons
 Fullscreen mode
 Drag image when zoomed in
+Keyboard controls
