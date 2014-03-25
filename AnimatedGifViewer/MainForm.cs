@@ -195,6 +195,17 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Check if an index is within the bounds of filenames.
+		/// </summary>
+		/// <param name="index">The index in question.</param>
+		/// <returns>True if in bounds, false otherwise.</returns>
+		private bool CheckFilenamesBounds(int index) {
+			if ((index < this.filenames.Count) && (index >= 0))
+				return true;
+			return false;
+		}
+
+		/// <summary>
 		/// Loads an image from file, makes a copy 
 		/// to memory, and then releases the file.
 		/// </summary>
@@ -244,13 +255,10 @@ namespace AnimatedGifViewer {
 		private void DeleteImage() {
 
 			// Attempt to delete the current file.
-			if (this.filenames.Any()) {
+			if (this.filenames.Any() && this.CheckFilenamesBounds(this.filenameIndex)) {
 				bool deleted = FileOperationAPIWrapper.Send(this.filenames[this.filenameIndex]);
-				if (deleted) {
-					this.filenames.RemoveAt(filenameIndex);
-					if (this.filenames.Any())
-						this.NextButton.PerformClick();
-				}
+				if (deleted)
+					this.NextButton.PerformClick();
 			}
 		}
 		#endregion
@@ -425,9 +433,6 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">DeleteMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void DeleteMenuItem_Click(object sender, EventArgs e) {
-
-			// Confirm with the user that they wish to delete the file.
-			//if(MessageBox.Show("Are you sure you wish to move this"))
 			this.DeleteImage();
 		}
 		#endregion
