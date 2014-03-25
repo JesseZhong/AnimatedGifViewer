@@ -176,15 +176,28 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Attempts to delete the currently displayed image
+		/// in the image box. If all the images in the folder
+		/// are deleted, all buttons will be disabled and any
+		/// remaining images in the image box will be cleared.
 		/// </summary>
 		private void DeleteImage() {
 
-			bool deleted = FileOperationAPIWrapper.Send(this.filenames[this.filenameIndex]);
-			if (deleted) {
-				this.filenames.RemoveAt(filenameIndex);
-				if (this.filenames.Any())
-					this.NextImage();
+			// Attempt to delete the current file.
+			if (this.filenames.Any()) {
+				bool deleted = FileOperationAPIWrapper.Send(this.filenames[this.filenameIndex]);
+				if (deleted) {
+					this.filenames.RemoveAt(filenameIndex);
+					if (this.filenames.Any())
+						this.NextButton.PerformClick();
+				}
+			}
+
+			// Disable buttons and clear the image
+			// box if no images exist in the folder.
+			if (!this.filenames.Any()) {
+				this.EnableButtons(false);
+				this.ImageBox.Image = null;
 			}
 		}
 		#endregion
@@ -250,6 +263,9 @@ namespace AnimatedGifViewer {
 			this.RotateClockwiseButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 			this.DeleteButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 
+			// Form deactivated event.
+			this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
+
 			// Set to handle keyboard events.
 			this.KeyPreview = true;
 		}
@@ -265,6 +281,25 @@ namespace AnimatedGifViewer {
 			// Checks if there was a filename passed.
 			if (this.arguments.Any())
 				this.OpenImageFile(this.arguments[0]);
+		}
+		#endregion
+
+		#region Form Events
+		/// <summary>
+		/// Return visual components to their default 
+		/// state when the form falls out of focus.
+		/// </summary>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
+		private void MainForm_Deactivate(object sender, EventArgs e) {
+
+			// Change the state image for each 
+			// button when the form falls out of focus.
+			foreach (KeyValuePair<Button, ButtonImageSet> item in this.buttonImages) {
+				if (item.Key.Enabled) {
+					item.Key.BackgroundImage = item.Value.GetImage(ButtonImageSet.EState.Active);
+				}
+			}
 		}
 		#endregion
 
@@ -298,6 +333,15 @@ namespace AnimatedGifViewer {
 		/// <param name="e"></param>
 		private void FullScreenButton_Click(object sender, EventArgs e) {
 
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteButton_Click(object sender, EventArgs e) {
+			this.DeleteImage();
 		}
 		#endregion
 

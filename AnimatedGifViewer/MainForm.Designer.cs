@@ -171,6 +171,7 @@
 			this.DeleteButton.Size = new System.Drawing.Size(25, 25);
 			this.DeleteButton.TabIndex = 7;
 			this.DeleteButton.UseVisualStyleBackColor = false;
+			this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
 			// 
 			// RotateClockwiseButton
 			// 

@@ -1,6 +1,10 @@
-﻿Icons for MenuStrip
+﻿Icons for MenuStrip - Done
 Read Images from Zip files
-Animate/mask buttons
+Animate/mask buttons - Done
 Fullscreen mode
 Drag image when zoomed in
+Scroll wheel zoom
+Correct sizing
 Keyboard controls
+Ensure files exist/refresh file list
+Layered buttons that fade in and out.

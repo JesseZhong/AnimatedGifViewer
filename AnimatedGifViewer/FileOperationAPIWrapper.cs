@@ -85,6 +85,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <param name="path">Location of directory or file to recycle</param>
 		/// <param name="flags">FileOperationFlags to add in addition to FOF_ALLOWUNDO</param>
+		/// <returns>Returns true if successfully deleted. Returns false otherwise.</returns>
 		public static bool Send(string path, FileOperationFlags flags) {
 			try {
 				var fs = new SHFILEOPSTRUCT {
@@ -92,8 +93,9 @@ namespace AnimatedGifViewer {
 					pFrom = path + '\0' + '\0',
 					fFlags = FileOperationFlags.FOF_ALLOWUNDO | flags
 				};
-				SHFileOperation(ref fs);
-				return true;
+				if(0 == SHFileOperation(ref fs))
+					return true; ;
+				return false;
 			} catch (Exception) {
 				return false;
 			}
