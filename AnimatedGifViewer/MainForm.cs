@@ -30,7 +30,14 @@ namespace AnimatedGifViewer {
 		private int filenameIndex;
 		private string[] arguments;
 
+		private FileSystemWatcher watcher = new FileSystemWatcher();
+
 		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
+
+		private delegate void LoadFileNames();
+		private LoadFileNames loadFileNames;
+
+		private delegate void FormDelegate();
 
 		#region Work
 		/// <summary>
@@ -52,8 +59,35 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Initializes the system file watcher to
+		/// begin watching for file changed, deleted,
+		/// created, or renamed events to be raised.
+		/// </summary>
+		private void InitFileWatcher() {
+			this.watcher = new FileSystemWatcher();
+			this.watcher.Path = Directory.GetCurrentDirectory();
+			this.watcher.NotifyFilter = NotifyFilters.LastAccess |
+				NotifyFilters.LastWrite | NotifyFilters.FileName |
+				NotifyFilters.DirectoryName;
+			//this.watcher.Filter = FILE_TYPES;
+
+			// Add event handlers.
+			this.watcher.Changed += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.watcher.Created += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.watcher.Deleted += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.watcher.Renamed += new RenamedEventHandler(this.FileSystem_Renamed);
+
+			// Start watching for events.
+			this.watcher.EnableRaisingEvents = true;
+		}
+
+		/// <summary>
 		/// Attempts to open an image and load all other image 
 		/// file names, from the same directory, into the program.
+		/// This function will also initialize a delegate that will
+		/// update the list for the file names in the directory when
+		/// ever the file system detects a file is created, deleted,
+		/// changed, or renamed.
 		/// </summary>
 		/// <param name="filename">Path of the file that will be loaded.</param>
 		/// <returns>Returns true if the file exists and was loaded.</returns>
@@ -72,8 +106,38 @@ namespace AnimatedGifViewer {
 			string workingDirectory = Path.GetDirectoryName(filename);
 			Directory.SetCurrentDirectory(workingDirectory);
 
-			// Search the directory for other images.
-			filenames = this.GetFiles(workingDirectory, FILE_TYPES);
+			// Initialize the file watcher.
+			this.InitFileWatcher();
+
+			// Initialize the delegate so that it will grab all the
+			// files in the same directory as the originally loaded file.
+			#region this.loadFileNames
+			this.loadFileNames = delegate() {
+
+				// Search the directory for other images.
+				this.filenames = this.GetFiles(workingDirectory, FILE_TYPES);
+
+				// Disable buttons and clear the image
+				// box if no images exist in the folder.
+				if (!this.filenames.Any()) {
+					FormDelegate disableButtons = delegate() {
+						this.EnableButtons(false);
+					};
+					this.Invoke(disableButtons);
+					this.ImageBox.Image = null;
+					return;
+				}
+
+				// Enable the buttons.
+				FormDelegate enableButtons = delegate() {
+					this.EnableButtons(true);
+				};
+				this.Invoke(enableButtons);
+			};
+			#endregion
+
+			// Grab all the files from the directory.
+			this.loadFileNames();
 
 			// Find the index of the filename in the list of filenames.
 			// Set the current filename index to that of the filename's.
@@ -82,8 +146,6 @@ namespace AnimatedGifViewer {
 					return name == filename;
 				});
 
-			// Enable the buttons.
-			this.EnableButtons(true);
 			return true;
 		}
 
@@ -176,10 +238,8 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Attempts to delete the currently displayed image
-		/// in the image box. If all the images in the folder
-		/// are deleted, all buttons will be disabled and any
-		/// remaining images in the image box will be cleared.
+		/// Attempts to delete the currently
+		/// displayed image in the image box. 
 		/// </summary>
 		private void DeleteImage() {
 
@@ -191,13 +251,6 @@ namespace AnimatedGifViewer {
 					if (this.filenames.Any())
 						this.NextButton.PerformClick();
 				}
-			}
-
-			// Disable buttons and clear the image
-			// box if no images exist in the folder.
-			if (!this.filenames.Any()) {
-				this.EnableButtons(false);
-				this.ImageBox.Image = null;
 			}
 		}
 		#endregion
@@ -336,10 +389,10 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Attempts to delete the current image.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">DeleteButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void DeleteButton_Click(object sender, EventArgs e) {
 			this.DeleteImage();
 		}
@@ -376,6 +429,28 @@ namespace AnimatedGifViewer {
 			// Confirm with the user that they wish to delete the file.
 			//if(MessageBox.Show("Are you sure you wish to move this"))
 			this.DeleteImage();
+		}
+		#endregion
+
+		#region File System Events
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FileSystem_Changed(object sender, FileSystemEventArgs e) {
+			if (this.loadFileNames != null)
+				this.loadFileNames();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FileSystem_Renamed(object sender, RenamedEventArgs e) {
+			if (this.loadFileNames != null)
+				this.loadFileNames();
 		}
 		#endregion
 
