@@ -15,6 +15,8 @@ namespace AnimatedGifViewer {
 
 	public partial class MainForm : Form {
 
+		private const int IMG_BOX_H_PAD = 118;
+
 		// Note: Windows file system is case-insensitive.
 		private const string FILE_TYPES = "*.bmp|*.gif|*.jpg|*.jpeg|*.png|*.tiff|*.ico";
 		private const string FILE_FILTER =
@@ -26,6 +28,8 @@ namespace AnimatedGifViewer {
 			"TIFF (*.tiff)|*.tiff|" +
 			"ICO (*.ico)|*.ico|" +
 			"All Files|*.*";
+
+		private ImageBox ImageBox;
 		
 		private List<string> filenames;
 		private int filenameIndex;
@@ -54,12 +58,33 @@ namespace AnimatedGifViewer {
 
 			// Initialize the form's components.
 			this.InitializeComponent();
+			this.InitializeImageBox();
 
 			// Initialize variables.
 			this.filenameIndex = 0;
 			this.arguments = args;
 			this.filenames = new List<string>();
 			this.EnableButtons(false);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private void InitializeImageBox() {
+			this.ImageBox = new ImageBox();
+			this.ImageBox.Border = System.Windows.Forms.BorderStyle.None;
+			this.ImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
+				(AnchorStyles.Top | AnchorStyles.Bottom | 
+				AnchorStyles.Left | AnchorStyles.Right) ;
+
+			this.ImageBox.Location = new Point(0, 24);
+			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
+			this.ImageBox.Name = "ImageBox";
+			this.ImageBox.Size = new System.Drawing.Size(this.Width, 
+				(this.Height > IMG_BOX_H_PAD ? this.Height - IMG_BOX_H_PAD : this.Height));
+			this.ImageBox.TabIndex = 0;
+			this.ImageBox.TabStop = false;
+			this.Controls.Add(this.ImageBox);
 		}
 
 		/// <summary>

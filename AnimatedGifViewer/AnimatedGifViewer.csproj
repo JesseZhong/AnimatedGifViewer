@@ -58,6 +58,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\ApplicationRecoveryException.cs" />
@@ -300,6 +303,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ImageBox.resx">
+      <DependentUpon>ImageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -358,11 +364,11 @@
   <ItemGroup>
     <Content Include="Items.txt" />
     <None Include="Resources\Button_Size.png" />
+    <None Include="Resources\Menu_Delete.png" />
+    <None Include="Resources\Menu_Copy.png" />
     <Content Include="WindowsAPICodePack\Core\CustomDictionary.xml" />
     <Content Include="WindowsAPICodePack\Shell\CustomDictionary.xml" />
     <None Include="Resources\folder_open.ico" />
-    <None Include="Resources\delete.ico" />
-    <None Include="Resources\copy.ico" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="WindowsAPICodePack\Shell\Controls\CommandLinkWPF.xaml">
