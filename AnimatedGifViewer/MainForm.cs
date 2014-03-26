@@ -41,7 +41,7 @@ namespace AnimatedGifViewer {
 
 		private delegate void FormDelegate();
 
-		private Mutex mutex;
+		private Mutex mutex = new Mutex();
 
 		#region Work
 		/// <summary>
