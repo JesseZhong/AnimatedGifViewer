@@ -4,6 +4,7 @@ Animate/mask buttons - Done
 Fullscreen mode
 Drag image when zoomed in
 Scroll wheel zoom
+Grabbing and moving image when zoomed
 Correct sizing
 Keyboard controls
 Ensure files exist/refresh file list
