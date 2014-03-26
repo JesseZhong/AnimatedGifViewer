@@ -93,7 +93,7 @@
 			// 
 			// DeleteMenuItem
 			// 
-			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.delete;
+			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Delete;
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
 			this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.DeleteMenuItem.Text = "Delete";
