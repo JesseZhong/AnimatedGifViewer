@@ -8,3 +8,10 @@ Correct sizing
 Keyboard controls
 Ensure files exist/refresh file list
 Layered buttons that fade in and out.
+
+Small bugs that need to be fixed eventually:
+The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
+
+Fixed Bugs.
+When the new list of files is generated after a watcher event is raised, the current image should remain the same. => So that the following
+image was the same as it was before unless another image was inserted in its place. ie. Order should be preserved.

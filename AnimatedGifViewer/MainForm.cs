@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace AnimatedGifViewer {
 		private List<string> filenames;
 		private int filenameIndex;
 		private string[] arguments;
+		private string loadedFile;
 
 		private FileSystemWatcher watcher = new FileSystemWatcher();
 
@@ -38,6 +40,8 @@ namespace AnimatedGifViewer {
 		private LoadFileNames loadFileNames;
 
 		private delegate void FormDelegate();
+
+		private Mutex mutex;
 
 		#region Work
 		/// <summary>
@@ -113,6 +117,7 @@ namespace AnimatedGifViewer {
 			// files in the same directory as the originally loaded file.
 			#region this.loadFileNames
 			this.loadFileNames = delegate() {
+				this.mutex.WaitOne();
 
 				// Search the directory for other images.
 				this.filenames = this.GetFiles(workingDirectory, FILE_TYPES);
@@ -128,24 +133,30 @@ namespace AnimatedGifViewer {
 					return;
 				}
 
+				// Find the index of the filename in the list of filenames.
+				// Set the current filename index to that of the filename's.
+				if (this.filenames.Contains(this.loadedFile))
+					this.filenameIndex = this.filenames.FindIndex(delegate(string name) {
+						return name == this.loadedFile;
+					});
+
+				// Attempt to load the original image into the image box.
+				if (this.CheckFilenamesBounds(this.filenameIndex))
+					this.ImageBox.Image = this.LoadImage(this.filenames[this.filenameIndex]);
+				else
+					this.ImageBox.Image = null;
+
 				// Enable the buttons.
 				FormDelegate enableButtons = delegate() {
 					this.EnableButtons(true);
 				};
 				this.Invoke(enableButtons);
+				this.mutex.ReleaseMutex();
 			};
 			#endregion
 
 			// Grab all the files from the directory.
 			this.loadFileNames();
-
-			// Find the index of the filename in the list of filenames.
-			// Set the current filename index to that of the filename's.
-			if (this.filenames.Contains(filename))
-				this.filenameIndex = this.filenames.FindIndex(delegate(string name) {
-					return name == filename;
-				});
-
 			return true;
 		}
 
@@ -215,6 +226,7 @@ namespace AnimatedGifViewer {
 			var bytes = File.ReadAllBytes(filename);
 			var ms = new MemoryStream(bytes);
 			var img = Image.FromStream(ms);
+			this.loadedFile = filename;
 			return img;
 		}
 		
@@ -345,7 +357,7 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
-		#region Form Events
+		#region Form Handlers
 		/// <summary>
 		/// Return visual components to their default 
 		/// state when the form falls out of focus.
@@ -364,7 +376,7 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
-		#region Button Events
+		#region Button Handlers
 		/// <summary>
 		/// Attempts to load the next image
 		/// in the directory into the image box.
@@ -406,7 +418,7 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
-		#region Menu Bar Events
+		#region Menu Bar Handlers
 		/// <summary>
 		/// Opens a file dialog that allows the user to choose an image to open.
 		/// The image will be opened in the image box. The file names of other images
@@ -437,29 +449,36 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
-		#region File System Events
+		#region File System Handlers
 		/// <summary>
-		/// 
+		/// Attempts to store all the file names in the current working directory.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">FileSystemWatcher</param>
+		/// <param name="e">File system event arguments.</param>
 		private void FileSystem_Changed(object sender, FileSystemEventArgs e) {
 			if (this.loadFileNames != null)
 				this.loadFileNames();
 		}
 
 		/// <summary>
-		/// 
+		/// Attempts to store all the file names in the current working directory.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">FileSystemWatcher</param>
+		/// <param name="e">Renamed event arguments.</param>
 		private void FileSystem_Renamed(object sender, RenamedEventArgs e) {
 			if (this.loadFileNames != null)
 				this.loadFileNames();
 		}
 		#endregion
 
-		#region Keyboard Events
+		#region Keyboard Handlers
+		/// <summary>
+		/// Interprets keys as keyboard shortcuts for certain buttons
+		/// and functions and performs clicks or actions for those items.
+		/// </summary>
+		/// <param name="msg">Windows message with details of the user input.</param>
+		/// <param name="keyData">Contains data about which key events occurred.</param>
+		/// <returns></returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
 
 			if ((keyData == Keys.Left) ||
@@ -481,14 +500,14 @@ namespace AnimatedGifViewer {
 			}
 
 			if (keyData == Keys.Delete) {
-
+				this.DeleteImage();
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		#endregion
 
-		#region Mouse Events
+		#region Mouse Handlers
 		/// <summary>
 		/// Changes the image of the button to the
 		/// hover state if the button is enabled.
