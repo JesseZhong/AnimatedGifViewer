@@ -166,31 +166,31 @@
     <comment>The delete image button's tool tip.</comment>
   </data>
   <data name="FitSizeButtonActualToolTip" xml:space="preserve">
-    <value>Actual size (Ctrl+Alt+0)</value>
+    <value>Actual size (Down Arrow, S)</value>
     <comment>The fit to window/actual size button's tool tip.</comment>
   </data>
   <data name="FitSizeButtonWindowToolTip" xml:space="preserve">
-    <value>Fit to window (Ctrl+0)</value>
+    <value>Fit to window (Down Arrow, S)</value>
     <comment>The fit to window/actual size button's tool tip.</comment>
   </data>
   <data name="FullScreenButtonToolTip" xml:space="preserve">
-    <value>Full Screen (F11, W, E)</value>
+    <value>Full Screen (Up Arrow, W)</value>
     <comment>The full screen mode button's tool tip.</comment>
   </data>
   <data name="NextButtonToolTip" xml:space="preserve">
-    <value>Next (Right Arrow, D, F)</value>
+    <value>Next (Right Arrow, D)</value>
     <comment>The next image button's tool tip.</comment>
   </data>
   <data name="PrevButtonToolTip" xml:space="preserve">
-    <value>Previous (Left Arrow, A, S)</value>
+    <value>Previous (Left Arrow, A)</value>
     <comment>The previous image button's tool tip.</comment>
   </data>
   <data name="RotateClockwiseButtonToolTip" xml:space="preserve">
-    <value>Rotate clockwise (Ctrl+.)</value>
+    <value>Rotate clockwise (Comma)</value>
     <comment>The rotate image clockwise button's tool tip.</comment>
   </data>
   <data name="RotateCounterButtonToolTip" xml:space="preserve">
-    <value>Rotate counterclockwise (Ctrl+,)</value>
+    <value>Rotate counterclockwise (Period)</value>
     <comment>The rotate image counter clockwise button's tool tip.</comment>
   </data>
   <data name="SizeButtonToolTip" xml:space="preserve">

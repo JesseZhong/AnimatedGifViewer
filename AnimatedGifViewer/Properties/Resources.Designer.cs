@@ -150,7 +150,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Actual size (Ctrl+Alt+0).
+        ///   Looks up a localized string similar to Actual size (Down Arrow, S).
         /// </summary>
         internal static string FitSizeButtonActualToolTip {
             get {
@@ -159,7 +159,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fit to window (Ctrl+0).
+        ///   Looks up a localized string similar to Fit to window (Down Arrow, S).
         /// </summary>
         internal static string FitSizeButtonWindowToolTip {
             get {
@@ -178,7 +178,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Full Screen (F11, W, E).
+        ///   Looks up a localized string similar to Full Screen (Up Arrow, W).
         /// </summary>
         internal static string FullScreenButtonToolTip {
             get {
@@ -217,7 +217,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next (Right Arrow, D, F).
+        ///   Looks up a localized string similar to Next (Right Arrow, D).
         /// </summary>
         internal static string NextButtonToolTip {
             get {
@@ -226,7 +226,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Previous (Left Arrow, A, S).
+        ///   Looks up a localized string similar to Previous (Left Arrow, A).
         /// </summary>
         internal static string PrevButtonToolTip {
             get {
@@ -244,7 +244,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rotate clockwise (Ctrl+.).
+        ///   Looks up a localized string similar to Rotate clockwise (Comma).
         /// </summary>
         internal static string RotateClockwiseButtonToolTip {
             get {
@@ -253,7 +253,7 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rotate counterclockwise (Ctrl+,).
+        ///   Looks up a localized string similar to Rotate counterclockwise (Period).
         /// </summary>
         internal static string RotateCounterButtonToolTip {
             get {

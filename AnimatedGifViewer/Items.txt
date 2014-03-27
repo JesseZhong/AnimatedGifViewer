@@ -5,7 +5,7 @@ Fullscreen mode
 Scroll wheel zoom									- Almost (point zooming)
 Grabbing and moving image when zoomed
 Correct sizing										- Done
-Keyboard controls									- Partial support
+Keyboard controls									- Done
 Ensure files exist/refresh file list				- Done
 Layered buttons that fade in and out
 Button tooltips										- Done except for FitSizeButton

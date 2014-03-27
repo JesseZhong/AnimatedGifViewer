@@ -548,21 +548,31 @@ namespace AnimatedGifViewer {
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
 
 			if ((keyData == Keys.Left) ||
-				(keyData == Keys.A) ||
-				(keyData == Keys.S)) {
+				(keyData == Keys.A)) {
 				this.PrevButton.PerformClick();
 			}
 
 			if ((keyData == Keys.Right) ||
-				(keyData == Keys.D) ||
-				(keyData == Keys.F)) {
+				(keyData == Keys.D)) {
 				this.NextButton.PerformClick();
 			}
 
 			if ((keyData == Keys.Up) ||
-				(keyData == Keys.W) ||
-				(keyData == Keys.E)) {
+				(keyData == Keys.W)) {
 				this.FullScreenButton.PerformClick();
+			}
+
+			if ((keyData == Keys.Down) ||
+				(keyData == Keys.S)) {
+				this.FitSizeButton.PerformClick();
+			}
+
+			if (keyData == Keys.Oemcomma) {
+				this.RotateCounterButton.PerformClick();
+			}
+
+			if (keyData == Keys.OemPeriod) {
+				this.RotateClockwiseButton.PerformClick();
 			}
 
 			if (keyData == Keys.Delete) {

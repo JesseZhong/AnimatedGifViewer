@@ -112,11 +112,13 @@ namespace AnimatedGifViewer {
 			// CopyMenuItem
 			this.CopyMenuItem.Name = "CopyMenuItem";
 			this.CopyMenuItem.Size = new System.Drawing.Size(156, 26);
+			this.CopyMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Copy;
 			this.CopyMenuItem.Text = "Copy";
 
 			// DeleteMenuItem
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
 			this.DeleteMenuItem.Size = new System.Drawing.Size(156, 26);
+			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Delete;
 			this.DeleteMenuItem.Text = "Delete";
 
 			// Separator4
