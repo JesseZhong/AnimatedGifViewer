@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AnimatedGifViewer</RootNamespace>
-    <AssemblyName>AnimatedGifViewer</AssemblyName>
+    <AssemblyName>Animated GIF Viewer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -348,8 +348,6 @@
     <None Include="Resources\UI_MiddleFrame.png" />
     <None Include="Resources\UI_LeftFrame.png" />
     <None Include="Resources\UI_Divider.png" />
-    <None Include="Resources\Data_14.png" />
-    <None Include="Resources\Button_Zoom.png" />
     <None Include="Resources\Button_RotateCounter.png" />
     <None Include="Resources\Button_RotateClockwise.png" />
     <None Include="Resources\Button_Previous.png" />
@@ -359,19 +357,11 @@
     <None Include="Resources\Button_Delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Button_Previous1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Button_Next1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Button_FullScreen1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Items.txt" />
     <None Include="Resources\Button_Size.png" />
     <None Include="Resources\Menu_Delete.png" />
     <None Include="Resources\Menu_Copy.png" />
+    <None Include="Resources\Icon_1.ico" />
     <Content Include="WindowsAPICodePack\Core\CustomDictionary.xml" />
     <Content Include="WindowsAPICodePack\Shell\CustomDictionary.xml" />
     <None Include="Resources\folder_open.ico" />

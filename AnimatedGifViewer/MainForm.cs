@@ -266,6 +266,12 @@ namespace AnimatedGifViewer {
 			var ms = new MemoryStream(bytes);
 			var img = Image.FromStream(ms);
 			this.loadedFile = filename;
+
+			// Change the title of the form to have the file name.
+			this.Text = String.Format("{0} - {1}",
+				Path.GetFileName(filename), 
+				global::AnimatedGifViewer.Properties.Resources.ProgramName);
+
 			return img;
 		}
 		
@@ -321,6 +327,11 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">MainForm</param>
 		/// <param name="e">Event arguments.</param>
 		private void MainForm_Load(object sender, EventArgs e) {
+
+			// MainForm.
+			this.Text = global::AnimatedGifViewer.Properties.Resources.ProgramName;
+
+			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
 			// Load the image sets for each button.

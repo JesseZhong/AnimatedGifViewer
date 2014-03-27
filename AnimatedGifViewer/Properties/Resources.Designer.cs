@@ -151,6 +151,16 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Icon_1 {
+            get {
+                object obj = ResourceManager.GetObject("Icon_1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Menu_Copy {
@@ -167,6 +177,15 @@ namespace AnimatedGifViewer.Properties {
             get {
                 object obj = ResourceManager.GetObject("Menu_Delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Animated GIF Viewer.
+        /// </summary>
+        internal static string ProgramName {
+            get {
+                return ResourceManager.GetString("ProgramName", resourceCulture);
             }
         }
         

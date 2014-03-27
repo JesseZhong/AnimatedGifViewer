@@ -2,17 +2,17 @@
 Read Images from Zip files
 Animate/mask buttons								- Done
 Fullscreen mode
-Drag image when zoomed in
-Scroll wheel zoom
+Scroll wheel zoom									- Almost (point zooming)
 Grabbing and moving image when zoomed
 Correct sizing										- Done
-Keyboard controls
+Keyboard controls									- Partial support
 Ensure files exist/refresh file list				- Done
 Layered buttons that fade in and out
 Button tooltips
-Replace open in with about
-MainForm title changes to the current file name
-Context menu on image right click:
+Implement Open In
+Added About menu item
+MainForm title changes to the current file name		- Done
+Context menu on image right click:					- Partial (events need to be linked)
 	Open With
 	-
 	Set as Desktop Background
