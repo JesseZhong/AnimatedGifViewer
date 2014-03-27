@@ -15,10 +15,23 @@ namespace AnimatedGifViewer {
 
 	public partial class MainForm : Form {
 
+		#region Constants
+		/// <summary>
+		/// The vertical padding above and below the image box.
+		/// </summary>
 		private const int IMG_BOX_H_PAD = 118;
 
-		// Note: Windows file system is case-insensitive.
+		/// <summary>
+		/// The filter used by the program to scan
+		/// for image files in the working directory.
+		/// </summary>
+		/// <remarks>Note: Windows file system is case-insensitive.</remarks>
 		private const string FILE_TYPES = "*.bmp|*.gif|*.jpg|*.jpeg|*.png|*.tiff|*.ico";
+
+		/// <summary>
+		/// The filter used by the file dialog to let the 
+		/// user choose what types of files to view and open.
+		/// </summary>
 		private const string FILE_FILTER =
 			"All Image Files |*.bmp;*.dib;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tiff;*.ico|" +
 			"Bitmap Files (*.bmp; *.dib)|*.bmp;*.dib|" +
@@ -28,24 +41,25 @@ namespace AnimatedGifViewer {
 			"TIFF (*.tiff)|*.tiff|" +
 			"ICO (*.ico)|*.ico|" +
 			"All Files|*.*";
+		#endregion
 
+		#region Members
 		private ImageBox ImageBox;
-		
+
 		private List<string> filenames;
 		private int filenameIndex;
 		private string[] arguments;
 		private string loadedFile;
 
 		private FileSystemWatcher watcher = new FileSystemWatcher();
-
 		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
 
 		private delegate void LoadFileNames();
 		private LoadFileNames loadFileNames;
 
 		private delegate void FormDelegate();
-
 		private Mutex mutex = new Mutex();
+		#endregion
 
 		#region Work
 		/// <summary>

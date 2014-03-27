@@ -1,18 +1,38 @@
-﻿Icons for MenuStrip - Done
+﻿Icons for MenuStrip									- Done
 Read Images from Zip files
-Animate/mask buttons - Done
+Animate/mask buttons								- Done
 Fullscreen mode
 Drag image when zoomed in
 Scroll wheel zoom
 Grabbing and moving image when zoomed
-Correct sizing
+Correct sizing										- Done
 Keyboard controls
-Ensure files exist/refresh file list
-Layered buttons that fade in and out.
+Ensure files exist/refresh file list				- Done
+Layered buttons that fade in and out
+Button tooltips
+Replace open in with about
+MainForm title changes to the current file name
+Context menu on image right click:
+	Open With
+	-
+	Set as Desktop Background
+	-
+	Open File Location
+	-
+	Rotate Clockwise
+	Rotate Counterclockwise
+	-
+	Copy
+	Delete
+	-
+	Properties
+
+Context menu when right clicking in fullscreen mode:
+
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
 
-Fixed Bugs.
+Fixed Bugs:
 When the new list of files is generated after a watcher event is raised, the current image should remain the same. => So that the following
 image was the same as it was before unless another image was inserted in its place. ie. Order should be preserved.
