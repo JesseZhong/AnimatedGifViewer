@@ -17,6 +17,10 @@ namespace AnimatedGifViewer {
 			this.labelCopyright.Text = AssemblyCopyright;
 			this.labelCompanyName.Text = AssemblyCompany;
 			this.textBoxDescription.Text = AssemblyDescription;
+
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
+			this.Location = new System.Drawing.Point((screen.Width - this.Width) / 2,
+				(screen.Height - this.Height) / 2);
 		}
 
 		#region Assembly Attribute Accessors
@@ -82,7 +86,7 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		private void okButton_Click(object sender, EventArgs e) {
-			this.Hide();
+			this.Close();
 		}
 	}
 }

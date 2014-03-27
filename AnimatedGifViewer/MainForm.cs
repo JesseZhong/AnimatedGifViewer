@@ -47,7 +47,6 @@ namespace AnimatedGifViewer {
 		#region Members
 		private ImageBox ImageBox;
 		private ToolTip ToolTip;
-		private AboutBox AboutBox;
 
 		private List<string> filenames;
 		private int filenameIndex;
@@ -346,9 +345,6 @@ namespace AnimatedGifViewer {
 			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
-			// About box.
-			this.AboutBox = new AboutBox();
-
 			// Set button tooltips.
 			this.ToolTip = new ToolTip();
 			this.ToolTip.AutomaticDelay = 5000;
@@ -542,12 +538,13 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Shows the about form when the about menu item is clicked.
+		/// Creates and shows the about form when the about menu item is clicked.
 		/// </summary>
 		/// <param name="sender">AboutMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
-			this.AboutBox.Show();
+			AboutBox aboutBox = new AboutBox();
+			aboutBox.Show();
 		}
 		#endregion
 
