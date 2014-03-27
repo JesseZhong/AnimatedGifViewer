@@ -25,49 +25,37 @@ namespace AnimatedGifViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int FormWidth {
+        [global::System.Configuration.DefaultSettingValueAttribute("684, 440")]
+        public global::System.Drawing.Size FormSize {
             get {
-                return ((int)(this["FormWidth"]));
+                return ((global::System.Drawing.Size)(this["FormSize"]));
             }
             set {
-                this["FormWidth"] = value;
+                this["FormSize"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int FormHeight {
+        [global::System.Configuration.DefaultSettingValueAttribute("40, 20")]
+        public global::System.Drawing.Point FormLocation {
             get {
-                return ((int)(this["FormHeight"]));
+                return ((global::System.Drawing.Point)(this["FormLocation"]));
             }
             set {
-                this["FormHeight"] = value;
+                this["FormLocation"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int FormPosX {
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.Forms.FormWindowState FormWindowState {
             get {
-                return ((int)(this["FormPosX"]));
+                return ((global::System.Windows.Forms.FormWindowState)(this["FormWindowState"]));
             }
             set {
-                this["FormPosX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int FormPosY {
-            get {
-                return ((int)(this["FormPosY"]));
-            }
-            set {
-                this["FormPosY"] = value;
+                this["FormWindowState"] = value;
             }
         }
     }

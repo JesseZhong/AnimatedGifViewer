@@ -338,6 +338,10 @@ namespace AnimatedGifViewer {
 
 			// MainForm.
 			this.Text = this.assemblyProduct;
+			//System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
+			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
+			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
+			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
 
 			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -458,10 +462,9 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">MainForm</param>
 		/// <param name="e">Event arguments.</param>
 		private void MainForm_Closing(object sender, FormClosingEventArgs e) {
-			global::AnimatedGifViewer.Properties.Settings.Default.FormWidth = this.Width;
-			global::AnimatedGifViewer.Properties.Settings.Default.FormHeight = this.Height;
-			global::AnimatedGifViewer.Properties.Settings.Default.FormPosX = this.Location.X;
-			global::AnimatedGifViewer.Properties.Settings.Default.FormPosX = this.Location.Y;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormSize = this.Size;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormLocation = this.Location;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState = this.WindowState;
 			global::AnimatedGifViewer.Properties.Settings.Default.Save();
 		}
 		#endregion
