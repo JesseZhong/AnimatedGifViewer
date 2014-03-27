@@ -13,6 +13,9 @@ Implement Open In
 Implement About menu item							- Done
 MainForm title changes to the current file name		- Done
 Add program settings for window size and position	- Done
+Implement rotation buttons
+Implement size button
+Implement fit to window and actual size buttons		
 Context menu on image right click:					- Partial (events need to be linked)
 	Open With
 	-

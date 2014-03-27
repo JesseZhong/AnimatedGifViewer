@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace AnimatedGifViewer {
 	partial class AboutBox : Form {
 		public AboutBox() {
-			InitializeComponent();
+			this.InitializeComponent();
 			this.Text = String.Format("About {0}", AssemblyTitle);
 			this.labelProductName.Text = AssemblyProduct;
 			this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);

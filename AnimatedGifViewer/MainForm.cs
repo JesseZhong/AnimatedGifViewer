@@ -81,7 +81,6 @@ namespace AnimatedGifViewer {
 			this.filenameIndex = 0;
 			this.arguments = args;
 			this.filenames = new List<string>();
-			this.EnableButtons(false);
 
 			// Get assembly information.
 			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
@@ -230,6 +229,15 @@ namespace AnimatedGifViewer {
 			foreach (KeyValuePair<Button, ButtonImageSet> item in this.buttonImages) {
 				item.Key.BackgroundImage = item.Value.GetImage(state);
 			}
+
+			// Add tool tips to the buttons.
+			this.ToolTip.SetToolTip(this.NextButton, enable ? global::AnimatedGifViewer.Properties.Resources.NextButtonToolTip : "");
+			this.ToolTip.SetToolTip(this.PrevButton, enable ? global::AnimatedGifViewer.Properties.Resources.PrevButtonToolTip : "");
+			this.ToolTip.SetToolTip(this.FullScreenButton, enable ? global::AnimatedGifViewer.Properties.Resources.FullScreenButtonToolTip : "");
+			this.ToolTip.SetToolTip(this.SizeButton, enable ? global::AnimatedGifViewer.Properties.Resources.SizeButtonToolTip : "");
+			this.ToolTip.SetToolTip(this.RotateCounterButton, enable ? global::AnimatedGifViewer.Properties.Resources.RotateCounterButtonToolTip : "");
+			this.ToolTip.SetToolTip(this.RotateClockwiseButton, enable ? global::AnimatedGifViewer.Properties.Resources.RotateClockwiseButtonToolTip : "");
+			this.ToolTip.SetToolTip(this.DeleteButton, enable ? global::AnimatedGifViewer.Properties.Resources.DeleteButtonToolTip : "");
 		}
 
 		/// <summary>
@@ -345,20 +353,15 @@ namespace AnimatedGifViewer {
 			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
-			// Set button tooltips.
+			// Tool tip settings.
 			this.ToolTip = new ToolTip();
 			this.ToolTip.AutomaticDelay = 5000;
 			this.ToolTip.InitialDelay = 1000;
 			this.ToolTip.ReshowDelay = 500;
 			this.ToolTip.ShowAlways = true;
 
-			this.ToolTip.SetToolTip(this.NextButton, global::AnimatedGifViewer.Properties.Resources.NextButtonToolTip);
-			this.ToolTip.SetToolTip(this.PrevButton, global::AnimatedGifViewer.Properties.Resources.PrevButtonToolTip);
-			this.ToolTip.SetToolTip(this.FullScreenButton, global::AnimatedGifViewer.Properties.Resources.FullScreenButtonToolTip);
-			this.ToolTip.SetToolTip(this.SizeButton, global::AnimatedGifViewer.Properties.Resources.SizeButtonToolTip);
-			this.ToolTip.SetToolTip(this.RotateCounterButton, global::AnimatedGifViewer.Properties.Resources.RotateCounterButtonToolTip);
-			this.ToolTip.SetToolTip(this.RotateClockwiseButton, global::AnimatedGifViewer.Properties.Resources.RotateClockwiseButtonToolTip);
-			this.ToolTip.SetToolTip(this.DeleteButton, global::AnimatedGifViewer.Properties.Resources.DeleteButtonToolTip);
+			// Buttons.
+			this.EnableButtons(false);
 
 			// Load the image sets for each button.
 			this.buttonImages.Add(this.PrevButton, 
