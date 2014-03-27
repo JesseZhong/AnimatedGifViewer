@@ -141,12 +141,48 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete (Delete).
+        /// </summary>
+        internal static string DeleteButtonToolTip {
+            get {
+                return ResourceManager.GetString("DeleteButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Actual size (Ctrl+Alt+0).
+        /// </summary>
+        internal static string FitSizeButtonActualToolTip {
+            get {
+                return ResourceManager.GetString("FitSizeButtonActualToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fit to window (Ctrl+0).
+        /// </summary>
+        internal static string FitSizeButtonWindowToolTip {
+            get {
+                return ResourceManager.GetString("FitSizeButtonWindowToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap folder_open {
             get {
                 object obj = ResourceManager.GetObject("folder_open", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Screen (F11, W, E).
+        /// </summary>
+        internal static string FullScreenButtonToolTip {
+            get {
+                return ResourceManager.GetString("FullScreenButtonToolTip", resourceCulture);
             }
         }
         
@@ -181,11 +217,56 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next (Right Arrow, D, F).
+        /// </summary>
+        internal static string NextButtonToolTip {
+            get {
+                return ResourceManager.GetString("NextButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous (Left Arrow, A, S).
+        /// </summary>
+        internal static string PrevButtonToolTip {
+            get {
+                return ResourceManager.GetString("PrevButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Animated GIF Viewer.
         /// </summary>
         internal static string ProgramName {
             get {
                 return ResourceManager.GetString("ProgramName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotate clockwise (Ctrl+.).
+        /// </summary>
+        internal static string RotateClockwiseButtonToolTip {
+            get {
+                return ResourceManager.GetString("RotateClockwiseButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotate counterclockwise (Ctrl+,).
+        /// </summary>
+        internal static string RotateCounterButtonToolTip {
+            get {
+                return ResourceManager.GetString("RotateCounterButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes the display size.
+        /// </summary>
+        internal static string SizeButtonToolTip {
+            get {
+                return ResourceManager.GetString("SizeButtonToolTip", resourceCulture);
             }
         }
         

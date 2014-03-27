@@ -45,6 +45,7 @@ namespace AnimatedGifViewer {
 
 		#region Members
 		private ImageBox ImageBox;
+		private ToolTip ToolTip;
 
 		private List<string> filenames;
 		private int filenameIndex;
@@ -333,6 +334,21 @@ namespace AnimatedGifViewer {
 
 			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
+
+			// Set button tooltips.
+			this.ToolTip = new ToolTip();
+			this.ToolTip.AutomaticDelay = 5000;
+			this.ToolTip.InitialDelay = 1000;
+			this.ToolTip.ReshowDelay = 500;
+			this.ToolTip.ShowAlways = true;
+
+			this.ToolTip.SetToolTip(this.NextButton, global::AnimatedGifViewer.Properties.Resources.NextButtonToolTip);
+			this.ToolTip.SetToolTip(this.PrevButton, global::AnimatedGifViewer.Properties.Resources.PrevButtonToolTip);
+			this.ToolTip.SetToolTip(this.FullScreenButton, global::AnimatedGifViewer.Properties.Resources.FullScreenButtonToolTip);
+			this.ToolTip.SetToolTip(this.SizeButton, global::AnimatedGifViewer.Properties.Resources.SizeButtonToolTip);
+			this.ToolTip.SetToolTip(this.RotateCounterButton, global::AnimatedGifViewer.Properties.Resources.RotateCounterButtonToolTip);
+			this.ToolTip.SetToolTip(this.RotateClockwiseButton, global::AnimatedGifViewer.Properties.Resources.RotateClockwiseButtonToolTip);
+			this.ToolTip.SetToolTip(this.DeleteButton, global::AnimatedGifViewer.Properties.Resources.DeleteButtonToolTip);
 
 			// Load the image sets for each button.
 			this.buttonImages.Add(this.PrevButton, 

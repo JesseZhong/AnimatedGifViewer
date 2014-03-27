@@ -161,4 +161,40 @@
     <value>Animated GIF Viewer</value>
     <comment>Name of the program. It will be displayed in the main form's title.</comment>
   </data>
+  <data name="DeleteButtonToolTip" xml:space="preserve">
+    <value>Delete (Delete)</value>
+    <comment>The delete image button's tool tip.</comment>
+  </data>
+  <data name="FitSizeButtonActualToolTip" xml:space="preserve">
+    <value>Actual size (Ctrl+Alt+0)</value>
+    <comment>The fit to window/actual size button's tool tip.</comment>
+  </data>
+  <data name="FitSizeButtonWindowToolTip" xml:space="preserve">
+    <value>Fit to window (Ctrl+0)</value>
+    <comment>The fit to window/actual size button's tool tip.</comment>
+  </data>
+  <data name="FullScreenButtonToolTip" xml:space="preserve">
+    <value>Full Screen (F11, W, E)</value>
+    <comment>The full screen mode button's tool tip.</comment>
+  </data>
+  <data name="NextButtonToolTip" xml:space="preserve">
+    <value>Next (Right Arrow, D, F)</value>
+    <comment>The next image button's tool tip.</comment>
+  </data>
+  <data name="PrevButtonToolTip" xml:space="preserve">
+    <value>Previous (Left Arrow, A, S)</value>
+    <comment>The previous image button's tool tip.</comment>
+  </data>
+  <data name="RotateClockwiseButtonToolTip" xml:space="preserve">
+    <value>Rotate clockwise (Ctrl+.)</value>
+    <comment>The rotate image clockwise button's tool tip.</comment>
+  </data>
+  <data name="RotateCounterButtonToolTip" xml:space="preserve">
+    <value>Rotate counterclockwise (Ctrl+,)</value>
+    <comment>The rotate image counter clockwise button's tool tip.</comment>
+  </data>
+  <data name="SizeButtonToolTip" xml:space="preserve">
+    <value>Changes the display size</value>
+    <comment>The size button's tool tip.</comment>
+  </data>
 </root>
