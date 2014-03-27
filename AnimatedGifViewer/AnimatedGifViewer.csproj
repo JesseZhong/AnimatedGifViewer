@@ -50,6 +50,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="ButtonImageSet.cs" />
     <Compile Include="FileOperationAPIWrapper.cs" />
     <Compile Include="MainForm.cs">
@@ -66,6 +72,7 @@
     <Compile Include="ImageBoxMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\ApplicationRecoveryException.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\ApplicationRestartRecoveryManager.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\RecoveryData.cs" />
@@ -302,6 +309,9 @@
     <Compile Include="WindowsAPICodePack\Shell\Taskbar\ThumbnailToolbarManager.cs" />
     <Compile Include="WindowsAPICodePack\Shell\Taskbar\ThumbnailToolbarProxyWindow.cs" />
     <Compile Include="WindowsAPICodePack\Shell\Taskbar\UserRemovedJumpListItemsEventArg.cs" />
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

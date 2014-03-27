@@ -235,15 +235,6 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Animated GIF Viewer.
-        /// </summary>
-        internal static string ProgramName {
-            get {
-                return ResourceManager.GetString("ProgramName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Rotate clockwise (Comma).
         /// </summary>
         internal static string RotateClockwiseButtonToolTip {

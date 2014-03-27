@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Drawing;
 using System.Threading;
+using System.Reflection;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -46,11 +47,13 @@ namespace AnimatedGifViewer {
 		#region Members
 		private ImageBox ImageBox;
 		private ToolTip ToolTip;
+		private AboutBox AboutBox;
 
 		private List<string> filenames;
 		private int filenameIndex;
 		private string[] arguments;
 		private string loadedFile;
+		private string assemblyProduct;
 
 		private FileSystemWatcher watcher = new FileSystemWatcher();
 		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
@@ -80,6 +83,10 @@ namespace AnimatedGifViewer {
 			this.arguments = args;
 			this.filenames = new List<string>();
 			this.EnableButtons(false);
+
+			// Get assembly information.
+			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+			this.assemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
 		}
 
 		/// <summary>
@@ -271,7 +278,7 @@ namespace AnimatedGifViewer {
 			// Change the title of the form to have the file name.
 			this.Text = String.Format("{0} - {1}",
 				Path.GetFileName(filename), 
-				global::AnimatedGifViewer.Properties.Resources.ProgramName);
+				this.assemblyProduct);
 
 			return img;
 		}
@@ -330,10 +337,13 @@ namespace AnimatedGifViewer {
 		private void MainForm_Load(object sender, EventArgs e) {
 
 			// MainForm.
-			this.Text = global::AnimatedGifViewer.Properties.Resources.ProgramName;
+			this.Text = this.assemblyProduct;
 
 			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
+
+			// About box.
+			this.AboutBox = new AboutBox();
 
 			// Set button tooltips.
 			this.ToolTip = new ToolTip();
@@ -402,8 +412,9 @@ namespace AnimatedGifViewer {
 			this.RotateClockwiseButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 			this.DeleteButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Button_MouseUp);
 
-			// Form deactivated event.
+			// Form events.
 			this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
 
 			// Set to handle keyboard events.
 			this.KeyPreview = true;
@@ -439,6 +450,19 @@ namespace AnimatedGifViewer {
 					item.Key.BackgroundImage = item.Value.GetImage(ButtonImageSet.EState.Active);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Save user settings when the form closes.
+		/// </summary>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
+		private void MainForm_Closing(object sender, FormClosingEventArgs e) {
+			global::AnimatedGifViewer.Properties.Settings.Default.FormWidth = this.Width;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormHeight = this.Height;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormPosX = this.Location.X;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormPosX = this.Location.Y;
+			global::AnimatedGifViewer.Properties.Settings.Default.Save();
 		}
 		#endregion
 
@@ -512,6 +536,15 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void DeleteMenuItem_Click(object sender, EventArgs e) {
 			this.DeleteImage();
+		}
+
+		/// <summary>
+		/// Shows the about form when the about menu item is clicked.
+		/// </summary>
+		/// <param name="sender">AboutMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void AboutMenuItem_Click(object sender, EventArgs e) {
+			this.AboutBox.Show();
 		}
 		#endregion
 
