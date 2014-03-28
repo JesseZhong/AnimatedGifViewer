@@ -343,6 +343,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\myriad-web-pro.ttf" />
     <None Include="WindowsAPICodePack\Shell\Design\ShellObjects.cd" />
     <None Include="WindowsAPICodePack\Shell\Design\ShellThumbnailClassDiagram.cd" />
     <None Include="WindowsAPICodePack\Shell\ExplorerBrowser\ExplorerBrowserDiagram.cd" />

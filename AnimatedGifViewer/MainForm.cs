@@ -88,7 +88,8 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Initializes the image box to fit into and anchor
+		/// onto the MainForm.
 		/// </summary>
 		private void InitializeImageBox() {
 			this.ImageBox = new ImageBox();

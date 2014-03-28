@@ -37,7 +37,7 @@ namespace AnimatedGifViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40, 20")]
+        [global::System.Configuration.DefaultSettingValueAttribute("320, 180")]
         public global::System.Drawing.Point FormLocation {
             get {
                 return ((global::System.Drawing.Point)(this["FormLocation"]));

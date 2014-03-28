@@ -217,6 +217,16 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] myriad_web_pro {
+            get {
+                object obj = ResourceManager.GetObject("myriad_web_pro", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next (Right Arrow, D).
         /// </summary>
         internal static string NextButtonToolTip {

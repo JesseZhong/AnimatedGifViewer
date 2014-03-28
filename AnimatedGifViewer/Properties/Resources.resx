@@ -193,4 +193,7 @@
     <value>Changes the display size</value>
     <comment>The size button's tool tip.</comment>
   </data>
+  <data name="myriad_web_pro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\myriad-web-pro.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
