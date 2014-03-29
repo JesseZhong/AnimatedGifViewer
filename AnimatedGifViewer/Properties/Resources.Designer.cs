@@ -141,12 +141,58 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete (Delete).
+        /// </summary>
+        internal static string DeleteButtonToolTip {
+            get {
+                return ResourceManager.GetString("DeleteButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Actual size (Down Arrow, S).
+        /// </summary>
+        internal static string FitSizeButtonActualToolTip {
+            get {
+                return ResourceManager.GetString("FitSizeButtonActualToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fit to window (Down Arrow, S).
+        /// </summary>
+        internal static string FitSizeButtonWindowToolTip {
+            get {
+                return ResourceManager.GetString("FitSizeButtonWindowToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap folder_open {
             get {
                 object obj = ResourceManager.GetObject("folder_open", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Screen (Up Arrow, W).
+        /// </summary>
+        internal static string FullScreenButtonToolTip {
+            get {
+                return ResourceManager.GetString("FullScreenButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Icon_1 {
+            get {
+                object obj = ResourceManager.GetObject("Icon_1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -167,6 +213,61 @@ namespace AnimatedGifViewer.Properties {
             get {
                 object obj = ResourceManager.GetObject("Menu_Delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] myriad_web_pro {
+            get {
+                object obj = ResourceManager.GetObject("myriad_web_pro", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next (Right Arrow, D).
+        /// </summary>
+        internal static string NextButtonToolTip {
+            get {
+                return ResourceManager.GetString("NextButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous (Left Arrow, A).
+        /// </summary>
+        internal static string PrevButtonToolTip {
+            get {
+                return ResourceManager.GetString("PrevButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotate clockwise (Comma).
+        /// </summary>
+        internal static string RotateClockwiseButtonToolTip {
+            get {
+                return ResourceManager.GetString("RotateClockwiseButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotate counterclockwise (Period).
+        /// </summary>
+        internal static string RotateCounterButtonToolTip {
+            get {
+                return ResourceManager.GetString("RotateCounterButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes the display size.
+        /// </summary>
+        internal static string SizeButtonToolTip {
+            get {
+                return ResourceManager.GetString("SizeButtonToolTip", resourceCulture);
             }
         }
         

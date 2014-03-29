@@ -1,8 +1,9 @@
+// ImageBox.cs
+// Authored by Jesse Z. Zhong
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace AnimatedGifViewer {
 	public class ImageBox : System.Windows.Forms.UserControl {
@@ -10,7 +11,7 @@ namespace AnimatedGifViewer {
 		#region Members
 		private System.Windows.Forms.PictureBox PictureBox;
 		private System.Windows.Forms.Panel Window;
-		private System.ComponentModel.Container components = null;
+		public ImageBoxMenu ImageBoxMenu;
 		private bool fitToWindow;
 		#endregion
 
@@ -35,6 +36,7 @@ namespace AnimatedGifViewer {
 		private void InitializeComponent() {
 			this.PictureBox = new System.Windows.Forms.PictureBox();
 			this.Window = new System.Windows.Forms.Panel();
+			this.ImageBoxMenu = new ImageBoxMenu();
 			this.Window.SuspendLayout();
 			this.SuspendLayout();
 			
@@ -45,6 +47,10 @@ namespace AnimatedGifViewer {
 			this.PictureBox.Size = new System.Drawing.Size(150, 140);
 			this.PictureBox.TabIndex = 3;
 			this.PictureBox.TabStop = false;
+
+			// ImageBoxMenu
+			this.ImageBoxMenu.Name = "ImageBoxMenu";
+			this.ImageBoxMenu.Size = new System.Drawing.Size(180, 70);
 
 			// Window
 			this.Window.AutoScroll = false;
@@ -57,10 +63,11 @@ namespace AnimatedGifViewer {
 			this.Window.Size = new System.Drawing.Size(this.Width, this.Height);
 			this.Window.TabIndex = 4;
 			
-			// PictureBox
+			// ImageBox
 			this.Controls.Add(this.Window);
-			this.Name = "PictureBox";
+			this.Name = "ImageBox";
 			this.Size = new System.Drawing.Size(210, 190);
+			this.ContextMenuStrip = this.ImageBoxMenu;
 			this.Window.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -86,13 +93,10 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Dispose of the components used within the image box.
+		/// Clean up any resources being used.
 		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing) {
-			if (disposing) {
-				if (components != null)
-					components.Dispose();
-			}
 			base.Dispose(disposing);
 		}
 		#endregion
@@ -284,7 +288,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void PictureBox_Clicked(object sender, MouseEventArgs e) {
+		private void PictureBox_MouseClick(object sender, MouseEventArgs e) {
 			//this.PictureBox.Cursor = System.Windows.Forms.Cursors.
 		}
 		#endregion

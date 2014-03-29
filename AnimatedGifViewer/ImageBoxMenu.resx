@@ -117,83 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Button_Next" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_Next.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="folder_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\folder_open.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_FitToWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_FitToWindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_Previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_Previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_FullScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_FullScreen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UI_MiddleFrame" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UI_MiddleFrame.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_RotateClockwise" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_RotateClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_RotateCounter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_RotateCounter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_Delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button_Size" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button_Size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Menu_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Menu_Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Menu_Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Menu_Delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Icon_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Icon_1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DeleteButtonToolTip" xml:space="preserve">
-    <value>Delete (Delete)</value>
-    <comment>The delete image button's tool tip.</comment>
-  </data>
-  <data name="FitSizeButtonActualToolTip" xml:space="preserve">
-    <value>Actual size (Down Arrow, S)</value>
-    <comment>The fit to window/actual size button's tool tip.</comment>
-  </data>
-  <data name="FitSizeButtonWindowToolTip" xml:space="preserve">
-    <value>Fit to window (Down Arrow, S)</value>
-    <comment>The fit to window/actual size button's tool tip.</comment>
-  </data>
-  <data name="FullScreenButtonToolTip" xml:space="preserve">
-    <value>Full Screen (Up Arrow, W)</value>
-    <comment>The full screen mode button's tool tip.</comment>
-  </data>
-  <data name="NextButtonToolTip" xml:space="preserve">
-    <value>Next (Right Arrow, D)</value>
-    <comment>The next image button's tool tip.</comment>
-  </data>
-  <data name="PrevButtonToolTip" xml:space="preserve">
-    <value>Previous (Left Arrow, A)</value>
-    <comment>The previous image button's tool tip.</comment>
-  </data>
-  <data name="RotateClockwiseButtonToolTip" xml:space="preserve">
-    <value>Rotate clockwise (Comma)</value>
-    <comment>The rotate image clockwise button's tool tip.</comment>
-  </data>
-  <data name="RotateCounterButtonToolTip" xml:space="preserve">
-    <value>Rotate counterclockwise (Period)</value>
-    <comment>The rotate image counter clockwise button's tool tip.</comment>
-  </data>
-  <data name="SizeButtonToolTip" xml:space="preserve">
-    <value>Changes the display size</value>
-    <comment>The size button's tool tip.</comment>
-  </data>
-  <data name="myriad_web_pro" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\myriad-web-pro.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
+  <metadata name="ClickMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
 </root>

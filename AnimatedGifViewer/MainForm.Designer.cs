@@ -37,6 +37,7 @@
 			this.MenuItemSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenInMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SizeButton = new System.Windows.Forms.Button();
 			this.FitSizeButton = new System.Windows.Forms.Button();
 			this.DeleteButton = new System.Windows.Forms.Button();
@@ -54,7 +55,8 @@
 			this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenuItem,
-            this.OpenInMenuItem});
+            this.OpenInMenuItem,
+            this.AboutMenuItem});
 			this.MenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.MenuStrip.Name = "MenuStrip";
 			this.MenuStrip.Size = new System.Drawing.Size(674, 24);
@@ -112,7 +114,7 @@
 			// 
 			// CopyMenuItem
 			// 
-			this.CopyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CopyMenuItem.Image")));
+			this.CopyMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Copy;
 			this.CopyMenuItem.Name = "CopyMenuItem";
 			this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.CopyMenuItem.Text = "Copy";
@@ -144,6 +146,13 @@
 			this.OpenInMenuItem.Name = "OpenInMenuItem";
 			this.OpenInMenuItem.Size = new System.Drawing.Size(60, 20);
 			this.OpenInMenuItem.Text = "Open In";
+			// 
+			// AboutMenuItem
+			// 
+			this.AboutMenuItem.Name = "AboutMenuItem";
+			this.AboutMenuItem.Size = new System.Drawing.Size(53, 20);
+			this.AboutMenuItem.Text = "About";
+			this.AboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
 			// 
 			// SizeButton
 			// 
@@ -230,7 +239,7 @@
 			// 
 			this.FullScreenButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.FullScreenButton.BackColor = System.Drawing.SystemColors.Control;
-			this.FullScreenButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("FullScreenButton.BackgroundImage")));
+			this.FullScreenButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_FullScreen;
 			this.FullScreenButton.FlatAppearance.BorderSize = 0;
 			this.FullScreenButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.FullScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -248,7 +257,7 @@
 			// 
 			this.NextButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.NextButton.BackColor = System.Drawing.SystemColors.Control;
-			this.NextButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NextButton.BackgroundImage")));
+			this.NextButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Next;
 			this.NextButton.FlatAppearance.BorderSize = 0;
 			this.NextButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.NextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -265,7 +274,7 @@
 			// 
 			this.PrevButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.PrevButton.BackColor = System.Drawing.SystemColors.Control;
-			this.PrevButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PrevButton.BackgroundImage")));
+			this.PrevButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Previous;
 			this.PrevButton.FlatAppearance.BorderSize = 0;
 			this.PrevButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.PrevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -330,6 +339,7 @@
 		private System.Windows.Forms.Button DeleteButton;
 		private System.Windows.Forms.Button FitSizeButton;
 		private System.Windows.Forms.Button SizeButton;
+		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
 	}
 }
 
