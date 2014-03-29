@@ -117,6 +117,7 @@
 			this.CopyMenuItem.Name = "CopyMenuItem";
 			this.CopyMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.CopyMenuItem.Text = "Copy";
+			this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
 			// 
 			// MenuItemSeparator1
 			// 
@@ -128,6 +129,7 @@
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
 			this.PropertiesMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.PropertiesMenuItem.Text = "Properties";
+			this.PropertiesMenuItem.Click += new System.EventHandler(this.PropertiesMenuItem_Click);
 			// 
 			// MenuItemSeparator
 			// 

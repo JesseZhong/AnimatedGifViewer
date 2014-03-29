@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
 #endregion
@@ -335,6 +336,20 @@ namespace AnimatedGifViewer {
 					this.NextButton.PerformClick();
 			}
 		}
+
+		/// <summary>
+		/// Makes a copy of the current image box image to the clipboard.
+		/// </summary>
+		private void CopyImageToClipboard() {
+			Clipboard.SetImage(this.ImageBox.Image);
+		}
+
+		/// <summary>
+		/// Displays the properties dialog for the image in the image box.
+		/// </summary>
+		private void ShowImageProperties() {
+			ShowFileProperties(this.loadedFile);
+		}
 		#endregion
 
 		#region Loading
@@ -550,6 +565,25 @@ namespace AnimatedGifViewer {
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+
+		/// <summary>
+		/// Copies the current image in the image box to the 
+		/// clipboard when the copy menu item is clicked.
+		/// </summary>
+		/// <param name="sender">CopyMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void CopyMenuItem_Click(object sender, EventArgs e) {
+			this.CopyImageToClipboard();
+		}
+
+		/// <summary>
+		/// Displays the image box image's file properties when the properties menu item is clicked.
+		/// </summary>
+		/// <param name="sender">PropertiesMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void PropertiesMenuItem_Click(object sender, EventArgs e) {
+			this.ShowImageProperties();
 		}
 
 		/// <summary>
@@ -791,6 +825,47 @@ namespace AnimatedGifViewer {
 		}
 
 		#endregion
+		#endregion
+
+		#region File Properties
+		[DllImport("shell32.dll", CharSet = CharSet.Auto)]
+		static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		public struct SHELLEXECUTEINFO {
+			public int cbSize;
+			public uint fMask;
+			public IntPtr hwnd;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpVerb;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpFile;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpParameters;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpDirectory;
+			public int nShow;
+			public IntPtr hInstApp;
+			public IntPtr lpIDList;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpClass;
+			public IntPtr hkeyClass;
+			public uint dwHotKey;
+			public IntPtr hIcon;
+			public IntPtr hProcess;
+		}
+
+		private const int SW_SHOW = 5;
+		private const uint SEE_MASK_INVOKEIDLIST = 12;
+		public static bool ShowFileProperties(string Filename) {
+			SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+			info.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(info);
+			info.lpVerb = "properties";
+			info.lpFile = Filename;
+			info.nShow = SW_SHOW;
+			info.fMask = SEE_MASK_INVOKEIDLIST;
+			return ShellExecuteEx(ref info);
+		}
 		#endregion
 	}
 }
