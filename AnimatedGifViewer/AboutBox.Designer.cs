@@ -76,7 +76,7 @@
 			// CopyrightLabel
 			// 
 			this.CopyrightLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.CopyrightLabel.Font = new System.Drawing.Font("Myriad Web Pro", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CopyrightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.CopyrightLabel.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.CopyrightLabel.Location = new System.Drawing.Point(155, 52);
 			this.CopyrightLabel.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
@@ -90,7 +90,7 @@
 			// CompanyNameLabel
 			// 
 			this.CompanyNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.CompanyNameLabel.Font = new System.Drawing.Font("Myriad Web Pro", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CompanyNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.CompanyNameLabel.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.CompanyNameLabel.Location = new System.Drawing.Point(155, 69);
 			this.CompanyNameLabel.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
@@ -103,10 +103,10 @@
 			// 
 			// DescriptionBox
 			// 
-			this.DescriptionBox.BackColor = System.Drawing.Color.GhostWhite;
+			this.DescriptionBox.BackColor = System.Drawing.Color.White;
 			this.DescriptionBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.DescriptionBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.DescriptionBox.Font = new System.Drawing.Font("Myriad Web Pro", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.DescriptionBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.DescriptionBox.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.DescriptionBox.Location = new System.Drawing.Point(151, 100);
 			this.DescriptionBox.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
@@ -132,7 +132,7 @@
 			// VersionLabel
 			// 
 			this.VersionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.VersionLabel.Font = new System.Drawing.Font("Myriad Web Pro", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.VersionLabel.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.VersionLabel.Location = new System.Drawing.Point(155, 36);
 			this.VersionLabel.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
@@ -146,13 +146,13 @@
 			// ProductNameLabel
 			// 
 			this.ProductNameLabel.AutoSize = true;
-			this.ProductNameLabel.Font = new System.Drawing.Font("Myriad Web Pro", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ProductNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ProductNameLabel.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.ProductNameLabel.Location = new System.Drawing.Point(151, 6);
 			this.ProductNameLabel.Margin = new System.Windows.Forms.Padding(6, 6, 3, 0);
 			this.ProductNameLabel.MaximumSize = new System.Drawing.Size(0, 32);
 			this.ProductNameLabel.Name = "ProductNameLabel";
-			this.ProductNameLabel.Size = new System.Drawing.Size(70, 24);
+			this.ProductNameLabel.Size = new System.Drawing.Size(78, 29);
 			this.ProductNameLabel.TabIndex = 19;
 			this.ProductNameLabel.Text = "Name";
 			this.ProductNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -162,7 +162,7 @@
 			this.AcceptButton = this.OkayButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.GhostWhite;
+			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(474, 233);
 			this.Controls.Add(this.TableLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

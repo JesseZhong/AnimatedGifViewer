@@ -1,5 +1,6 @@
 ﻿// MainForm.cs
 // Authored by Jesse Z. Zhong
+#region Usings
 using System;
 using System.IO;
 using System.Linq;
@@ -11,9 +12,9 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
+#endregion
 
 namespace AnimatedGifViewer {
-
 	public partial class MainForm : Form {
 
 		#region Constants
@@ -549,6 +550,15 @@ namespace AnimatedGifViewer {
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+
+		/// <summary>
+		/// Exits the MainForm and the program when the exit menu item is clicked.
+		/// </summary>
+		/// <param name="sender">ExitMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void ExitMenuItem_Click(object sender, EventArgs e) {
+			this.Close();
 		}
 		#endregion
 
