@@ -13,6 +13,7 @@ namespace AnimatedGifViewer {
 		private System.Windows.Forms.Panel Window;
 		public ImageBoxMenu ImageBoxMenu;
 		private bool fitToWindow;
+		delegate void ImageBoxDelegate();
 		#endregion
 
 		#region Constants
@@ -109,10 +110,10 @@ namespace AnimatedGifViewer {
 		public Image Image {
 			get { return this.PictureBox.Image; }
 			set {
-				this.PictureBox.Image = value;
-				this.PictureBox.Size = new System.Drawing.Size(value.Width, value.Height);
-				this.fitToWindow = true;
-				this.FitToWindow();
+					this.PictureBox.Image = value;
+					this.fitToWindow = true;
+					if (value != null)
+						this.FitToWindow();
 			}
 		}
 
@@ -207,33 +208,41 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		private void FitToWindow() {
 
-			// Test if the image goes out of the window's bounds.
-			if (this.IsImageLargerThanWindow()) {
+			ImageBoxDelegate fitToWindow = delegate() {
 
-				// Calculate image to window ratio for width and height.
-				double widthRatio = this.PictureBox.Image.Width / (double)this.Window.Width;
-				double heightRatio = this.PictureBox.Image.Height / (double)this.Window.Height;
+				// Test if the image goes out of the window's bounds.
+				if (this.IsImageLargerThanWindow()) {
 
-				// Compare which ratio is larger, and size down the picture box accordingly.
-				if (widthRatio > heightRatio) {
-					this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / widthRatio);
-					this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / widthRatio);
+					// Calculate image to window ratio for width and height.
+					double widthRatio = this.PictureBox.Image.Width / (double)this.Window.Width;
+					double heightRatio = this.PictureBox.Image.Height / (double)this.Window.Height;
+
+					// Compare which ratio is larger, and size down the picture box accordingly.
+					if (widthRatio > heightRatio) {
+						this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / widthRatio);
+						this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / widthRatio);
+					} else {
+						this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / heightRatio);
+						this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / heightRatio);
+					}
 				} else {
-					this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / heightRatio);
-					this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / heightRatio);
+					// Resize the picture box to the image's 
+					// dimensions if the dimensions fit inside the window.
+					this.PictureBox.Width = this.PictureBox.Image.Width;
+					this.PictureBox.Height = this.PictureBox.Image.Height;
 				}
-			} else {
-				// Resize the picture box to the image's 
-				// dimensions if the dimensions fit inside the window.
-				this.PictureBox.Width = this.PictureBox.Image.Width;
-				this.PictureBox.Height = this.PictureBox.Image.Height;
-			}
 
-			// Make sure the image fills the picture box.
-			this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+				// Make sure the image fills the picture box.
+				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
-			// Center the image in the window.
-			this.CenterImage();
+				// Center the image in the window.
+				this.CenterImage();
+			};
+
+			if (this.InvokeRequired)
+				this.Invoke(fitToWindow);
+			else
+				fitToWindow();
 		}
 
 		/// <summary>

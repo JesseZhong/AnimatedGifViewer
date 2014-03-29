@@ -59,11 +59,8 @@ namespace AnimatedGifViewer {
 		private FileSystemWatcher watcher = new FileSystemWatcher();
 		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
 
-		private delegate void LoadFileNames();
-		private LoadFileNames loadFileNames;
-
-		private delegate void FormDelegate();
-		private Mutex mutex = new Mutex();
+		private delegate void MainFormDelegate();
+		private MainFormDelegate loadFileNames;
 		#endregion
 
 		#region Work
@@ -108,6 +105,10 @@ namespace AnimatedGifViewer {
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
 			this.Controls.Add(this.ImageBox);
+
+			// Context menu event handlers.
+			this.ImageBox.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
+			this.ImageBox.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
 		}
 
 		/// <summary>
@@ -165,7 +166,6 @@ namespace AnimatedGifViewer {
 			// files in the same directory as the originally loaded file.
 			#region this.loadFileNames
 			this.loadFileNames = delegate() {
-				this.mutex.WaitOne();
 
 				// Search the directory for other images.
 				this.filenames = this.GetFiles(workingDirectory, FILE_TYPES);
@@ -173,10 +173,7 @@ namespace AnimatedGifViewer {
 				// Disable buttons and clear the image
 				// box if no images exist in the folder.
 				if (!this.filenames.Any()) {
-					FormDelegate disableButtons = delegate() {
-						this.EnableButtons(false);
-					};
-					this.Invoke(disableButtons);
+					this.EnableButtons(false);
 					this.ImageBox.Image = null;
 					return;
 				}
@@ -195,11 +192,7 @@ namespace AnimatedGifViewer {
 					this.ImageBox.Image = null;
 
 				// Enable the buttons.
-				FormDelegate enableButtons = delegate() {
-					this.EnableButtons(true);
-				};
-				this.Invoke(enableButtons);
-				this.mutex.ReleaseMutex();
+				this.EnableButtons(true);
 			};
 			#endregion
 
@@ -268,7 +261,9 @@ namespace AnimatedGifViewer {
 		/// <param name="index">The index in question.</param>
 		/// <returns>True if in bounds, false otherwise.</returns>
 		private bool CheckFilenamesBounds(int index) {
-			if ((index < this.filenames.Count) && (index >= 0))
+			if ((this.filenames.Any()) && 
+				(index < this.filenames.Count) && 
+				(index >= 0))
 				return true;
 			return false;
 		}
@@ -280,17 +275,29 @@ namespace AnimatedGifViewer {
 		/// <param name="filename">Name of the image.</param>
 		/// <returns>Returns a copy of the image.</returns>
 		private Image LoadImage(string filename) {
-			var bytes = File.ReadAllBytes(filename);
-			var ms = new MemoryStream(bytes);
-			var img = Image.FromStream(ms);
-			this.loadedFile = filename;
 
-			// Change the title of the form to have the file name.
-			this.Text = String.Format("{0} - {1}",
-				Path.GetFileName(filename), 
-				this.assemblyProduct);
+			if (File.Exists(filename)) {
 
-			return img;
+				var bytes = File.ReadAllBytes(filename);
+				var ms = new MemoryStream(bytes);
+				var img = Image.FromStream(ms);
+				this.loadedFile = filename;
+
+				// Change the title of the form to have the file name.
+				MainFormDelegate changeText = delegate() {
+					this.Text = String.Format("{0} - {1}",
+						Path.GetFileName(filename),
+						this.assemblyProduct);
+				};
+				if (this.InvokeRequired)
+					this.Invoke(changeText);
+				else
+					changeText();
+
+				return img;
+
+			} else
+				return null;
 		}
 		
 		/// <summary>
@@ -596,6 +603,38 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
+		#region Image Box Menu Handlers
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ImageBoxMenuCopy_Click(object sender, EventArgs e) {
+			MainFormDelegate copy = delegate() {
+				this.CopyImageToClipboard();
+			};
+			if (this.InvokeRequired)
+				this.Invoke(copy);
+			else
+				copy();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ImageBoxMenuDelete_Click(object sender, EventArgs e) {
+			MainFormDelegate delete = delegate() {
+				this.DeleteImage();
+			};
+			if (this.InvokeRequired)
+				this.Invoke(delete);
+			else
+				delete();
+		}
+		#endregion
+
 		#region File System Handlers
 		/// <summary>
 		/// Attempts to store all the file names in the current working directory.
@@ -603,8 +642,12 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">FileSystemWatcher</param>
 		/// <param name="e">File system event arguments.</param>
 		private void FileSystem_Changed(object sender, FileSystemEventArgs e) {
-			if (this.loadFileNames != null)
-				this.loadFileNames();
+			if (this.loadFileNames != null) {
+				if (this.InvokeRequired)
+					this.Invoke(this.loadFileNames);
+				else
+					this.loadFileNames();
+			}
 		}
 
 		/// <summary>
@@ -613,8 +656,12 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">FileSystemWatcher</param>
 		/// <param name="e">Renamed event arguments.</param>
 		private void FileSystem_Renamed(object sender, RenamedEventArgs e) {
-			if (this.loadFileNames != null)
-				this.loadFileNames();
+			if (this.loadFileNames != null) {
+				if (this.InvokeRequired)
+					this.Invoke(this.loadFileNames);
+				else
+					this.loadFileNames();
+			}
 		}
 		#endregion
 
