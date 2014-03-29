@@ -109,6 +109,7 @@ namespace AnimatedGifViewer {
 			// Context menu event handlers.
 			this.ImageBox.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
 			this.ImageBox.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
+			this.ImageBox.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
 		}
 
 		/// <summary>
@@ -605,10 +606,11 @@ namespace AnimatedGifViewer {
 
 		#region Image Box Menu Handlers
 		/// <summary>
-		/// 
+		/// Copies the image in the image box to the clipboard when 
+		/// the image box context menu item, copy, is clicked.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">ImageBoxMenu.CopyMenuItem</param>
+		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuCopy_Click(object sender, EventArgs e) {
 			MainFormDelegate copy = delegate() {
 				this.CopyImageToClipboard();
@@ -620,18 +622,35 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Deletes the file of the image in the image box when
+		/// the image box context menu item, delete, is clicked.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">IamgeBoxMenu.DeleteMenuItem</param>
+		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuDelete_Click(object sender, EventArgs e) {
-			MainFormDelegate delete = delegate() {
+			MainFormDelegate properties = delegate() {
 				this.DeleteImage();
 			};
 			if (this.InvokeRequired)
-				this.Invoke(delete);
+				this.Invoke(properties);
 			else
-				delete();
+				properties();
+		}
+
+		/// <summary>
+		/// Displays the file properties of the image in the image box
+		/// when the image box context menu item, delete, is clicked.
+		/// </summary>
+		/// <param name="sender">IamgeBoxMenu.DeleteMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void ImageBoxMenuProperties_Click(object sender, EventArgs e) {
+			MainFormDelegate properties = delegate() {
+				this.ShowImageProperties();
+			};
+			if (this.InvokeRequired)
+				this.Invoke(properties);
+			else
+				properties();
 		}
 		#endregion
 
