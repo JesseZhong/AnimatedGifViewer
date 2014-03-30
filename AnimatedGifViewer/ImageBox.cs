@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace AnimatedGifViewer {
 	public class ImageBox : System.Windows.Forms.UserControl {
@@ -288,7 +289,8 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBox Controls</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBox_MouseEnter(object sender, EventArgs e) {
-			if (this.PictureBox.Focused == false)
+			Console.WriteLine(this.ParentForm.Name);
+			if (IsActive(this.ParentForm.Handle) && (this.PictureBox.Focused == false))
 				this.PictureBox.Focus();
 		}
 
@@ -330,6 +332,16 @@ namespace AnimatedGifViewer {
 		/// out of the windows bounds due to zooming.
 		/// </summary>
 		public event EventHandler NearZoom;
+		#endregion
+
+		#region Windows Form Functions
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetForegroundWindow();
+
+		public bool IsActive(IntPtr handle) {
+			IntPtr activeHandle = GetForegroundWindow();
+			return (activeHandle == handle);
+		}
 		#endregion
 	}
 }
