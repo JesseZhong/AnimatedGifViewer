@@ -65,7 +65,6 @@
 			// LogoBox
 			// 
 			this.LogoBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.LogoBox.Image = ((System.Drawing.Image)(resources.GetObject("LogoBox.Image")));
 			this.LogoBox.Location = new System.Drawing.Point(3, 3);
 			this.LogoBox.Name = "LogoBox";
 			this.TableLayoutPanel.SetRowSpan(this.LogoBox, 6);

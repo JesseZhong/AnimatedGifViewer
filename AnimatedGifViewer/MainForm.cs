@@ -346,6 +346,23 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		private void MakeImageCopy() {
+			MainFormDelegate save = delegate() {
+
+				// Ensure that the file is still in the directory.
+				if (File.Exists(this.loadedFile)) {
+					string ext = Path.GetExtension(this.loadedFile);
+				}
+			};
+			if (this.InvokeRequired)
+				this.Invoke(save);
+			else
+				save();
+		}
+
+		/// <summary>
 		/// Makes a copy of the current image box image to the clipboard.
 		/// </summary>
 		private void CopyImageToClipboard() {
@@ -442,6 +459,8 @@ namespace AnimatedGifViewer {
 
 			// Form events.
 			this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
+			this.Move += new System.EventHandler(this.MainForm_Move);
+			this.Resize += new System.EventHandler(this.MainForm_Resize);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
 
 			// Set to handle keyboard events.
@@ -481,14 +500,41 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Save the form's location to the user settings when the form is moved.
+		/// </summary>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
+		private void MainForm_Move(object sender, EventArgs e) {
+			if (this.WindowState != FormWindowState.Maximized)
+				global::AnimatedGifViewer.Properties.Settings.Default.FormLocation = this.Location;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState = this.WindowState;
+			global::AnimatedGifViewer.Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
+		/// Save the form's size to the user settings when the form is resized.
+		/// If there is a state change, correct the form's size accordingly.
+		/// </summary>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
+		private void MainForm_Resize(object sender, EventArgs e) {
+			if (this.WindowState != FormWindowState.Maximized)
+				global::AnimatedGifViewer.Properties.Settings.Default.FormSize = this.Size;
+			global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState = this.WindowState;
+			global::AnimatedGifViewer.Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
 		/// Save user settings when the form closes.
 		/// </summary>
 		/// <param name="sender">MainForm</param>
 		/// <param name="e">Event arguments.</param>
 		private void MainForm_Closing(object sender, FormClosingEventArgs e) {
-			global::AnimatedGifViewer.Properties.Settings.Default.FormSize = this.Size;
-			global::AnimatedGifViewer.Properties.Settings.Default.FormLocation = this.Location;
 			global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState = this.WindowState;
+			if (this.WindowState != FormWindowState.Maximized) {
+				global::AnimatedGifViewer.Properties.Settings.Default.FormSize = this.Size;
+				global::AnimatedGifViewer.Properties.Settings.Default.FormLocation = this.Location;
+			}
 			global::AnimatedGifViewer.Properties.Settings.Default.Save();
 		}
 		#endregion
@@ -641,7 +687,7 @@ namespace AnimatedGifViewer {
 		/// Displays the file properties of the image in the image box
 		/// when the image box context menu item, delete, is clicked.
 		/// </summary>
-		/// <param name="sender">IamgeBoxMenu.DeleteMenuItem</param>
+		/// <param name="sender">IamgeBoxMenu.PropertiesMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuProperties_Click(object sender, EventArgs e) {
 			MainFormDelegate properties = delegate() {
