@@ -105,6 +105,7 @@
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
 			this.MakeCopyMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
+			this.MakeCopyMenuItem.Click += new System.EventHandler(this.MakeCopyMenuItem_Click);
 			// 
 			// MenuItemSeparator2
 			// 

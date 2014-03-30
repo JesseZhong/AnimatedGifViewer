@@ -29,7 +29,7 @@ namespace AnimatedGifViewer {
 		/// for image files in the working directory.
 		/// </summary>
 		/// <remarks>Note: Windows file system is case-insensitive.</remarks>
-		private const string FILE_TYPES = "*.bmp|*.gif|*.jpg|*.jpeg|*.png|*.tiff|*.ico";
+		private const string FILE_TYPES = "*.bmp|*.dib|*.jpg|*.jpeg|*.jpe|*.jfif|*.gif|*.png|*.tiff|*.ico";
 
 		/// <summary>
 		/// The filter used by the file dialog to let the 
@@ -257,6 +257,36 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Returns the name of a image file format when given the extension.
+		/// </summary>
+		/// <param name="filename">The extension. It must be led by a '.'</param>
+		/// <returns>The name of the file format.</returns>
+		private string GetFormatName(string extension) {
+			switch (extension.ToLower()) {
+				case @".bmp":
+				case @".dib":
+					return "Bitmap";
+				case @".jpg":
+				case @".jpeg":
+				case @".jpe":
+				case @".jfif":
+					return "JPEG";
+				case @".gif":
+					return "GIF";
+				case @".png":
+					return "PNG";
+				case @".tiff":
+					return "TIFF";
+				case @".ico":
+					return "ICO";
+				case @"":
+					return "File";
+				default:
+					return "Unknown File Format";
+			}
+		}
+
+		/// <summary>
 		/// Check if an index is within the bounds of filenames.
 		/// </summary>
 		/// <param name="index">The index in question.</param>
@@ -279,9 +309,9 @@ namespace AnimatedGifViewer {
 
 			if (File.Exists(filename)) {
 
-				var bytes = File.ReadAllBytes(filename);
-				var ms = new MemoryStream(bytes);
-				var img = Image.FromStream(ms);
+				byte[] bytes = File.ReadAllBytes(filename);
+				MemoryStream ms = new MemoryStream(bytes);
+				Image img = Image.FromStream(ms);
 				this.loadedFile = filename;
 
 				// Change the title of the form to have the file name.
@@ -346,20 +376,46 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Gives the user a dialog to save a copy of the current image.
 		/// </summary>
 		private void MakeImageCopy() {
-			MainFormDelegate save = delegate() {
 
-				// Ensure that the file is still in the directory.
-				if (File.Exists(this.loadedFile)) {
-					string ext = Path.GetExtension(this.loadedFile);
+			// Ensure that the file is still in the directory.
+			if (File.Exists(this.loadedFile)) {
+				Stream stream;
+				SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+				// Check the file name's extension and add a filter
+				// to the save file dialog with the same extension.
+				string ext = Path.GetExtension(this.loadedFile);
+				if((ext != String.Empty) && (this.ImageBox.Image != null))
+					saveFileDialog.Filter = this.GetFormatName(ext) + "|*" + ext;
+
+				saveFileDialog.RestoreDirectory = false;
+
+				// Show the dialog.
+				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+					if ((stream = saveFileDialog.OpenFile()) != null) {
+
+						// Check again that the original file exists 
+						// before attempting to write to the new file.
+						if (File.Exists(this.loadedFile)) {
+
+							byte[] bytes = File.ReadAllBytes(this.loadedFile);
+							stream.Write(bytes, 0, bytes.Length);
+
+						} else {
+							string message = "The original file \"" 
+								+ Path.GetFileName(this.loadedFile) 
+								+ " could not be found.";
+							const string caption = "File Missing";
+							DialogResult result = MessageBox.Show(message, caption, 
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+						stream.Close();
+					}
 				}
-			};
-			if (this.InvokeRequired)
-				this.Invoke(save);
-			else
-				save();
+			}
 		}
 
 		/// <summary>
@@ -612,13 +668,13 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Creates and shows the about form when the about menu item is clicked.
+		/// Allow the user to save a copy of the original file shown
+		/// in the image box when the make copy menu item is clicked.
 		/// </summary>
-		/// <param name="sender">AboutMenuItem</param>
+		/// <param name="sender">MakeCopyMenuItem</param>
 		/// <param name="e">Event arguments.</param>
-		private void AboutMenuItem_Click(object sender, EventArgs e) {
-			AboutBox aboutBox = new AboutBox();
-			aboutBox.Show();
+		private void MakeCopyMenuItem_Click(object sender, EventArgs e) {
+			this.MakeImageCopy();
 		}
 
 		/// <summary>
@@ -647,6 +703,16 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void ExitMenuItem_Click(object sender, EventArgs e) {
 			this.Close();
+		}
+
+		/// <summary>
+		/// Creates and shows the about form when the about menu item is clicked.
+		/// </summary>
+		/// <param name="sender">AboutMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void AboutMenuItem_Click(object sender, EventArgs e) {
+			AboutBox aboutBox = new AboutBox();
+			aboutBox.Show();
 		}
 		#endregion
 

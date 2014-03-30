@@ -16,6 +16,8 @@ Add program settings for window size and position	- Done
 Implement rotation buttons
 Implement size button
 Implement fit to window and actual size buttons		
+Add user preferences
+Implement the features for the File menu item		- Done
 Context menu on image right click:					- Partial (events need to be linked)
 	Open With
 	-
