@@ -65,77 +65,6 @@ namespace AnimatedGifViewer {
 
 		#region Work
 		/// <summary>
-		/// Initializes the components of the main form.
-		/// If a file name is passed in through the arguments
-		/// of the program, attempt to open the image.
-		/// </summary>
-		/// <param name="args">Program arguments.</param>
-		public MainForm(string[] args = null) {
-
-			// Initialize the form's components.
-			this.InitializeComponent();
-			this.InitializeImageBox();
-
-			// Initialize variables.
-			this.filenameIndex = 0;
-			this.arguments = args;
-			this.filenames = new List<string>();
-
-			// Get assembly information.
-			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			this.assemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
-		}
-
-		/// <summary>
-		/// Initializes the image box to fit into and anchor
-		/// onto the MainForm.
-		/// </summary>
-		private void InitializeImageBox() {
-			this.ImageBox = new ImageBox();
-			this.ImageBox.Border = System.Windows.Forms.BorderStyle.None;
-			this.ImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
-				(AnchorStyles.Top | AnchorStyles.Bottom | 
-				AnchorStyles.Left | AnchorStyles.Right) ;
-
-			this.ImageBox.Location = new Point(0, 24);
-			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
-			this.ImageBox.Name = "ImageBox";
-			this.ImageBox.Size = new System.Drawing.Size(this.Width, 
-				(this.Height > IMG_BOX_H_PAD ? this.Height - IMG_BOX_H_PAD : this.Height));
-			this.ImageBox.TabIndex = 0;
-			this.ImageBox.TabStop = false;
-			this.Controls.Add(this.ImageBox);
-
-			// Context menu event handlers.
-			this.ImageBox.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
-			this.ImageBox.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
-			this.ImageBox.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
-		}
-
-		/// <summary>
-		/// Initializes the system file watcher to
-		/// begin watching for file changed, deleted,
-		/// created, or renamed events to be raised.
-		/// </summary>
-		private void InitFileWatcher() {
-			this.watcher = new FileSystemWatcher();
-			this.watcher.Path = Directory.GetCurrentDirectory();
-			this.watcher.NotifyFilter = NotifyFilters.LastAccess |
-				NotifyFilters.LastWrite | NotifyFilters.FileName |
-				NotifyFilters.DirectoryName;
-			//this.watcher.Filter = FILE_TYPES;
-
-			// Add event handlers.
-			this.watcher.Changed += new FileSystemEventHandler(this.FileSystem_Changed);
-			this.watcher.Created += new FileSystemEventHandler(this.FileSystem_Changed);
-			this.watcher.Deleted += new FileSystemEventHandler(this.FileSystem_Changed);
-			this.watcher.Renamed += new RenamedEventHandler(this.FileSystem_Renamed);
-
-			// Start watching for events.
-			this.watcher.EnableRaisingEvents = true;
-		}
-
-		/// <summary>
 		/// Attempts to open an image and load all other image 
 		/// file names, from the same directory, into the program.
 		/// This function will also initialize a delegate that will
@@ -392,27 +321,34 @@ namespace AnimatedGifViewer {
 					saveFileDialog.Filter = this.GetFormatName(ext) + "|*" + ext;
 
 				saveFileDialog.RestoreDirectory = false;
+				saveFileDialog.FileName = Path.GetFileName(this.loadedFile);
 
 				// Show the dialog.
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					if ((stream = saveFileDialog.OpenFile()) != null) {
 
-						// Check again that the original file exists 
-						// before attempting to write to the new file.
-						if (File.Exists(this.loadedFile)) {
+					// Check that the file name selected isn't the same as 
+					// the original. Pretend it is saved if it is the original.
+					if (saveFileDialog.FileName != this.loadedFile) {
 
-							byte[] bytes = File.ReadAllBytes(this.loadedFile);
-							stream.Write(bytes, 0, bytes.Length);
+						if ((stream = saveFileDialog.OpenFile()) != null) {
 
-						} else {
-							string message = "The original file \"" 
-								+ Path.GetFileName(this.loadedFile) 
-								+ " could not be found.";
-							const string caption = "File Missing";
-							DialogResult result = MessageBox.Show(message, caption, 
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
+							// Check again that the original file exists 
+							// before attempting to write to the new file.
+							if (File.Exists(this.loadedFile) &&
+								(saveFileDialog.FileName != string.Empty)) {
+								byte[] bytes = File.ReadAllBytes(this.loadedFile);
+								stream.Write(bytes, 0, bytes.Length);
+
+							} else {
+								string message = "The original file \""
+									+ Path.GetFileName(this.loadedFile)
+									+ " could not be found.";
+								const string caption = "File Missing";
+								DialogResult result = MessageBox.Show(message, caption,
+									MessageBoxButtons.OK, MessageBoxIcon.Error);
+							}
+							stream.Close();
 						}
-						stream.Close();
 					}
 				}
 			}
@@ -434,6 +370,77 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		#region Loading
+		/// <summary>
+		/// Initializes the components of the main form.
+		/// If a file name is passed in through the arguments
+		/// of the program, attempt to open the image.
+		/// </summary>
+		/// <param name="args">Program arguments.</param>
+		public MainForm(string[] args = null) {
+
+			// Initialize the form's components.
+			this.InitializeComponent();
+			this.InitializeImageBox();
+
+			// Initialize variables.
+			this.filenameIndex = 0;
+			this.arguments = args;
+			this.filenames = new List<string>();
+
+			// Get assembly information.
+			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+			this.assemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+		}
+
+		/// <summary>
+		/// Initializes the image box to fit into and anchor
+		/// onto the MainForm.
+		/// </summary>
+		private void InitializeImageBox() {
+			this.ImageBox = new ImageBox();
+			this.ImageBox.Border = System.Windows.Forms.BorderStyle.None;
+			this.ImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
+				(AnchorStyles.Top | AnchorStyles.Bottom |
+				AnchorStyles.Left | AnchorStyles.Right);
+
+			this.ImageBox.Location = new Point(0, 24);
+			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
+			this.ImageBox.Name = "ImageBox";
+			this.ImageBox.Size = new System.Drawing.Size(this.Width,
+				(this.Height > IMG_BOX_H_PAD ? this.Height - IMG_BOX_H_PAD : this.Height));
+			this.ImageBox.TabIndex = 0;
+			this.ImageBox.TabStop = false;
+			this.Controls.Add(this.ImageBox);
+
+			// Context menu event handlers.
+			this.ImageBox.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
+			this.ImageBox.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
+			this.ImageBox.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
+		}
+
+		/// <summary>
+		/// Initializes the system file watcher to
+		/// begin watching for file changed, deleted,
+		/// created, or renamed events to be raised.
+		/// </summary>
+		private void InitFileWatcher() {
+			this.watcher = new FileSystemWatcher();
+			this.watcher.Path = Directory.GetCurrentDirectory();
+			this.watcher.NotifyFilter = NotifyFilters.LastAccess |
+				NotifyFilters.LastWrite | NotifyFilters.FileName |
+				NotifyFilters.DirectoryName;
+			//this.watcher.Filter = FILE_TYPES;
+
+			// Add event handlers.
+			this.watcher.Changed += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.watcher.Created += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.watcher.Deleted += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.watcher.Renamed += new RenamedEventHandler(this.FileSystem_Renamed);
+
+			// Start watching for events.
+			this.watcher.EnableRaisingEvents = true;
+		}
+
 		/// <summary>
 		/// Loads additional content when the form is created.
 		/// </summary>
