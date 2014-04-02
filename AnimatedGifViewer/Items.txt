@@ -45,3 +45,4 @@ When the new list of files is generated after a watcher event is raised, the cur
 image was the same as it was before unless another image was inserted in its place. ie. Order should be preserved.
 Returning from maximize after opening a new instance of the program with old window state (maximized) state and sizes will still cause the form to retain the maximized size.
 The image box focuses even though the main form is out of focus.
+Fix the zooming maximum and minimum to be a ratio of the screen and not the window size.

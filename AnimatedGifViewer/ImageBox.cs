@@ -1,13 +1,21 @@
 // ImageBox.cs
 // Authored by Jesse Z. Zhong
+#region Usings
 using System;
+using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+#endregion
 
 namespace AnimatedGifViewer {
 	public class ImageBox : System.Windows.Forms.UserControl {
+
+		#region Constants
+		private const double ZOOMFACTOR = 1.25;
+		private const int MINMAX = 10;
+		#endregion
 
 		#region Members
 		private System.Windows.Forms.PictureBox PictureBox;
@@ -15,11 +23,9 @@ namespace AnimatedGifViewer {
 		public ImageBoxMenu ImageBoxMenu;
 		private bool fitToWindow;
 		delegate void ImageBoxDelegate();
-		#endregion
 
-		#region Constants
-		private const double ZOOMFACTOR = 1.25;
-		private const int MINMAX = 5;
+		private System.Windows.Forms.Cursor PanningHandOpen;
+		private System.Windows.Forms.Cursor PanningHandClosed;
 		#endregion
 
 		#region Instance
@@ -72,6 +78,10 @@ namespace AnimatedGifViewer {
 			this.ContextMenuStrip = this.ImageBoxMenu;
 			this.Window.ResumeLayout(false);
 			this.ResumeLayout(false);
+
+			// Cursors
+			this.PanningHandOpen = this.LoadCursor(global::AnimatedGifViewer.Properties.Resources.Cursor_PanningHand1);
+			this.PanningHandClosed = this.LoadCursor(global::AnimatedGifViewer.Properties.Resources.Cursor_PanningHand2);
 
 			// Event handlers
 			this.Window.MouseEnter += new EventHandler(this.ImageBox_MouseEnter);
@@ -183,8 +193,9 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Maximum of 5 times larger.</remarks>
 		private void ZoomIn() {
-			if ((this.PictureBox.Width < (MINMAX * this.Window.Width)) &&
-				(this.PictureBox.Height < (MINMAX * this.Window.Height))) {
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
+			if ((this.PictureBox.Width < (MINMAX * screen.Width)) &&
+				(this.PictureBox.Height < (MINMAX * screen.Height))) {
 				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Width * ZOOMFACTOR);
 				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Height * ZOOMFACTOR);
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -196,8 +207,9 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Minimum of 5 times smaller.</remarks>
 		private void ZoomOut() {
-			if ((this.PictureBox.Width > (this.Window.Width / MINMAX)) &&
-				(this.PictureBox.Height > (this.Window.Height / MINMAX))) {
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
+			if ((this.PictureBox.Width > (screen.Width / MINMAX)) &&
+				(this.PictureBox.Height > (screen.Height / MINMAX))) {
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Width / ZOOMFACTOR);
 				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Height / ZOOMFACTOR);
@@ -272,7 +284,7 @@ namespace AnimatedGifViewer {
 				this.ZoomIn();
 
 			if (this.IsPictureLargerThanWindow()) {
-				this.PictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+				this.PictureBox.Cursor = this.PanningHandOpen;
 			} else {
 				this.PictureBox.Cursor = System.Windows.Forms.Cursors.Arrow;
 			}
@@ -334,13 +346,38 @@ namespace AnimatedGifViewer {
 		public event EventHandler NearZoom;
 		#endregion
 
-		#region Windows Form Functions
+		#region Win32
 		[DllImport("user32.dll")]
 		private static extern IntPtr GetForegroundWindow();
 
-		public bool IsActive(IntPtr handle) {
+		/// <summary>
+		/// Takes the window handle and determines if the window is currently active.
+		/// </summary>
+		/// <param name="handle">Window handle.</param>
+		/// <returns>True means the window is currently active/on top. False is otherwise.</returns>
+		private bool IsActive(IntPtr handle) {
 			IntPtr activeHandle = GetForegroundWindow();
 			return (activeHandle == handle);
+		}
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		internal static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
+
+		/// <summary>
+		/// Loads a colored cursor file into memory and creates a cursor out of it.
+		/// </summary>
+		/// <param name="resource">Local cursor resource file. Expected: *.cur</param>
+		/// <returns>The newly created cursor.</returns>
+		private System.Windows.Forms.Cursor LoadCursor(byte[] resource) {
+			const int IMAGE_CURSOR = 2; 
+			const uint LR_LOADFROMFILE = 0x00000010;
+
+			string file = Path.GetTempFileName();
+			File.WriteAllBytes(file, resource);
+			System.Windows.Forms.Cursor cursor = new System.Windows.Forms.Cursor(LoadImage(IntPtr.Zero, 
+				file, IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE));
+			File.Delete(file);
+			return cursor;
 		}
 		#endregion
 	}

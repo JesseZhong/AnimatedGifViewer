@@ -373,6 +373,8 @@
     <None Include="Resources\Menu_Delete.png" />
     <None Include="Resources\Menu_Copy.png" />
     <None Include="Resources\Icon_1.ico" />
+    <None Include="Resources\Cursor_1.cur" />
+    <None Include="Resources\Cursor_2.cur" />
     <Content Include="WindowsAPICodePack\Core\CustomDictionary.xml" />
     <Content Include="WindowsAPICodePack\Shell\CustomDictionary.xml" />
     <None Include="Resources\folder_open.ico" />
