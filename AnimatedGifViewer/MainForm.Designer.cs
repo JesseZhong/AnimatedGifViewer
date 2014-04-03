@@ -51,7 +51,7 @@
 			// 
 			// MenuStrip
 			// 
-			this.MenuStrip.BackColor = System.Drawing.SystemColors.Window;
+			this.MenuStrip.BackColor = System.Drawing.Color.White;
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenuItem,
             this.OpenInMenuItem,
@@ -75,6 +75,7 @@
             this.PropertiesMenuItem,
             this.MenuItemSeparator,
             this.ExitMenuItem});
+			this.FileMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.FileMenuItem.Name = "FileMenuItem";
 			this.FileMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.FileMenuItem.Text = "File";
@@ -83,64 +84,64 @@
 			// 
 			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.OpenMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
 			// MenuItemSeparator3
 			// 
 			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
-			this.MenuItemSeparator3.Size = new System.Drawing.Size(147, 6);
+			this.MenuItemSeparator3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// DeleteMenuItem
 			// 
 			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Delete;
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.DeleteMenuItem.Text = "Delete";
 			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
 			// 
 			// MakeCopyMenuItem
 			// 
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
-			this.MakeCopyMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.MakeCopyMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
 			this.MakeCopyMenuItem.Click += new System.EventHandler(this.MakeCopyMenuItem_Click);
 			// 
 			// MenuItemSeparator2
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
-			this.MenuItemSeparator2.Size = new System.Drawing.Size(147, 6);
+			this.MenuItemSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// CopyMenuItem
 			// 
 			this.CopyMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Copy;
 			this.CopyMenuItem.Name = "CopyMenuItem";
-			this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.CopyMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.CopyMenuItem.Text = "Copy";
 			this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
 			// 
 			// MenuItemSeparator1
 			// 
 			this.MenuItemSeparator1.Name = "MenuItemSeparator1";
-			this.MenuItemSeparator1.Size = new System.Drawing.Size(147, 6);
+			this.MenuItemSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// PropertiesMenuItem
 			// 
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
-			this.PropertiesMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.PropertiesMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.PropertiesMenuItem.Text = "Properties";
 			this.PropertiesMenuItem.Click += new System.EventHandler(this.PropertiesMenuItem_Click);
 			// 
 			// MenuItemSeparator
 			// 
 			this.MenuItemSeparator.Name = "MenuItemSeparator";
-			this.MenuItemSeparator.Size = new System.Drawing.Size(147, 6);
+			this.MenuItemSeparator.Size = new System.Drawing.Size(149, 6);
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ExitMenuItem.Text = "Exit";
 			this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
 			// 
@@ -288,6 +289,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(674, 410);
+			this.Controls.Add(this.MenuStrip);
 			this.Controls.Add(this.SizeButton);
 			this.Controls.Add(this.FitSizeButton);
 			this.Controls.Add(this.DeleteButton);
@@ -296,7 +298,6 @@
 			this.Controls.Add(this.FullScreenButton);
 			this.Controls.Add(this.NextButton);
 			this.Controls.Add(this.PrevButton);
-			this.Controls.Add(this.MenuStrip);
 			this.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.MenuStrip;

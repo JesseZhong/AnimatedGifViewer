@@ -22,7 +22,7 @@ namespace AnimatedGifViewer {
 		/// <summary>
 		/// The vertical padding above and below the image box.
 		/// </summary>
-		private const int IMG_BOX_H_PAD = 118;
+		private const int IMG_BOX_H_PAD = 94;
 
 		/// <summary>
 		/// The filter used by the program to scan
@@ -406,8 +406,8 @@ namespace AnimatedGifViewer {
 			this.ImageBox.Location = new Point(0, 24);
 			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
 			this.ImageBox.Name = "ImageBox";
-			this.ImageBox.Size = new System.Drawing.Size(this.Width,
-				(this.Height > IMG_BOX_H_PAD ? this.Height - IMG_BOX_H_PAD : this.Height));
+			this.ImageBox.Size = new System.Drawing.Size(this.ClientSize.Width,
+				(this.ClientSize.Height > IMG_BOX_H_PAD ? this.ClientSize.Height - IMG_BOX_H_PAD : this.ClientSize.Height));
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
 			this.Controls.Add(this.ImageBox);
