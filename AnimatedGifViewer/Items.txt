@@ -38,7 +38,7 @@ Context menu when right clicking in fullscreen mode:
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
-Redrawing button images on window resize results in a momentary artifact.
+MenuStrip's text is improperly drawn, 'causing it to be semi transparent. It's paint implementation seems to involve the form's TransparencyKey, which was changed to null to prevent interference with Aero.
 
 Fixed Bugs:
 When the new list of files is generated after a watcher event is raised, the current image should remain the same. => So that the following
@@ -49,3 +49,4 @@ Fix the zooming maximum and minimum to be a ratio of the screen and not the wind
 Aero regions do not have a handle where the user can click on.
 [^Related] Alpha-blending of the buttons is not handled correctly.
 The centering the picture box within image box where it appears that the picture box is offset to the right.
+Redrawing button images on window resize results in a momentary artifact.

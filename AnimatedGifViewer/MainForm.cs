@@ -1008,7 +1008,8 @@ namespace AnimatedGifViewer {
 			base.OnLoad(e);
 			this.ResetAeroGlass();
 
-			// Change all the background colors of buttons
+			// Change all the background colors of 
+			// buttons to black for Aero transparency.
 			foreach (Control control in this.Controls) {
 				if (control is Button) {
 					Button button = (Button)control;
@@ -1017,21 +1018,10 @@ namespace AnimatedGifViewer {
 					button.FlatAppearance.MouseDownBackColor = Color.Black;
 				}
 			}
-		}
 
-		/// <summary>
-		/// Override OnPaint to paint the background as black.
-		/// </summary>
-		/// <param name="e">PaintEventArgs</param>
-		protected override void OnPaint(PaintEventArgs e) {
-			base.OnPaint(e);
-
-			if (DesignMode == false) {
-				if (AeroGlassCompositionEnabled && e != null) {
-					// Paint the all the regions black to enable glass
-					e.Graphics.FillRectangle(Brushes.Black, this.ClientRectangle);
-				}
-			}
+			// Change the background color of the 
+			// form to black for Aero transparency.
+			this.BackColor = Color.Black;
 		}
 
 		#endregion
