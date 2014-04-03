@@ -301,8 +301,7 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBox Controls</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBox_MouseEnter(object sender, EventArgs e) {
-			Console.WriteLine(this.ParentForm.Name);
-			if (IsActive(this.ParentForm.Handle) && (this.PictureBox.Focused == false))
+			if (this.IsActive(this.ParentForm.Handle) && (this.PictureBox.Focused == false))
 				this.PictureBox.Focus();
 		}
 

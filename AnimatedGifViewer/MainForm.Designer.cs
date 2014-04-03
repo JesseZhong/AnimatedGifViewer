@@ -83,64 +83,64 @@
 			// 
 			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.OpenMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
 			// MenuItemSeparator3
 			// 
 			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
-			this.MenuItemSeparator3.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator3.Size = new System.Drawing.Size(147, 6);
 			// 
 			// DeleteMenuItem
 			// 
 			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Delete;
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.DeleteMenuItem.Text = "Delete";
 			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
 			// 
 			// MakeCopyMenuItem
 			// 
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
-			this.MakeCopyMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.MakeCopyMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
 			this.MakeCopyMenuItem.Click += new System.EventHandler(this.MakeCopyMenuItem_Click);
 			// 
 			// MenuItemSeparator2
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
-			this.MenuItemSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator2.Size = new System.Drawing.Size(147, 6);
 			// 
 			// CopyMenuItem
 			// 
 			this.CopyMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Copy;
 			this.CopyMenuItem.Name = "CopyMenuItem";
-			this.CopyMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.CopyMenuItem.Text = "Copy";
 			this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
 			// 
 			// MenuItemSeparator1
 			// 
 			this.MenuItemSeparator1.Name = "MenuItemSeparator1";
-			this.MenuItemSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator1.Size = new System.Drawing.Size(147, 6);
 			// 
 			// PropertiesMenuItem
 			// 
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
-			this.PropertiesMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.PropertiesMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.PropertiesMenuItem.Text = "Properties";
 			this.PropertiesMenuItem.Click += new System.EventHandler(this.PropertiesMenuItem_Click);
 			// 
 			// MenuItemSeparator
 			// 
 			this.MenuItemSeparator.Name = "MenuItemSeparator";
-			this.MenuItemSeparator.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator.Size = new System.Drawing.Size(147, 6);
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ExitMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.ExitMenuItem.Text = "Exit";
 			this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
 			// 
@@ -160,10 +160,9 @@
 			// SizeButton
 			// 
 			this.SizeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.SizeButton.BackColor = System.Drawing.SystemColors.Control;
+			this.SizeButton.BackColor = System.Drawing.Color.Transparent;
 			this.SizeButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Size;
 			this.SizeButton.FlatAppearance.BorderSize = 0;
-			this.SizeButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.SizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.SizeButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.SizeButton.Location = new System.Drawing.Point(151, 365);
@@ -176,10 +175,9 @@
 			// FitSizeButton
 			// 
 			this.FitSizeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.FitSizeButton.BackColor = System.Drawing.SystemColors.Control;
+			this.FitSizeButton.BackColor = System.Drawing.Color.Transparent;
 			this.FitSizeButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_FitToWindow;
 			this.FitSizeButton.FlatAppearance.BorderSize = 0;
-			this.FitSizeButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.FitSizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.FitSizeButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.FitSizeButton.Location = new System.Drawing.Point(212, 365);
@@ -192,10 +190,9 @@
 			// DeleteButton
 			// 
 			this.DeleteButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.DeleteButton.BackColor = System.Drawing.SystemColors.Control;
+			this.DeleteButton.BackColor = System.Drawing.Color.Transparent;
 			this.DeleteButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Delete;
 			this.DeleteButton.FlatAppearance.BorderSize = 0;
-			this.DeleteButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.DeleteButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.DeleteButton.Location = new System.Drawing.Point(512, 365);
@@ -209,10 +206,9 @@
 			// RotateClockwiseButton
 			// 
 			this.RotateClockwiseButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.RotateClockwiseButton.BackColor = System.Drawing.SystemColors.Control;
+			this.RotateClockwiseButton.BackColor = System.Drawing.Color.Transparent;
 			this.RotateClockwiseButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise;
 			this.RotateClockwiseButton.FlatAppearance.BorderSize = 0;
-			this.RotateClockwiseButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.RotateClockwiseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.RotateClockwiseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.RotateClockwiseButton.Location = new System.Drawing.Point(471, 365);
@@ -225,10 +221,9 @@
 			// RotateCounterButton
 			// 
 			this.RotateCounterButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.RotateCounterButton.BackColor = System.Drawing.SystemColors.Control;
+			this.RotateCounterButton.BackColor = System.Drawing.Color.Transparent;
 			this.RotateCounterButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter;
 			this.RotateCounterButton.FlatAppearance.BorderSize = 0;
-			this.RotateCounterButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.RotateCounterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.RotateCounterButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.RotateCounterButton.Location = new System.Drawing.Point(437, 365);
@@ -241,10 +236,9 @@
 			// FullScreenButton
 			// 
 			this.FullScreenButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.FullScreenButton.BackColor = System.Drawing.SystemColors.Control;
+			this.FullScreenButton.BackColor = System.Drawing.Color.Transparent;
 			this.FullScreenButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_FullScreen;
 			this.FullScreenButton.FlatAppearance.BorderSize = 0;
-			this.FullScreenButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.FullScreenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.FullScreenButton.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.FullScreenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -259,10 +253,9 @@
 			// NextButton
 			// 
 			this.NextButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.NextButton.BackColor = System.Drawing.SystemColors.Control;
+			this.NextButton.BackColor = System.Drawing.Color.Transparent;
 			this.NextButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Next;
 			this.NextButton.FlatAppearance.BorderSize = 0;
-			this.NextButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.NextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.NextButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.NextButton.Location = new System.Drawing.Point(364, 365);
@@ -276,10 +269,9 @@
 			// PrevButton
 			// 
 			this.PrevButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.PrevButton.BackColor = System.Drawing.SystemColors.Control;
+			this.PrevButton.BackColor = System.Drawing.Color.Transparent;
 			this.PrevButton.BackgroundImage = global::AnimatedGifViewer.Properties.Resources.Button_Previous;
 			this.PrevButton.FlatAppearance.BorderSize = 0;
-			this.PrevButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
 			this.PrevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.PrevButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.PrevButton.Location = new System.Drawing.Point(269, 365);
@@ -294,7 +286,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Control;
+			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(674, 410);
 			this.Controls.Add(this.SizeButton);
 			this.Controls.Add(this.FitSizeButton);
@@ -305,11 +297,11 @@
 			this.Controls.Add(this.NextButton);
 			this.Controls.Add(this.PrevButton);
 			this.Controls.Add(this.MenuStrip);
+			this.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.MenuStrip;
 			this.Name = "MainForm";
 			this.Text = "MainForm";
-			this.TransparencyKey = System.Drawing.SystemColors.Control;
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.MenuStrip.ResumeLayout(false);

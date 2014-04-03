@@ -941,7 +941,7 @@ namespace AnimatedGifViewer {
 		#region Operations
 
 		/// <summary>
-		/// Makes the background of current window transparent
+		/// Makes the background of current window transparent.
 		/// </summary>
 		public void SetAeroGlassTransparency() {
 			this.BackColor = Color.Transparent;
@@ -1007,6 +1007,31 @@ namespace AnimatedGifViewer {
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
 			this.ResetAeroGlass();
+
+			// Change all the background colors of buttons
+			foreach (Control control in this.Controls) {
+				if (control is Button) {
+					Button button = (Button)control;
+					button.BackColor = Color.Black;
+					button.FlatAppearance.MouseOverBackColor = Color.Black;
+					button.FlatAppearance.MouseDownBackColor = Color.Black;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Override OnPaint to paint the background as black.
+		/// </summary>
+		/// <param name="e">PaintEventArgs</param>
+		protected override void OnPaint(PaintEventArgs e) {
+			base.OnPaint(e);
+
+			if (DesignMode == false) {
+				if (AeroGlassCompositionEnabled && e != null) {
+					// Paint the all the regions black to enable glass
+					e.Graphics.FillRectangle(Brushes.Black, this.ClientRectangle);
+				}
+			}
 		}
 
 		#endregion
