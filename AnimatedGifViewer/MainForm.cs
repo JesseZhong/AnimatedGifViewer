@@ -398,7 +398,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		private void InitializeImageBox() {
 			this.ImageBox = new ImageBox();
-			this.ImageBox.Border = System.Windows.Forms.BorderStyle.None;
+			this.ImageBox.Border = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.ImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
 				(AnchorStyles.Top | AnchorStyles.Bottom |
 				AnchorStyles.Left | AnchorStyles.Right);
@@ -951,8 +951,12 @@ namespace AnimatedGifViewer {
 		/// Excludes a Control from the AeroGlass frame.
 		/// </summary>
 		/// <param name="control">The control to exclude.</param>
-		/// <remarks>Many non-WPF rendered controls (i.e., the ExplorerBrowser control) will not 
-		/// render properly on top of an AeroGlass frame. </remarks>
+		/// <remarks>
+		/// Many non-WPF rendered controls (i.e., the ExplorerBrowser control) will not 
+		/// render properly on top of an AeroGlass frame.
+		/// This method will only work on a single control at any given time, as it
+		/// relies on Margin to set the area that won't be rendered with Aero.
+		/// </remarks>
 		public void ExcludeControlFromAeroGlass(Control control) {
 			if (control == null) { throw new ArgumentNullException("control"); }
 
@@ -966,8 +970,8 @@ namespace AnimatedGifViewer {
 				margins.TopHeight = controlScreen.Top - clientScreen.Top;
 				margins.BottomHeight = clientScreen.Bottom - controlScreen.Bottom;
 
-				// Extend the Frame into client area
-				DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(Handle, ref margins);
+				// Extend the Frame into client area.
+				DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
 			}
 		}
 
@@ -1022,6 +1026,23 @@ namespace AnimatedGifViewer {
 			// Change the background color of the 
 			// form to black for Aero transparency.
 			this.BackColor = Color.Black;
+
+			// Exclude the image box and menu strip from being influenced by Aero.
+			if (AeroGlassCompositionEnabled) {
+				Rectangle clientScreen = this.RectangleToScreen(this.ClientRectangle);
+				Rectangle controlScreen = Rectangle.Union(this.MenuStrip.RectangleToScreen(this.MenuStrip.ClientRectangle),
+					this.ImageBox.RectangleToScreen(this.ImageBox.ClientRectangle));
+
+
+				Margins margins = new Margins();
+				margins.LeftWidth = controlScreen.Left - clientScreen.Left;
+				margins.RightWidth = clientScreen.Right - controlScreen.Right;
+				margins.TopHeight = controlScreen.Top - clientScreen.Top;
+				margins.BottomHeight = clientScreen.Bottom - controlScreen.Bottom;
+
+				// Extend the Frame into client area.
+				DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
+			}
 		}
 
 		#endregion

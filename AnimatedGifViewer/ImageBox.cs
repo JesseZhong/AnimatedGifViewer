@@ -49,6 +49,7 @@ namespace AnimatedGifViewer {
 			this.SuspendLayout();
 			
 			// PictureBox
+			this.PictureBox.BorderStyle = BorderStyle.None;
 			this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 			this.PictureBox.Location = new System.Drawing.Point(0, 0);
 			this.PictureBox.Name = "PicBox";
@@ -63,7 +64,7 @@ namespace AnimatedGifViewer {
 			// Window
 			this.Window.AutoScroll = false;
 			this.Window.BackColor = System.Drawing.Color.White;
-			this.Window.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.Window.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.Window.Controls.Add(this.PictureBox);
 			this.Window.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.Window.Location = new System.Drawing.Point(0, 0);
