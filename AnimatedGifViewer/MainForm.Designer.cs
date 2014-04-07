@@ -219,6 +219,7 @@
 			this.RotateClockwiseButton.Size = new System.Drawing.Size(25, 25);
 			this.RotateClockwiseButton.TabIndex = 6;
 			this.RotateClockwiseButton.UseVisualStyleBackColor = false;
+			this.RotateClockwiseButton.Click += new System.EventHandler(this.RotateClockwiseButton_Click);
 			// 
 			// RotateCounterButton
 			// 
@@ -234,6 +235,7 @@
 			this.RotateCounterButton.Size = new System.Drawing.Size(25, 25);
 			this.RotateCounterButton.TabIndex = 5;
 			this.RotateCounterButton.UseVisualStyleBackColor = false;
+			this.RotateCounterButton.Click += new System.EventHandler(this.RotateCounterButton_Click);
 			// 
 			// FullScreenButton
 			// 

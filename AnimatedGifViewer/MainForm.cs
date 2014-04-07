@@ -216,6 +216,34 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Returns the image format provided a file extension.
+		/// </summary>
+		/// <param name="extension">The extension. It must be led by a '.'</param>
+		/// <returns>The file format.</returns>
+		private System.Drawing.Imaging.ImageFormat GetFormat(string extension) {
+			switch (extension.ToLower()) {
+				case @".bmp":
+				case @".dib":
+					return System.Drawing.Imaging.ImageFormat.Bmp;
+				case @".jpg":
+				case @".jpeg":
+				case @".jpe":
+				case @".jfif":
+					return System.Drawing.Imaging.ImageFormat.Jpeg;
+				case @".gif":
+					return System.Drawing.Imaging.ImageFormat.Gif;
+				case @".png":
+					return System.Drawing.Imaging.ImageFormat.Png;
+				case @".tiff":
+					return System.Drawing.Imaging.ImageFormat.Tiff;
+				case @".ico":
+					return System.Drawing.Imaging.ImageFormat.Icon;
+				default:
+					return null;
+			}
+		}
+
+		/// <summary>
 		/// Check if an index is within the bounds of filenames.
 		/// </summary>
 		/// <param name="index">The index in question.</param>
@@ -288,6 +316,31 @@ namespace AnimatedGifViewer {
 
 			this.filenameIndex = ((this.filenameIndex - 1) < 0) ? (this.filenames.Count - 1) : (this.filenameIndex - 1);
 			return this.filenames[this.filenameIndex];
+		}
+
+		/// <summary>
+		/// Rotates the current image in the image box.
+		/// </summary>
+		/// <remarks>
+		/// The original file is loaded, rotated, and then saved.
+		/// Because of the way System.Drawing.Image treats GIFs,
+		/// GIFs will be ignored, as to not damage the original image.
+		/// </remarks>
+		private void RotateImage(System.Drawing.RotateFlipType rotateType) {
+
+			// Ignore if the file is a GIF.
+			string ext = Path.GetExtension(this.loadedFile);
+			if ("GIF" == this.GetFormatName(ext))
+				return;
+
+			// Check if the image is on the disk.
+			if (File.Exists(this.loadedFile)) {
+
+				// Load the file into memory, rotate it, and save it.
+				Image imgFile = System.Drawing.Image.FromFile(this.loadedFile);
+				imgFile.RotateFlip(rotateType);
+				imgFile.Save(this.loadedFile);
+			}
 		}
 
 		/// <summary>
@@ -632,6 +685,24 @@ namespace AnimatedGifViewer {
 		/// <param name="e"></param>
 		private void FullScreenButton_Click(object sender, EventArgs e) {
 
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void RotateCounterButton_Click(object sender, EventArgs e) {
+			this.RotateImage(System.Drawing.RotateFlipType.Rotate270FlipNone);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void RotateClockwiseButton_Click(object sender, EventArgs e) {
+			this.RotateImage(System.Drawing.RotateFlipType.Rotate90FlipNone);
 		}
 
 		/// <summary>

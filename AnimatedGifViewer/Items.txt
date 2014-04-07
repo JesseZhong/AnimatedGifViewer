@@ -14,7 +14,7 @@ Implement Open In
 Implement About menu item							- Done
 MainForm title changes to the current file name		- Done
 Add program settings for window size and position	- Done
-Implement rotation buttons
+Implement rotation buttons							- Done
 Implement size button
 Implement fit to window and actual size buttons		
 Add user preferences
@@ -41,6 +41,8 @@ Context menu when right clicking in fullscreen mode:
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
 
+Major Bugs:
+
 Fixed Bugs:
 When the new list of files is generated after a watcher event is raised, the current image should remain the same. => So that the following
 image was the same as it was before unless another image was inserted in its place. ie. Order should be preserved.
@@ -52,3 +54,10 @@ Aero regions do not have a handle where the user can click on.
 The centering the picture box within image box where it appears that the picture box is offset to the right.
 Redrawing button images on window resize results in a momentary artifact.
 MenuStrip's text is improperly drawn, 'causing it to be semi transparent. It's paint implementation seems to involve the form's TransparencyKey, which was changed to null to prevent interference with Aero.
+
+Concerns:
+Animated GIFs currently cannot be rotated, as all animation is removed from the image.
+When rotating and then saving JPEGs, the compression is default to that of ImageFormat.JPEG. This assumed to be 75%. Currently, it is unknown
+whether it is possible to get the original compression level and use it when saving. As a result, images may lose quality if the compression
+level, which is 75% by default, is lower than that of the original image. As a result, I would advise users to use truly lossless formats,
+such as PNGs. [Upon further evaluation, the default compression level is the same across all formats.]
