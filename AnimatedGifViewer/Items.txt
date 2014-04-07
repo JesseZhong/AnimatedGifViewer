@@ -27,13 +27,13 @@ Context menu on image right click:					- Partial (events need to be linked)
 	-
 	Open File Location
 	-
-	Rotate Clockwise
-	Rotate Counterclockwise
+	Rotate Clockwise								- Done
+	Rotate Counterclockwise							- Done
 	-
-	Copy
-	Delete
+	Copy											- Done
+	Delete											- Done
 	-
-	Properties
+	Properties										- Done
 
 Context menu when right clicking in fullscreen mode:
 

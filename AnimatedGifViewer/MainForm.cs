@@ -420,6 +420,16 @@ namespace AnimatedGifViewer {
 		private void ShowImageProperties() {
 			ShowFileProperties(this.loadedFile);
 		}
+
+		/// <summary>
+		/// Opens the windows explorer with the location of the current image. 
+		/// </summary>
+		/// <remarks>The file will be selected when the explorer is opened.</remarks>
+		private void OpenFileLocation() {
+			if (File.Exists(this.loadedFile)) {
+				System.Diagnostics.Process.Start("explorer.exe", "/select, " + this.loadedFile);
+			}
+		}
 		#endregion
 
 		#region Loading
@@ -466,6 +476,9 @@ namespace AnimatedGifViewer {
 			this.Controls.Add(this.ImageBox);
 
 			// Context menu event handlers.
+			this.ImageBox.ImageBoxMenu.OpenLocationMenuItem.Click += new System.EventHandler(this.ImageBoxMenuOpenLocation);
+			this.ImageBox.ImageBoxMenu.RotateClockwiseMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateClockwise_Click);
+			this.ImageBox.ImageBoxMenu.RotateCounterCMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateCounterC_Click);
 			this.ImageBox.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
 			this.ImageBox.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
 			this.ImageBox.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
@@ -688,16 +701,18 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Rotates the image 90 degrees counterclockwise 
+		/// when the rotate counterclockwise button is clicked.
 		/// </summary>
-		/// <param name="sender"></param>
+		/// <param name="sender">Cloc</param>
 		/// <param name="e"></param>
 		private void RotateCounterButton_Click(object sender, EventArgs e) {
 			this.RotateImage(System.Drawing.RotateFlipType.Rotate270FlipNone);
 		}
 
 		/// <summary>
-		/// 
+		/// Rotates the image 90 degrees clockwise when
+		/// the rotate clockwise button is clicked.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -795,6 +810,54 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		#region Image Box Menu Handlers
+		/// <summary>
+		/// Opens the current image's file location when the image
+		/// box context menu item, open file location, is clicked.
+		/// </summary>
+		/// <param name="sender">ImageBoxMenu.OpenLocationMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void ImageBoxMenuOpenLocation(object sender, EventArgs e) {
+			MainFormDelegate openLocation = delegate() {
+				this.OpenFileLocation();
+			};
+			if (this.InvokeRequired)
+				this.Invoke(openLocation);
+			else
+				this.OpenFileLocation();
+		}
+
+		/// <summary>
+		/// Rotates the image 90 degrees clockwise when the image
+		/// box context menu item, rotate clockwise, is clicked.
+		/// </summary>
+		/// <param name="sender">ImageBoxMenu.RotateClockwiseMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void ImageBoxMenuRotateClockwise_Click(object sender, EventArgs e) {
+			MainFormDelegate rotate = delegate() {
+				this.RotateImage(System.Drawing.RotateFlipType.Rotate90FlipNone);
+			};
+			if (this.InvokeRequired)
+				this.Invoke(rotate);
+			else
+				rotate();
+		}
+
+		/// <summary>
+		/// Rotates the image 90 degrees counterclockwise when the image
+		/// box context menu item, rotate counterclockwise, is clicked.
+		/// </summary>
+		/// <param name="sender">ImageBoxMenu.RotateCounterCMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void ImageBoxMenuRotateCounterC_Click(object sender, EventArgs e) {
+			MainFormDelegate rotate = delegate() {
+				this.RotateImage(System.Drawing.RotateFlipType.Rotate270FlipNone);
+			};
+			if (this.InvokeRequired)
+				this.Invoke(rotate);
+			else
+				rotate();
+		}
+
 		/// <summary>
 		/// Copies the image in the image box to the clipboard when 
 		/// the image box context menu item, copy, is clicked.
