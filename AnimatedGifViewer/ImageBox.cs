@@ -59,6 +59,7 @@ namespace AnimatedGifViewer {
 
 			// ImageBoxMenu
 			this.ImageBoxMenu.Name = "ImageBoxMenu";
+			this.ImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.ImageBoxMenu.Size = new System.Drawing.Size(180, 70);
 
 			// Window

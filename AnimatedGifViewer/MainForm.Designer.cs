@@ -53,9 +53,9 @@
 			// 
 			this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileMenuItem,
-            this.OpenInMenuItem,
-            this.AboutMenuItem});
+			this.FileMenuItem,
+			this.OpenInMenuItem,
+			this.AboutMenuItem});
 			this.MenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.MenuStrip.Name = "MenuStrip";
 			this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -66,16 +66,16 @@
 			// FileMenuItem
 			// 
 			this.FileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenMenuItem,
-            this.MenuItemSeparator3,
-            this.DeleteMenuItem,
-            this.MakeCopyMenuItem,
-            this.MenuItemSeparator2,
-            this.CopyMenuItem,
-            this.MenuItemSeparator1,
-            this.PropertiesMenuItem,
-            this.MenuItemSeparator,
-            this.ExitMenuItem});
+			this.OpenMenuItem,
+			this.MenuItemSeparator3,
+			this.DeleteMenuItem,
+			this.MakeCopyMenuItem,
+			this.MenuItemSeparator2,
+			this.CopyMenuItem,
+			this.MenuItemSeparator1,
+			this.PropertiesMenuItem,
+			this.MenuItemSeparator,
+			this.ExitMenuItem});
 			this.FileMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.FileMenuItem.Name = "FileMenuItem";
 			this.FileMenuItem.Size = new System.Drawing.Size(36, 20);
