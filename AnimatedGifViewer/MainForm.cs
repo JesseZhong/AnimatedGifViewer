@@ -398,7 +398,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		private void InitializeImageBox() {
 			this.ImageBox = new ImageBox();
-			this.ImageBox.Border = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.ImageBox.Border = System.Windows.Forms.BorderStyle.None;
 			this.ImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
 				(AnchorStyles.Top | AnchorStyles.Bottom |
 				AnchorStyles.Left | AnchorStyles.Right);
@@ -939,7 +939,6 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		#region Operations
-
 		/// <summary>
 		/// Makes the background of current window transparent.
 		/// </summary>

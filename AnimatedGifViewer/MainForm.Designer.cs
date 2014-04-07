@@ -51,13 +51,14 @@
 			// 
 			// MenuStrip
 			// 
-			this.MenuStrip.BackColor = System.Drawing.Color.White;
+			this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.FileMenuItem,
-			this.OpenInMenuItem,
-			this.AboutMenuItem});
+            this.FileMenuItem,
+            this.OpenInMenuItem,
+            this.AboutMenuItem});
 			this.MenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.MenuStrip.Name = "MenuStrip";
+			this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.MenuStrip.Size = new System.Drawing.Size(674, 24);
 			this.MenuStrip.TabIndex = 4;
 			this.MenuStrip.Text = "menuStrip1";
@@ -65,19 +66,19 @@
 			// FileMenuItem
 			// 
 			this.FileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.OpenMenuItem,
-			this.MenuItemSeparator3,
-			this.DeleteMenuItem,
-			this.MakeCopyMenuItem,
-			this.MenuItemSeparator2,
-			this.CopyMenuItem,
-			this.MenuItemSeparator1,
-			this.PropertiesMenuItem,
-			this.MenuItemSeparator,
-			this.ExitMenuItem});
+            this.OpenMenuItem,
+            this.MenuItemSeparator3,
+            this.DeleteMenuItem,
+            this.MakeCopyMenuItem,
+            this.MenuItemSeparator2,
+            this.CopyMenuItem,
+            this.MenuItemSeparator1,
+            this.PropertiesMenuItem,
+            this.MenuItemSeparator,
+            this.ExitMenuItem});
 			this.FileMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.FileMenuItem.Name = "FileMenuItem";
-			this.FileMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.FileMenuItem.Size = new System.Drawing.Size(36, 20);
 			this.FileMenuItem.Text = "File";
 			// 
 			// OpenMenuItem
@@ -148,13 +149,13 @@
 			// OpenInMenuItem
 			// 
 			this.OpenInMenuItem.Name = "OpenInMenuItem";
-			this.OpenInMenuItem.Size = new System.Drawing.Size(60, 20);
+			this.OpenInMenuItem.Size = new System.Drawing.Size(55, 20);
 			this.OpenInMenuItem.Text = "Open In";
 			// 
 			// AboutMenuItem
 			// 
 			this.AboutMenuItem.Name = "AboutMenuItem";
-			this.AboutMenuItem.Size = new System.Drawing.Size(53, 20);
+			this.AboutMenuItem.Size = new System.Drawing.Size(47, 20);
 			this.AboutMenuItem.Text = "About";
 			this.AboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
 			// 
@@ -287,7 +288,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.White;
+			this.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.ClientSize = new System.Drawing.Size(674, 410);
 			this.Controls.Add(this.MenuStrip);
 			this.Controls.Add(this.SizeButton);

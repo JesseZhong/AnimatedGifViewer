@@ -2,6 +2,7 @@
 Read Images from Zip files
 Animate/mask buttons								- Done
 Fullscreen mode
+Zoom in full screen
 Scroll wheel zoom									- Almost (point zooming)
 Grabbing and moving image when zoomed
 Correct sizing										- Done
@@ -17,6 +18,7 @@ Implement rotation buttons
 Implement size button
 Implement fit to window and actual size buttons		
 Add user preferences
+Add file association
 Implement the features for the File menu item		- Done
 Context menu on image right click:					- Partial (events need to be linked)
 	Open With

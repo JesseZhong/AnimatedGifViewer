@@ -102,7 +102,7 @@
 			// 
 			// DescriptionBox
 			// 
-			this.DescriptionBox.BackColor = System.Drawing.Color.White;
+			this.DescriptionBox.BackColor = System.Drawing.SystemColors.Window;
 			this.DescriptionBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.DescriptionBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DescriptionBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -161,7 +161,7 @@
 			this.AcceptButton = this.OkayButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.White;
+			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(474, 233);
 			this.Controls.Add(this.TableLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

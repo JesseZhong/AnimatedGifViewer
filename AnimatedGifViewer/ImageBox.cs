@@ -63,7 +63,7 @@ namespace AnimatedGifViewer {
 
 			// Window
 			this.Window.AutoScroll = false;
-			this.Window.BackColor = System.Drawing.Color.White;
+			this.Window.BackColor = System.Drawing.SystemColors.Control;
 			this.Window.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.Window.Controls.Add(this.PictureBox);
 			this.Window.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -194,6 +194,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Maximum of 5 times larger.</remarks>
 		private void ZoomIn() {
+
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
 			if ((this.PictureBox.Width < (MINMAX * screen.Width)) &&
 				(this.PictureBox.Height < (MINMAX * screen.Height))) {
