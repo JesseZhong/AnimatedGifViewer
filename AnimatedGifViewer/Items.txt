@@ -20,12 +20,12 @@ Implement fit to window and actual size buttons
 Add user preferences
 Add file association
 Implement the features for the File menu item		- Done
-Context menu on image right click:					- Partial (events need to be linked)
+Context menu on image right click:					- Almost (Open With)
 	Open With
 	-
-	Set as Desktop Background
+	Open File Location								- Done
 	-
-	Open File Location
+	Set as Desktop Background						- Done
 	-
 	Rotate Clockwise								- Done
 	Rotate Counterclockwise							- Done

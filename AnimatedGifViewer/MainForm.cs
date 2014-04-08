@@ -422,6 +422,28 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Sets the current image in the image box as the desktop background.
+		/// </summary>
+		/// <remarks>
+		/// For security reasons, only BMPs are allowed to be used for
+		/// desktop backgrounds. As a result, any image that is to be
+		/// used as a background must be first converted into a BMP.
+		/// </remarks>
+		private void SetAsDesktopBackground() {
+			if (File.Exists(this.loadedFile)) {
+				string tempPath = Path.Combine(Path.GetTempPath(), "Wallpaper.bmp");
+				this.ImageBox.Image.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+
+				// In the event that the user or the program does not have system permissions
+				// to use the temp directory, the file will not be saved and will not be found
+				// by this program. A check must be in place in the event that that happens.
+				if(File.Exists(tempPath))
+					SystemParametersInfo(SPI_SETDESKWALLPAPER, 0,
+						tempPath, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+			}
+		}
+
+		/// <summary>
 		/// Opens the windows explorer with the location of the current image. 
 		/// </summary>
 		/// <remarks>The file will be selected when the explorer is opened.</remarks>
@@ -476,6 +498,7 @@ namespace AnimatedGifViewer {
 			this.Controls.Add(this.ImageBox);
 
 			// Context menu event handlers.
+			this.ImageBox.ImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
 			this.ImageBox.ImageBoxMenu.OpenLocationMenuItem.Click += new System.EventHandler(this.ImageBoxMenuOpenLocation);
 			this.ImageBox.ImageBoxMenu.RotateClockwiseMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateClockwise_Click);
 			this.ImageBox.ImageBoxMenu.RotateCounterCMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateCounterC_Click);
@@ -817,13 +840,23 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBoxMenu.OpenLocationMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuOpenLocation(object sender, EventArgs e) {
-			MainFormDelegate openLocation = delegate() {
-				this.OpenFileLocation();
-			};
 			if (this.InvokeRequired)
-				this.Invoke(openLocation);
+				this.Invoke(new MethodInvoker(() => { this.OpenFileLocation(); }));
 			else
 				this.OpenFileLocation();
+		}
+
+		/// <summary>
+		/// Sets the current image as the desktop background when the
+		/// image context menu item, set as desktop background, is clicked.
+		/// </summary>
+		/// <param name="sender">ImageBoxMenu.SetAsDesktop</param>
+		/// <param name="e">Event arguments.</param>
+		private void ImageBoxMenuSetAsDesktop(object sender, EventArgs e) {
+			if (this.InvokeRequired)
+				this.Invoke(new MethodInvoker(() => { this.SetAsDesktopBackground(); }));
+			else
+				this.SetAsDesktopBackground();
 		}
 
 		/// <summary>
@@ -865,13 +898,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBoxMenu.CopyMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuCopy_Click(object sender, EventArgs e) {
-			MainFormDelegate copy = delegate() {
-				this.CopyImageToClipboard();
-			};
 			if (this.InvokeRequired)
-				this.Invoke(copy);
+				this.Invoke(new MethodInvoker(() => { this.CopyImageToClipboard(); }));
 			else
-				copy();
+				this.CopyImageToClipboard();
 		}
 
 		/// <summary>
@@ -881,13 +911,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">IamgeBoxMenu.DeleteMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuDelete_Click(object sender, EventArgs e) {
-			MainFormDelegate properties = delegate() {
-				this.DeleteImage();
-			};
 			if (this.InvokeRequired)
-				this.Invoke(properties);
+				this.Invoke(new MethodInvoker(() => { this.DeleteImage(); }));
 			else
-				properties();
+				this.DeleteImage();
 		}
 
 		/// <summary>
@@ -897,13 +924,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">IamgeBoxMenu.PropertiesMenuItem</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBoxMenuProperties_Click(object sender, EventArgs e) {
-			MainFormDelegate properties = delegate() {
-				this.ShowImageProperties();
-			};
 			if (this.InvokeRequired)
-				this.Invoke(properties);
+				this.Invoke(new MethodInvoker(() => { this.ShowImageProperties(); }));
 			else
-				properties();
+				this.ShowImageProperties();
 		}
 		#endregion
 
@@ -1220,6 +1244,21 @@ namespace AnimatedGifViewer {
 			info.fMask = SEE_MASK_INVOKEIDLIST;
 			return ShellExecuteEx(ref info);
 		}
+		#endregion
+
+		#region Desktop Wallpaper
+		const int SPI_SETDESKWALLPAPER = 20;
+		const int SPIF_UPDATEINIFILE = 0x01;
+		const int SPIF_SENDWININICHANGE = 0x02;
+
+		public enum Style : int {
+			Tiled,
+			Centered,
+			Stretched
+		}
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 		#endregion
 	}
 }

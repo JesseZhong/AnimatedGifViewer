@@ -36,7 +36,7 @@
 			this.PropertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItemSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.OpenInMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.OpenWithMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SizeButton = new System.Windows.Forms.Button();
 			this.FitSizeButton = new System.Windows.Forms.Button();
@@ -53,9 +53,9 @@
 			// 
 			this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.FileMenuItem,
-			this.OpenInMenuItem,
-			this.AboutMenuItem});
+            this.FileMenuItem,
+            this.OpenWithMenuItem,
+            this.AboutMenuItem});
 			this.MenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.MenuStrip.Name = "MenuStrip";
 			this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -66,16 +66,16 @@
 			// FileMenuItem
 			// 
 			this.FileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.OpenMenuItem,
-			this.MenuItemSeparator3,
-			this.DeleteMenuItem,
-			this.MakeCopyMenuItem,
-			this.MenuItemSeparator2,
-			this.CopyMenuItem,
-			this.MenuItemSeparator1,
-			this.PropertiesMenuItem,
-			this.MenuItemSeparator,
-			this.ExitMenuItem});
+            this.OpenMenuItem,
+            this.MenuItemSeparator3,
+            this.DeleteMenuItem,
+            this.MakeCopyMenuItem,
+            this.MenuItemSeparator2,
+            this.CopyMenuItem,
+            this.MenuItemSeparator1,
+            this.PropertiesMenuItem,
+            this.MenuItemSeparator,
+            this.ExitMenuItem});
 			this.FileMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.FileMenuItem.Name = "FileMenuItem";
 			this.FileMenuItem.Size = new System.Drawing.Size(36, 20);
@@ -85,72 +85,72 @@
 			// 
 			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.OpenMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
 			// MenuItemSeparator3
 			// 
 			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
-			this.MenuItemSeparator3.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator3.Size = new System.Drawing.Size(138, 6);
 			// 
 			// DeleteMenuItem
 			// 
 			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Delete;
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.DeleteMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.DeleteMenuItem.Text = "Delete";
 			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
 			// 
 			// MakeCopyMenuItem
 			// 
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
-			this.MakeCopyMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.MakeCopyMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
 			this.MakeCopyMenuItem.Click += new System.EventHandler(this.MakeCopyMenuItem_Click);
 			// 
 			// MenuItemSeparator2
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
-			this.MenuItemSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator2.Size = new System.Drawing.Size(138, 6);
 			// 
 			// CopyMenuItem
 			// 
 			this.CopyMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Copy;
 			this.CopyMenuItem.Name = "CopyMenuItem";
-			this.CopyMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.CopyMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.CopyMenuItem.Text = "Copy";
 			this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
 			// 
 			// MenuItemSeparator1
 			// 
 			this.MenuItemSeparator1.Name = "MenuItemSeparator1";
-			this.MenuItemSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator1.Size = new System.Drawing.Size(138, 6);
 			// 
 			// PropertiesMenuItem
 			// 
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
-			this.PropertiesMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.PropertiesMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.PropertiesMenuItem.Text = "Properties";
 			this.PropertiesMenuItem.Click += new System.EventHandler(this.PropertiesMenuItem_Click);
 			// 
 			// MenuItemSeparator
 			// 
 			this.MenuItemSeparator.Name = "MenuItemSeparator";
-			this.MenuItemSeparator.Size = new System.Drawing.Size(149, 6);
+			this.MenuItemSeparator.Size = new System.Drawing.Size(138, 6);
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ExitMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.ExitMenuItem.Text = "Exit";
 			this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
 			// 
-			// OpenInMenuItem
+			// OpenWithMenuItem
 			// 
-			this.OpenInMenuItem.Name = "OpenInMenuItem";
-			this.OpenInMenuItem.Size = new System.Drawing.Size(55, 20);
-			this.OpenInMenuItem.Text = "Open In";
+			this.OpenWithMenuItem.Name = "OpenWithMenuItem";
+			this.OpenWithMenuItem.Size = new System.Drawing.Size(69, 20);
+			this.OpenWithMenuItem.Text = "Open With";
 			// 
 			// AboutMenuItem
 			// 
@@ -325,7 +325,7 @@
 		private System.Windows.Forms.ToolStripMenuItem PropertiesMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator;
 		private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem OpenInMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem OpenWithMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CopyMenuItem;
 		private System.Windows.Forms.ToolStripSeparator MenuItemSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem DeleteMenuItem;
