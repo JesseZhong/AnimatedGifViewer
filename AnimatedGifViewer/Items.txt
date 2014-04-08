@@ -3,7 +3,7 @@ Read Images from Zip files
 Animate/mask buttons								- Done
 Fullscreen mode
 Zoom in full screen
-Scroll wheel zoom									- Almost (point zooming)
+Scroll wheel zoom									- Done
 Grabbing and moving image when zoomed
 Correct sizing										- Done
 Keyboard controls									- Done

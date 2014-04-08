@@ -13,7 +13,8 @@ namespace AnimatedGifViewer {
 	public class ImageBox : System.Windows.Forms.UserControl {
 
 		#region Constants
-		private const double ZOOMFACTOR = 1.25;
+		private const double CENTER = 0.5;
+		private const double ZOOMFACTOR = 1.10;
 		private const int MINMAX = 10;
 		#endregion
 
@@ -34,8 +35,6 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		public ImageBox() {
 			this.InitializeComponent();
-
-			this.fitToWindow = false;
 		}
 
 		/// <summary>
@@ -89,7 +88,10 @@ namespace AnimatedGifViewer {
 			this.Window.MouseEnter += new EventHandler(this.ImageBox_MouseEnter);
 			this.PictureBox.MouseEnter += new EventHandler(this.ImageBox_MouseEnter);
 			this.Window.MouseWheel += new MouseEventHandler(this.ImageBox_MouseWheel);
-			this.Window.Resize += new EventHandler(this.OuterPanel_Resize);
+			this.Window.Resize += new EventHandler(this.Window_Resize);
+
+			// States
+			this.fitToWindow = false;
 		}
 
 		/// <summary>
@@ -154,7 +156,7 @@ namespace AnimatedGifViewer {
 		/// Checks if the image size exceeds the size of the window.
 		/// </summary>
 		/// <returns>True if it does, false otherwise.</returns>
-		private bool IsImageLargerThanWindow() {
+		private bool IsImageExceedinWindow() {
 			if ((this.Window != null) &&
 				(this.PictureBox != null) &&
 				(this.PictureBox.Image != null))
@@ -168,7 +170,7 @@ namespace AnimatedGifViewer {
 		/// Checks if the picture box goes out of size of the window.
 		/// </summary>
 		/// <returns>True if it does, false otherwise.</returns>
-		private bool IsPictureLargerThanWindow() {
+		private bool IsPictureExceedingWindow() {
 			if ((this.Window != null) &&
 				(this.PictureBox != null))
 				if ((this.Window.Width < this.PictureBox.Width) ||
@@ -195,13 +197,29 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Maximum of 5 times larger.</remarks>
 		private void ZoomIn() {
+			// Calculate the ratios of the mouse position to the dimensions of the picture box and window.
+			System.Drawing.Point mouseToWindow = this.Window.PointToClient(Control.MousePosition);
+			System.Drawing.Point mouseToPictureBox = this.PictureBox.PointToClient(Control.MousePosition);
+			double xWinRatio = mouseToWindow.X / (double)this.Window.Size.Width;
+			double yWinRatio = mouseToWindow.Y / (double)this.Window.Size.Height;
+			double xPicRatio = mouseToPictureBox.X / (double)this.PictureBox.Size.Width;
+			double yPicRatio = mouseToPictureBox.Y / (double)this.PictureBox.Size.Height;
 
+			// Attempt to zoom in.
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
 			if ((this.PictureBox.Width < (MINMAX * screen.Width)) &&
 				(this.PictureBox.Height < (MINMAX * screen.Height))) {
 				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Width * ZOOMFACTOR);
 				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Height * ZOOMFACTOR);
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+				// If the picture box exceeds any of the window's dimensions, use the ratios
+				// to align the picture box. Otherwise, center the picture instead.
+				xWinRatio = (this.Window.Width < this.PictureBox.Width) ? xWinRatio : CENTER;
+				yWinRatio = (this.Window.Height < this.PictureBox.Height) ? yWinRatio : CENTER;
+				xPicRatio = (this.Window.Width < this.PictureBox.Width) ? xPicRatio : CENTER;
+				yPicRatio = (this.Window.Height < this.PictureBox.Height) ? yPicRatio : CENTER;
+				this.AlignPictureBox(xWinRatio, yWinRatio, xPicRatio, yPicRatio);
 			}
 		}
 
@@ -210,12 +228,29 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Minimum of 5 times smaller.</remarks>
 		private void ZoomOut() {
+			// Calculate the ratios of the mouse position to the dimensions of the picture box and window.
+			System.Drawing.Point mouseToWindow = this.Window.PointToClient(Control.MousePosition);
+			System.Drawing.Point mouseToPictureBox = this.PictureBox.PointToClient(Control.MousePosition);
+			double xWinRatio = mouseToWindow.X / (double)this.Window.Size.Width;
+			double yWinRatio = mouseToWindow.Y / (double)this.Window.Size.Height;
+			double xPicRatio = mouseToPictureBox.X / (double)this.PictureBox.Size.Width;
+			double yPicRatio = mouseToPictureBox.Y / (double)this.PictureBox.Size.Height;
+
+			// Attempt to zoom out.
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
 			if ((this.PictureBox.Width > (screen.Width / MINMAX)) &&
 				(this.PictureBox.Height > (screen.Height / MINMAX))) {
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Width / ZOOMFACTOR);
 				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Height / ZOOMFACTOR);
+
+				// If the picture box exceeds any of the window's dimensions, use the ratios
+				// to align the picture box. Otherwise, center the picture instead.
+				xWinRatio = (this.Window.Width < this.PictureBox.Width) ? xWinRatio : CENTER;
+				yWinRatio = (this.Window.Height < this.PictureBox.Height) ? yWinRatio : CENTER;
+				xPicRatio = (this.Window.Width < this.PictureBox.Width) ? xPicRatio : CENTER;
+				yPicRatio = (this.Window.Height < this.PictureBox.Height) ? yPicRatio : CENTER;
+				this.AlignPictureBox(xWinRatio, yWinRatio, xPicRatio, yPicRatio);
 			}
 		}
 
@@ -227,7 +262,7 @@ namespace AnimatedGifViewer {
 			ImageBoxDelegate fitToWindow = delegate() {
 
 				// Test if the image goes out of the window's bounds.
-				if (this.IsImageLargerThanWindow()) {
+				if (this.IsImageExceedinWindow()) {
 
 					// Calculate image to window ratio for width and height.
 					double widthRatio = this.PictureBox.Image.Width / (double)this.Window.Width;
@@ -252,7 +287,7 @@ namespace AnimatedGifViewer {
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
 				// Center the image in the window.
-				this.CenterImage();
+				this.CenterPictureBox();
 			};
 
 			if (this.InvokeRequired)
@@ -262,12 +297,34 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Centers the image box within the window.
+		/// Centers the picture box within the window.
 		/// </summary>
-		private void CenterImage() {
+		private void CenterPictureBox() {
+			this.AlignPictureBox(CENTER, CENTER, CENTER, CENTER);
+		}
+
+		/// <summary>
+		/// Aligns the picture box with the window according to points specified on both controls.
+		/// The controls will be lined up so that the points (one per control) overlap. The calculations
+		/// are performed using ratios of the point locations to the size of the control.
+		/// </summary>
+		/// <param name="xWinRatio">
+		/// Horizontal ratio of the x component of the point on the window to the window's width. i.e. point.x / window.width.
+		/// </param>
+		/// <param name="yWinRatio">
+		/// Vertical ratio of the y component of the point on the window to the window's height. i.e. point.y / window.height.
+		/// </param>
+		/// <param name="xPicRatio">
+		/// Horizontal ratio of the x component of the point on the picture box to the picture box's width. i.e. point.x / picturebox.width.
+		/// </param>
+		/// <param name="yPicRatio">
+		/// Vertical ratio of the y component of the point on the picture box to the picture box's height. i.e. point.y / picturebox.height.
+		/// </param>
+		private void AlignPictureBox(double xWinRatio, double yWinRatio, 
+			double xPicRatio, double yPicRatio) {
 			this.PictureBox.Location = new System.Drawing.Point(
-				(this.Window.Width - this.PictureBox.Width) / 2, 
-				(this.Window.Height - this.PictureBox.Height) / 2);
+				(int)((this.Window.Width * xWinRatio) - (this.PictureBox.Width * xPicRatio)),
+				(int)((this.Window.Height * yWinRatio) - (this.PictureBox.Height * yPicRatio)));
 		}
 		#endregion
 
@@ -280,22 +337,22 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBox Controls</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBox_MouseWheel(object sender, MouseEventArgs e) {
-			this.fitToWindow = false;
-			if (e.Delta < 0)
-				this.ZoomOut();
-			else
-				this.ZoomIn();
 
-			if (this.IsPictureLargerThanWindow()) {
-				this.PictureBox.Cursor = this.PanningHandOpen;
-			} else {
-				this.PictureBox.Cursor = System.Windows.Forms.Cursors.Arrow;
+			// Ensure that the mouse within the bounds.
+			if (this.Window.ClientRectangle.Contains(this.Window.PointToClient(Control.MousePosition))) {
+
+				this.fitToWindow = false;
+				if (e.Delta < 0)
+					this.ZoomOut();
+				else
+					this.ZoomIn();
+
+				if (this.IsPictureExceedingWindow()) {
+					this.PictureBox.Cursor = this.PanningHandOpen;
+				} else {
+					this.PictureBox.Cursor = System.Windows.Forms.Cursors.Arrow;
+				}
 			}
-
-			// Center the picture box if 
-			// it is smaller than the window.
-			if (this.IsPictureWithinWindow())
-				this.CenterImage();
 		}
 
 		/// <summary>
@@ -312,7 +369,7 @@ namespace AnimatedGifViewer {
 		/// 
 		/// </summary>
 		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="e">Event arguments.</param>
 		private void PictureBox_MouseClick(object sender, MouseEventArgs e) {
 			//this.PictureBox.Cursor = System.Windows.Forms.Cursors.
 		}
@@ -323,12 +380,12 @@ namespace AnimatedGifViewer {
 		/// If the image is in "fit to window" state, the
 		/// image will be resized on the control's resize event.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void OuterPanel_Resize(object sender, EventArgs e) {
+		/// <param name="sender">Window</param>
+		/// <param name="e">Event arguments.</param>
+		private void Window_Resize(object sender, EventArgs e) {
 			if (this.fitToWindow)
 				this.FitToWindow();
-			if (this.IsPictureLargerThanWindow()) {
+			if (this.IsPictureExceedingWindow()) {
 				if (this.NearZoom != null)
 					this.NearZoom(this, e);
 			}
@@ -336,7 +393,7 @@ namespace AnimatedGifViewer {
 			// Center the picture box if 
 			// it is smaller than the window.
 			if (this.IsPictureWithinWindow())
-				this.CenterImage();
+				this.CenterPictureBox();
 		}
 		#endregion
 
