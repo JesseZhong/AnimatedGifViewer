@@ -332,10 +332,21 @@ namespace AnimatedGifViewer {
 			this.xMouseToPicRatio = (this.Window.Width < this.PictureBox.Width) ? this.xMouseToPicRatio : CENTER;
 			this.yMouseToPicRatio = (this.Window.Height < this.PictureBox.Height) ? this.yMouseToPicRatio : CENTER;
 
+			// Calculate the location of the picture box on the window where the points overlap.
+			int xPoint = (int)((this.Window.Width * xMouseToWinRatio) - (this.PictureBox.Width * xMouseToPicRatio));
+			int yPoint = (int)((this.Window.Height * yMouseToWinRatio) - (this.PictureBox.Height * yMouseToPicRatio));
+
+			// While the picture box exceeds the bounds of the window, make sure that the picture
+			// box always lines up with the side of the window instead of being shifted out of view.
+			if (!this.IsPictureWithinWindow()) {
+				xPoint = (xPoint < 0) ? xPoint : 0;
+				xPoint = ((xPoint + this.PictureBox.Width) > this.Window.Width) ? xPoint : (this.Window.Width - this.PictureBox.Width);
+				yPoint = (yPoint < 0) ? yPoint : 0;
+				yPoint = ((yPoint + this.PictureBox.Height) > this.Window.Height) ? yPoint : (this.Window.Height - this.PictureBox.Height);
+			}
+
 			// Attempt to align the the points together.
-			this.PictureBox.Location = new System.Drawing.Point(
-				(int)((this.Window.Width * xMouseToWinRatio) - (this.PictureBox.Width * xMouseToPicRatio)),
-				(int)((this.Window.Height * yMouseToWinRatio) - (this.PictureBox.Height * yMouseToPicRatio)));
+			this.PictureBox.Location = new System.Drawing.Point(xPoint, yPoint);
 		}
 		#endregion
 

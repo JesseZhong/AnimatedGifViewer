@@ -40,8 +40,6 @@ Context menu when right clicking in fullscreen mode:
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
-When the picture still exceeds the window, point zooming out will cause the image to be out of place, 'causing "snapping" when the image
-is centered after being sized down within the window bounds. The ratios need to be adjusted accordingly.
 
 Major Bugs:
 
@@ -56,6 +54,8 @@ Aero regions do not have a handle where the user can click on.
 The centering the picture box within image box where it appears that the picture box is offset to the right.
 Redrawing button images on window resize results in a momentary artifact.
 MenuStrip's text is improperly drawn, 'causing it to be semi transparent. It's paint implementation seems to involve the form's TransparencyKey, which was changed to null to prevent interference with Aero.
+When the picture still exceeds the window, point zooming out will cause the image to be out of place, 'causing "snapping" when the image
+is centered after being sized down within the window bounds. The ratios need to be adjusted accordingly.
 
 Concerns:
 Animated GIFs currently cannot be rotated, as all animation is removed from the image.
