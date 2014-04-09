@@ -14,7 +14,7 @@ namespace AnimatedGifViewer {
 
 		#region Constants
 		private const double CENTER = 0.5;
-		private const double ZOOMFACTOR = 1.10;
+		private const double ZOOMFACTOR = 1.25;
 		private const int MINMAX = 10;
 		#endregion
 
@@ -73,10 +73,10 @@ namespace AnimatedGifViewer {
 			
 			// PictureBox
 			this.PictureBox.BorderStyle = BorderStyle.None;
-			this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 			this.PictureBox.Location = new System.Drawing.Point(0, 0);
 			this.PictureBox.Name = "PicBox";
 			this.PictureBox.Size = new System.Drawing.Size(150, 140);
+			this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 			this.PictureBox.TabIndex = 3;
 			this.PictureBox.TabStop = false;
 
@@ -232,8 +232,8 @@ namespace AnimatedGifViewer {
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
 			if ((this.PictureBox.Width < (MINMAX * screen.Width)) &&
 				(this.PictureBox.Height < (MINMAX * screen.Height))) {
-				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Width * ZOOMFACTOR);
-				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Height * ZOOMFACTOR);
+				this.PictureBox.Size = new System.Drawing.Size(Convert.ToInt32(this.PictureBox.Width * ZOOMFACTOR),
+					Convert.ToInt32(this.PictureBox.Height * ZOOMFACTOR));
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 				this.AlignPictureBox();
 			}
@@ -252,9 +252,9 @@ namespace AnimatedGifViewer {
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
 			if ((this.PictureBox.Width > (screen.Width / MINMAX)) &&
 				(this.PictureBox.Height > (screen.Height / MINMAX))) {
+				this.PictureBox.Size = new System.Drawing.Size(Convert.ToInt32(this.PictureBox.Width / ZOOMFACTOR),
+					Convert.ToInt32(this.PictureBox.Height / ZOOMFACTOR));
 				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Width / ZOOMFACTOR);
-				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Height / ZOOMFACTOR);
 				this.AlignPictureBox();
 			}
 		}

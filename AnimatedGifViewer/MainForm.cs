@@ -539,7 +539,6 @@ namespace AnimatedGifViewer {
 
 			// MainForm.
 			this.Text = this.assemblyProduct;
-			//System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
 			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
 			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
 			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
