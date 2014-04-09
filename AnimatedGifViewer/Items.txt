@@ -40,6 +40,8 @@ Context menu when right clicking in fullscreen mode:
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
+When the picture still exceeds the window, point zooming out will cause the image to be out of place, 'causing "snapping" when the image
+is centered after being sized down within the window bounds. The ratios need to be adjusted accordingly.
 
 Major Bugs:
 
