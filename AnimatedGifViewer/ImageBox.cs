@@ -355,6 +355,7 @@ namespace AnimatedGifViewer {
 
 			// Attempt to align the the points together.
 			this.PictureBox.Location = this.RestrictedPictureBoxPosition(xPoint, yPoint);
+			this.PictureBox.Invalidate();
 		}
 
 		/// <summary>
@@ -401,12 +402,6 @@ namespace AnimatedGifViewer {
 					this.ZoomOut();
 				else
 					this.ZoomIn();
-
-				if (this.IsPictureExceedingWindow()) {
-					this.PictureBox.Cursor = this.PanningHandOpen;
-				} else {
-					this.PictureBox.Cursor = System.Windows.Forms.Cursors.Arrow;
-				}
 			}
 		}
 
@@ -464,6 +459,12 @@ namespace AnimatedGifViewer {
 				int newY = location.Y + deltaY;
 
 				this.PictureBox.Location = this.RestrictedPictureBoxPosition(newX, newY);
+			} else {
+				if (this.IsPictureExceedingWindow()) {
+					this.PictureBox.Cursor = this.PanningHandOpen;
+				} else {
+					this.PictureBox.Cursor = System.Windows.Forms.Cursors.Arrow;
+				}
 			}
 		}
 		#endregion
