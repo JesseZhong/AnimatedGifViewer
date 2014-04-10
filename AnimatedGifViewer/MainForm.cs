@@ -1204,6 +1204,21 @@ namespace AnimatedGifViewer {
 		#endregion
 		#endregion
 
+		#region Drawing
+		private const int WS_EX_COMPOSITED = 0x02000000;
+
+		protected override CreateParams CreateParams {
+			get {
+				CreateParams cp = base.CreateParams;
+
+				// Adds style that double buffers the form
+				// and all controls to prevent flickering.
+				cp.ExStyle |= WS_EX_COMPOSITED;
+				return cp;
+			}
+		}
+		#endregion
+
 		#region File Properties
 		[DllImport("shell32.dll", CharSet = CharSet.Auto)]
 		static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
