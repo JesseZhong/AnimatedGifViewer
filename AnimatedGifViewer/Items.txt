@@ -4,7 +4,7 @@ Animate/mask buttons								- Done
 Fullscreen mode
 Zoom in full screen
 Scroll wheel zoom									- Done
-Grabbing and moving image when zoomed
+Grabbing and panning image when zoomed				- Done
 Correct sizing										- Done
 Keyboard controls									- Done
 Ensure files exist/refresh file list				- Done
@@ -40,6 +40,7 @@ Context menu when right clicking in fullscreen mode:
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
+Flickering occurs when zooming out along the right and bottom edges.
 
 Major Bugs:
 

@@ -32,25 +32,42 @@ namespace AnimatedGifViewer {
 		/// Horizontal ratio of the x component of the mouse position on the
 		/// window to the window's width. i.e. mouse.location.x / window.width.
 		/// </summary>
-		double xMouseToWinRatio = 0;
+		private double xMouseToWinRatio = 0;
 
 		/// <summary>
 		/// Vertical ratio of the y component of the mouse position on the 
 		/// window to the window's height. i.e. mouse.location.y / window.height.
 		/// </summary>
-		double yMouseToWinRatio = 0;
+		private double yMouseToWinRatio = 0;
 
 		/// <summary>
 		/// Horizontal ratio of the x component of the mouse position on the picture 
 		/// box to the picture box's width. i.e. mouse.location.x / picturebox.width.
 		/// </summary>
-		double xMouseToPicRatio = 0;
+		private double xMouseToPicRatio = 0;
 
 		/// <summary>
 		/// Vertical ratio of the y component of the mouse position on the picture 
 		/// box to the picture box's height. i.e. mouse.location.y / picturebox.height.
 		/// </summary>
-		double yMouseToPicRatio = 0;
+		private double yMouseToPicRatio = 0;
+
+		/// <summary>
+		/// Records the previous mouse position that will be used for calculating mouse delta.
+		/// </summary>
+		private System.Drawing.Point prevMouseLocation = new System.Drawing.Point();
+
+		/// <summary>
+		/// Records the current mouse position that will be used for calculating mouse delta.
+		/// </summary>
+		private System.Drawing.Point currMouseLocation = new System.Drawing.Point();
+
+		/// <summary>
+		/// Indicates if the mouse is in panning mode. This requires that the mouse is down
+		/// while over the picture box, the picture box is zoomed in to the point where it
+		/// is larger than the window, and that the mouse button pressed is the left button.
+		/// </summary>
+		private bool panningMode = false;
 		#endregion
 
 		#region Instance
@@ -336,6 +353,23 @@ namespace AnimatedGifViewer {
 			int xPoint = (int)((this.Window.Width * xMouseToWinRatio) - (this.PictureBox.Width * xMouseToPicRatio));
 			int yPoint = (int)((this.Window.Height * yMouseToWinRatio) - (this.PictureBox.Height * yMouseToPicRatio));
 
+			// Attempt to align the the points together.
+			this.PictureBox.Location = this.RestrictedPictureBoxPosition(xPoint, yPoint);
+		}
+
+		/// <summary>
+		/// Tests a suggested position for the picture box when it is zoomed in to the
+		/// point where the picture box exceeds the window's bounds to see if the position
+		/// shifts the picture box too far to the left, right, top, or bottom (i.e. if part
+		/// of the background is revealed when deep zoomed). The suggested position is then
+		/// corrected to line up with the nearest border. A point with the new position is
+		/// then returned.
+		/// </summary>
+		/// <param name="xPoint">The suggested x position.</param>
+		/// <param name="yPoint">The suggested y position.</param>
+		/// <returns>The corrected position.</returns>
+		private System.Drawing.Point RestrictedPictureBoxPosition(int xPoint, int yPoint) {
+
 			// While the picture box exceeds the bounds of the window, make sure that the picture
 			// box always lines up with the side of the window instead of being shifted out of view.
 			if (!this.IsPictureWithinWindow()) {
@@ -345,8 +379,7 @@ namespace AnimatedGifViewer {
 				yPoint = ((yPoint + this.PictureBox.Height) > this.Window.Height) ? yPoint : (this.Window.Height - this.PictureBox.Height);
 			}
 
-			// Attempt to align the the points together.
-			this.PictureBox.Location = new System.Drawing.Point(xPoint, yPoint);
+			return new System.Drawing.Point(xPoint, yPoint);
 		}
 		#endregion
 
@@ -388,35 +421,49 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Detects when the mouse is entering panning mode and records
+		/// the state and changes the mouse cursor to a closed hand.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e">Event arguments.</param>
 		private void PictureBox_MouseDown(object sender, MouseEventArgs e) {
-			if (this.IsPictureExceedingWindow() && (e.Button == MouseButtons.Left)) {
+			if (this.IsPictureExceedingWindow() && (e.Button == MouseButtons.Left)
+				&& this.PictureBox.ClientRectangle.Contains(this.PictureBox.PointToClient(Control.MousePosition))) {
 				this.PictureBox.Cursor = this.PanningHandClosed;
+				this.panningMode = true;
+				this.prevMouseLocation = e.Location;
 			}
 		}
 
 		/// <summary>
-		/// 
+		/// Changes the mouse cursor when the mouse leaves panning mode.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">PictureBox</param>
+		/// <param name="e">Event arguments.</param>
 		private void PictureBox_MouseUp(object sender, MouseEventArgs e) {
 			if (this.IsPictureExceedingWindow() && (e.Button == MouseButtons.Left)) {
 				this.PictureBox.Cursor = this.PanningHandOpen;
 			}
+			this.panningMode = false;
 		}
 
 		/// <summary>
-		/// 
+		/// When the mouse enters panning mode, the image will be shifted in the
+		/// same direction that the mouse is moving to achieve the panning effect.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">PictureBox</param>
+		/// <param name="e">Event arguments.</param>
 		private void PictureBox_MouseMove(object sender, MouseEventArgs e) {
-			if (this.IsPictureExceedingWindow() && (e.Button == MouseButtons.Left)) {
 
+			if (this.panningMode) {
+				this.currMouseLocation = e.Location;
+				System.Drawing.Point location = this.PictureBox.Location;
+				int deltaX = this.currMouseLocation.X - prevMouseLocation.X;
+				int deltaY = this.currMouseLocation.Y - prevMouseLocation.Y;
+				int newX = location.X + deltaX;
+				int newY = location.Y + deltaY;
+
+				this.PictureBox.Location = this.RestrictedPictureBoxPosition(newX, newY);
 			}
 		}
 		#endregion
