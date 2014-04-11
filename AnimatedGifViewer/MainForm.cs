@@ -48,7 +48,8 @@ namespace AnimatedGifViewer {
 
 		#region Members
 		private ImageBox ImageBox;
-		private ToolTip ToolTip;
+		private System.Windows.Forms.ToolTip ToolTip;
+		private System.Windows.Forms.TrackBar Slider;
 
 		private List<string> filenames;
 		private int filenameIndex;
@@ -552,6 +553,10 @@ namespace AnimatedGifViewer {
 			this.ToolTip.InitialDelay = 1000;
 			this.ToolTip.ReshowDelay = 500;
 			this.ToolTip.ShowAlways = true;
+
+			// Slider.
+			this.Slider = new System.Windows.Forms.TrackBar();
+			
 
 			// Buttons.
 			this.EnableButtons(false);

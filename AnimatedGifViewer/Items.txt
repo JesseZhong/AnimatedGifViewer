@@ -57,6 +57,7 @@ MenuStrip's text is improperly drawn, 'causing it to be semi transparent. It's p
 When the picture still exceeds the window, point zooming out will cause the image to be out of place, 'causing "snapping" when the image
 is centered after being sized down within the window bounds. The ratios need to be adjusted accordingly.
 Flickering occurs when zooming out along the right and bottom edges.
+Animation delay minimum for animated GIFs in a PictureBox is presumably 100ms, which is unacceptable, as many GIFs have higher FPSs.
 
 Concerns:
 Animated GIFs currently cannot be rotated, as all animation is removed from the image.

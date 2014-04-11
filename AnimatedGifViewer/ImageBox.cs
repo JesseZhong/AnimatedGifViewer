@@ -19,7 +19,7 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		#region Members
-		private System.Windows.Forms.PictureBox PictureBox;
+		private AnimPictureBox PictureBox;
 		private System.Windows.Forms.Panel Window;
 		public ImageBoxMenu ImageBoxMenu;
 		private bool fitToWindow;
@@ -82,7 +82,7 @@ namespace AnimatedGifViewer {
 		/// Initializes the components of the image box.
 		/// </summary>
 		private void InitializeComponent() {
-			this.PictureBox = new System.Windows.Forms.PictureBox();
+			this.PictureBox = new AnimPictureBox();
 			this.Window = new System.Windows.Forms.Panel();
 			this.ImageBoxMenu = new ImageBoxMenu();
 			this.Window.SuspendLayout();
@@ -132,7 +132,7 @@ namespace AnimatedGifViewer {
 			this.PictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseUp);
 			this.PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseMove);
 			this.Window.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.ImageBox_MouseWheel);
-			this.Window.Resize += new EventHandler(this.Window_Resize);
+			this.Window.Resize += new System.EventHandler(this.Window_Resize);
 
 			// States
 			this.fitToWindow = false;
@@ -169,10 +169,10 @@ namespace AnimatedGifViewer {
 		public Image Image {
 			get { return this.PictureBox.Image; }
 			set {
-					this.PictureBox.Image = value;
-					this.fitToWindow = true;
-					if (value != null)
-						this.FitToWindow();
+				this.PictureBox.Image = value;
+				this.fitToWindow = true;
+				if (this.PictureBox.Image != null)
+					this.FitToWindow();
 			}
 		}
 
@@ -241,6 +241,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Maximum of 5 times larger.</remarks>
 		private void ZoomIn() {
+
 			// Calculate the ratios of the mouse position to 
 			// the dimensions of the picture box and window.
 			this.UpdateMouseTargetRatios();
@@ -261,6 +262,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>Minimum of 5 times smaller.</remarks>
 		private void ZoomOut() {
+
 			// Calculate the ratios of the mouse position to 
 			// the dimensions of the picture box and window.
 			this.UpdateMouseTargetRatios();
