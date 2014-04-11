@@ -2,8 +2,9 @@
 Read Images from Zip files
 Animate/mask buttons								- Done
 Fullscreen mode
-Scroll wheel zoom									- Almost (point zooming)
-Grabbing and moving image when zoomed
+Zoom in full screen
+Scroll wheel zoom									- Done
+Grabbing and panning image when zoomed				- Done
 Correct sizing										- Done
 Keyboard controls									- Done
 Ensure files exist/refresh file list				- Done
@@ -13,23 +14,26 @@ Implement Open In
 Implement About menu item							- Done
 MainForm title changes to the current file name		- Done
 Add program settings for window size and position	- Done
-Implement rotation buttons
+Implement rotation buttons							- Done
 Implement size button
 Implement fit to window and actual size buttons		
-Context menu on image right click:					- Partial (events need to be linked)
+Add user preferences
+Add file association
+Implement the features for the File menu item		- Done
+Context menu on image right click:					- Almost (Open With)
 	Open With
 	-
-	Set as Desktop Background
+	Open File Location								- Done
 	-
-	Open File Location
+	Set as Desktop Background						- Done
 	-
-	Rotate Clockwise
-	Rotate Counterclockwise
+	Rotate Clockwise								- Done
+	Rotate Counterclockwise							- Done
 	-
-	Copy
-	Delete
+	Copy											- Done
+	Delete											- Done
 	-
-	Properties
+	Properties										- Done
 
 Context menu when right clicking in fullscreen mode:
 
@@ -37,6 +41,27 @@ Context menu when right clicking in fullscreen mode:
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
 
+Major Bugs:
+
 Fixed Bugs:
 When the new list of files is generated after a watcher event is raised, the current image should remain the same. => So that the following
 image was the same as it was before unless another image was inserted in its place. ie. Order should be preserved.
+Returning from maximize after opening a new instance of the program with old window state (maximized) state and sizes will still cause the form to retain the maximized size.
+The image box focuses even though the main form is out of focus.
+Fix the zooming maximum and minimum to be a ratio of the screen and not the window size.
+Aero regions do not have a handle where the user can click on.
+[^Related] Alpha-blending of the buttons is not handled correctly.
+The centering the picture box within image box where it appears that the picture box is offset to the right.
+Redrawing button images on window resize results in a momentary artifact.
+MenuStrip's text is improperly drawn, 'causing it to be semi transparent. It's paint implementation seems to involve the form's TransparencyKey, which was changed to null to prevent interference with Aero.
+When the picture still exceeds the window, point zooming out will cause the image to be out of place, 'causing "snapping" when the image
+is centered after being sized down within the window bounds. The ratios need to be adjusted accordingly.
+Flickering occurs when zooming out along the right and bottom edges.
+Animation delay minimum for animated GIFs in a PictureBox is presumably 100ms, which is unacceptable, as many GIFs have higher FPSs.
+
+Concerns:
+Animated GIFs currently cannot be rotated, as all animation is removed from the image.
+When rotating and then saving JPEGs, the compression is default to that of ImageFormat.JPEG. This assumed to be 75%. Currently, it is unknown
+whether it is possible to get the original compression level and use it when saving. As a result, images may lose quality if the compression
+level, which is 75% by default, is lower than that of the original image. As a result, I would advise users to use truly lossless formats,
+such as PNGs. [Upon further evaluation, the default compression level is the same across all formats.]

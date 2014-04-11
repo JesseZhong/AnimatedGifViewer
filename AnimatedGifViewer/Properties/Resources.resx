@@ -196,4 +196,10 @@
   <data name="myriad_web_pro" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\myriad-web-pro.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Cursor_PanningHand1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cursor_1.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cursor_PanningHand2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cursor_2.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
