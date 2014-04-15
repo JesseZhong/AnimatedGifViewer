@@ -271,7 +271,7 @@ namespace AnimatedGifViewer {
 				MemoryStream ms = new MemoryStream(bytes);
 				Image img = Image.FromStream(ms);
 				this.loadedFile = filename;
-
+ 
 				// Change the title of the form to have the file name.
 				MainFormDelegate changeText = delegate() {
 					this.Text = String.Format("{0} - {1}",
@@ -544,8 +544,6 @@ namespace AnimatedGifViewer {
 			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
 			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
 
-			// Image box.
-			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
 			// Tool tip settings.
 			this.ToolTip = new ToolTip();

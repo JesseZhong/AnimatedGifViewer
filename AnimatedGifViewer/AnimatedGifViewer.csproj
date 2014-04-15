@@ -331,6 +331,7 @@
     <Compile Include="WindowsAPICodePack\Shell\Taskbar\UserRemovedJumpListItemsEventArg.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -338,6 +339,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImageBox.resx">
       <DependentUpon>ImageBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -351,6 +353,7 @@
     </Compile>
     <EmbeddedResource Include="ImageBoxMenu.resx">
       <DependentUpon>ImageBoxMenu.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WindowsAPICodePack\Core\Resources\LocalizedMessages.resx" />
     <EmbeddedResource Include="WindowsAPICodePack\Shell\Resources\LocalizedMessages.resx" />

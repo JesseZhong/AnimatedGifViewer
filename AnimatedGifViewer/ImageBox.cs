@@ -89,11 +89,9 @@ namespace AnimatedGifViewer {
 			this.SuspendLayout();
 			
 			// PictureBox
-			this.PictureBox.BorderStyle = BorderStyle.None;
 			this.PictureBox.Location = new System.Drawing.Point(0, 0);
 			this.PictureBox.Name = "PicBox";
 			this.PictureBox.Size = new System.Drawing.Size(150, 140);
-			this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 			this.PictureBox.TabIndex = 3;
 			this.PictureBox.TabStop = false;
 
@@ -177,15 +175,6 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Sets or gets the size mode for the image box.
-		/// </summary>
-		[Browsable(false)]
-		public PictureBoxSizeMode SizeMode {
-			get { return this.PictureBox.SizeMode; }
-			set { this.PictureBox.SizeMode = value; }
-		}
-
-		/// <summary>
 		/// Set or gets the border style for the image box.
 		/// </summary>
 		[Browsable(false)]
@@ -252,7 +241,6 @@ namespace AnimatedGifViewer {
 				(this.PictureBox.Height < (MINMAX * screen.Height))) {
 				this.PictureBox.Size = new System.Drawing.Size(Convert.ToInt32(this.PictureBox.Width * ZOOMFACTOR),
 					Convert.ToInt32(this.PictureBox.Height * ZOOMFACTOR));
-				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 				this.AlignPictureBox();
 			}
 		}
@@ -273,7 +261,6 @@ namespace AnimatedGifViewer {
 				(this.PictureBox.Height > (screen.Height / MINMAX))) {
 				this.PictureBox.Size = new System.Drawing.Size(Convert.ToInt32(this.PictureBox.Width / ZOOMFACTOR),
 					Convert.ToInt32(this.PictureBox.Height / ZOOMFACTOR));
-				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 				this.AlignPictureBox();
 			}
 		}
@@ -306,9 +293,6 @@ namespace AnimatedGifViewer {
 					this.PictureBox.Width = this.PictureBox.Image.Width;
 					this.PictureBox.Height = this.PictureBox.Image.Height;
 				}
-
-				// Make sure the image fills the picture box.
-				this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
 				// Realign the picture box with the window.
 				this.UpdateMouseTargetRatios();
