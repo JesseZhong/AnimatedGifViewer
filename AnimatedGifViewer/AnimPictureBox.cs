@@ -79,6 +79,9 @@ namespace AnimatedGifViewer {
 				return base.Image;
 			}
 			set {
+				if (base.Image != null)
+					base.Image.Dispose();
+
 				base.Image = value;
 				if (base.Image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid) {
 					this.gifFrameCount = base.Image.GetFrameCount(System.Drawing.Imaging.FrameDimension.Time);

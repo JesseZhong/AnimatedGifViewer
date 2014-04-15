@@ -65,3 +65,9 @@ When rotating and then saving JPEGs, the compression is default to that of Image
 whether it is possible to get the original compression level and use it when saving. As a result, images may lose quality if the compression
 level, which is 75% by default, is lower than that of the original image. As a result, I would advise users to use truly lossless formats,
 such as PNGs. [Upon further evaluation, the default compression level is the same across all formats.]
+
+Non-Issues:
+Memory Usage:
+"The runtime is taking advantage of a large amount of free memory to reduce the impact of the garbage collector on the performance of your application. The "problem" 
+here is a general lack of understanding (e.g. your users) that when a system has more memory, it's ok to use it (otherwise what's the point?)."
+http://stackoverflow.com/questions/2706805/memory-usage-in-c-sharp-net-app-is-very-high-until-i-call-system-gc-collect
