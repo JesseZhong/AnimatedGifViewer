@@ -1,8 +1,8 @@
 ﻿Icons for MenuStrip									- Done
 Read Images from Zip files
 Animate/mask buttons								- Done
-Fullscreen mode
-Zoom in full screen
+Fullscreen mode										- Partial
+Zoom in full screen									- Done
 Scroll wheel zoom									- Done
 Grabbing and panning image when zoomed				- Done
 Correct sizing										- Done
@@ -22,17 +22,17 @@ Add file association
 Implement the features for the File menu item		- Done
 Context menu on image right click:					- Almost (Open With)
 	Open With
-	-
+	-												- Done
 	Open File Location								- Done
-	-
+	-												- Done
 	Set as Desktop Background						- Done
-	-
+	-												- Done
 	Rotate Clockwise								- Done
 	Rotate Counterclockwise							- Done
-	-
+	-												- Done
 	Copy											- Done
 	Delete											- Done
-	-
+	-												- Done
 	Properties										- Done
 
 Context menu when right clicking in fullscreen mode:

@@ -80,7 +80,7 @@ namespace AnimatedGifViewer {
 			}
 			set {
 				if (base.Image != null)
-					base.Image.Dispose();
+					base.Image = null;
 
 				base.Image = value;
 				if (base.Image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid) {

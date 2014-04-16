@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace AnimatedGifViewer {
-	public class ImageBoxMenu : System.Windows.Forms.ContextMenuStrip {
+	public class MainFormImageBoxMenu : System.Windows.Forms.ContextMenuStrip {
 
 		#region Members
 		public System.Windows.Forms.ToolStripMenuItem OpenWithMenuItem;			// Open With
@@ -28,7 +28,7 @@ namespace AnimatedGifViewer {
 		/// <summary>
 		/// Initializes all the components.
 		/// </summary>
-		public ImageBoxMenu() : base() {
+		public MainFormImageBoxMenu() : base() {
 			this.InitializeComponent();
 		}
 
