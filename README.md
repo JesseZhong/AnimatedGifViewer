@@ -53,7 +53,13 @@ The following is an list of features exclusive to the **Animated GIF Viewer**:
 
 4. Building from the Source
 ---------------------------
+These are the prerequisites that you will need to have downloaded and installed before you can build the source:
 
+- Microsoft Visual Studio 2012
+	- You can download the free Express version here: [http://www.microsoft.com/en-us/download/details.aspx?id=34673](http://www.microsoft.com/en-us/download/details.aspx?id=34673)
+- SmartGit/Hg (optional) ( [http://www.syntevo.com/smartgit/](http://www.syntevo.com/smartgit/) )
+
+To obtain the source you can download the repository from the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page. Here's a direct link: [Download repository](https://bitbucket.org/jessezhong/animatedgifviewer/get/9476dfddbec2.zip).
 
 5. Documentation
 ----------------
