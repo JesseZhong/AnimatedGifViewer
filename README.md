@@ -1,6 +1,6 @@
 Animated GIF Viewer
 ======
-![](https://bytebucket.org/jessezhong/animatedgifviewer/raw/541052e76456b63f46e4db7a81e5729f93f7fca3/Screenshots/ScreenshotWithTheme.JPG)
+![](https://bytebucket.org/jessezhong/animatedgifviewer/raw/d0d7e38d1b0dbaa90b79ebc5d47a149f433aaa0f/Screenshots/ScreenshotWithTheme.JPG)
 
 Table of Contents
 -----------------
