@@ -14,6 +14,8 @@ Table of Contents
 -------------------------------
 **Animated GIF Viewer** is a small program that can open animated GIF images and play them. It is also a regular image viewer, supporting image types such as JPEGs, BMPs, PNGs, ICOs, and TIFFs. The viewer draws heavy influence from the standard Windows Photo Viewer that is shipped with Windows OS, but features notable differences.
 
+Animated GIF Viewer is a free program that is distributed under the GNU General Public License. See [LICENSE.txt](https://bitbucket.org/jessezhong/animatedgifviewer/src/59dc56699bb402382f55e4cdce5632173237d35c/LICENSE.txt?at=master).
+
 2. Download & Installation
 --------------------------
 The most recent version is **1.0.5319**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5319.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5319.zip)
@@ -47,7 +49,7 @@ The following is an list of features exclusive to the **Animated GIF Viewer**:
 - Allows **dragging and dropping** of images over the executable (EXE) to open the program with the image.
 - Allows **cycling and viewing images in the same folder** using the **"previous" and "next" arrow buttons**.
 	- Knows when images are new images are added and includes them in the list of view-able images. (Not possible with Windows Photo Viewer)
-- Changes **appearance** with the users **Windows Theme**.
+- Changes **appearance** with the system's **Windows Theme**.
 
 4. Building from the Source
 ---------------------------
