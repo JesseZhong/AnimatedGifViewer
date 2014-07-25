@@ -414,14 +414,16 @@ namespace AnimatedGifViewer {
 		/// Makes a copy of the current image box image to the clipboard.
 		/// </summary>
 		private void CopyImageToClipboard() {
-			Clipboard.SetImage(this.ImageBox.Image);
+			if(File.Exists(this.loadedFile))
+				Clipboard.SetImage(this.ImageBox.Image);
 		}
 
 		/// <summary>
 		/// Displays the properties dialog for the image in the image box.
 		/// </summary>
 		private void ShowImageProperties() {
-			ShowFileProperties(this.loadedFile);
+			if (File.Exists(this.loadedFile))
+				ShowFileProperties(this.loadedFile);
 		}
 
 		/// <summary>
@@ -463,6 +465,7 @@ namespace AnimatedGifViewer {
 			if (this.FullScreenForm.Visible) {
 				MainFormDelegate assign = delegate() {
 					this.FullScreenForm.ImageBox.Image = this.ImageBox.Image;
+					//this.FullScreenForm.ImageBox.FitToWindow();
 				};
 				if (this.FullScreenForm.InvokeRequired)
 					this.FullScreenForm.Invoke(assign);
@@ -653,7 +656,6 @@ namespace AnimatedGifViewer {
 
 			// Set to handle keyboard events.
 			this.FullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
-			this.FullScreenForm.ImageBox.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
 			this.KeyPreview = true;
 		}
 

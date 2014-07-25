@@ -1,5 +1,7 @@
 ﻿Icons for MenuStrip									- Done
 Read Images from Zip files
+Drag and Drop Loading								
+Multi-Page (ICO or GIF) viewing
 Animate/mask buttons								- Done
 Fullscreen mode										- Partial
 Zoom in full screen									- Done

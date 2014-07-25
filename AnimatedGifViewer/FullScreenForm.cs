@@ -34,7 +34,7 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Initializes the image box for the form.
 		/// </summary>
 		private void InitializeImageBox() {
 			this.ImageBox = new ImageBox();
@@ -53,7 +53,6 @@ namespace AnimatedGifViewer {
 			this.ImageBox.TabStop = false;
 			this.Controls.Add(this.ImageBox);
 
-			this.ImageBox.ProcessCmdKeyEvent += new Action<System.Windows.Forms.Keys>(this.HideForm);
 			this.ProcessCmdKeyEvent += new Action<System.Windows.Forms.Keys>(this.HideForm);
 		}
 

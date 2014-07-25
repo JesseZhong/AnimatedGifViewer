@@ -322,6 +322,18 @@ namespace AnimatedGifViewer {
 				fitToWindow();
 		}
 
+		internal void StretchToWindow() {
+
+			ImageBoxDelegate stretchToWindow = delegate() {
+
+			};
+
+			if (this.InvokeRequired)
+				this.Invoke(stretchToWindow);
+			else
+				stretchToWindow();
+		}
+
 		/// <summary>
 		/// Updates the ratios used in the calculation of AlignPictureBox() using the
 		/// current position of the mouse over both the picture box and window controls.
