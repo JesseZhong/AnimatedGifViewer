@@ -48,6 +48,8 @@ namespace AnimatedGifViewer {
 
 		#region Members
 		private ImageBox ImageBox;
+		private MainFormImageBoxMenu ImageBoxMenu;
+		private FullScreenForm FullScreenForm;
 		private System.Windows.Forms.ToolTip ToolTip;
 		private System.Windows.Forms.TrackBar Slider;
 
@@ -412,14 +414,16 @@ namespace AnimatedGifViewer {
 		/// Makes a copy of the current image box image to the clipboard.
 		/// </summary>
 		private void CopyImageToClipboard() {
-			Clipboard.SetImage(this.ImageBox.Image);
+			if(File.Exists(this.loadedFile))
+				Clipboard.SetImage(this.ImageBox.Image);
 		}
 
 		/// <summary>
 		/// Displays the properties dialog for the image in the image box.
 		/// </summary>
 		private void ShowImageProperties() {
-			ShowFileProperties(this.loadedFile);
+			if (File.Exists(this.loadedFile))
+				ShowFileProperties(this.loadedFile);
 		}
 
 		/// <summary>
@@ -453,6 +457,22 @@ namespace AnimatedGifViewer {
 				System.Diagnostics.Process.Start("explorer.exe", "/select, " + this.loadedFile);
 			}
 		}
+
+		/// <summary>
+		/// Attempts to assign the loaded image into the full screen image box.
+		/// </summary>
+		private void ShowImageInFullScreen() {
+			if (this.FullScreenForm.Visible) {
+				MainFormDelegate assign = delegate() {
+					this.FullScreenForm.ImageBox.Image = this.ImageBox.Image;
+					//this.FullScreenForm.ImageBox.FitToWindow();
+				};
+				if (this.FullScreenForm.InvokeRequired)
+					this.FullScreenForm.Invoke(assign);
+				else
+					assign();
+			}
+		}
 		#endregion
 
 		#region Loading
@@ -467,6 +487,7 @@ namespace AnimatedGifViewer {
 			// Initialize the form's components.
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeFullScreenForm();
 
 			// Initialize variables.
 			this.filenameIndex = 0;
@@ -498,14 +519,29 @@ namespace AnimatedGifViewer {
 			this.ImageBox.TabStop = false;
 			this.Controls.Add(this.ImageBox);
 
+			// ImageBoxMenu.
+			this.ImageBoxMenu = new MainFormImageBoxMenu();
+			this.ImageBoxMenu.Name = "ImageBoxMenu";
+			this.ImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.ImageBoxMenu.Size = new System.Drawing.Size(180, 70);
+			this.ImageBox.ContextMenuStrip = this.ImageBoxMenu;
+
 			// Context menu event handlers.
-			this.ImageBox.ImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
-			this.ImageBox.ImageBoxMenu.OpenLocationMenuItem.Click += new System.EventHandler(this.ImageBoxMenuOpenLocation);
-			this.ImageBox.ImageBoxMenu.RotateClockwiseMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateClockwise_Click);
-			this.ImageBox.ImageBoxMenu.RotateCounterCMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateCounterC_Click);
-			this.ImageBox.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
-			this.ImageBox.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
-			this.ImageBox.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
+			this.ImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
+			this.ImageBoxMenu.OpenLocationMenuItem.Click += new System.EventHandler(this.ImageBoxMenuOpenLocation);
+			this.ImageBoxMenu.RotateClockwiseMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateClockwise_Click);
+			this.ImageBoxMenu.RotateCounterCMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateCounterC_Click);
+			this.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
+			this.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
+			this.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
+		}
+
+		/// <summary>
+		/// Initializes the full screen form components.
+		/// </summary>
+		private void InitializeFullScreenForm() {
+			this.FullScreenForm = new FullScreenForm();
+			this.FullScreenForm.Hide();
 		}
 
 		/// <summary>
@@ -557,7 +593,6 @@ namespace AnimatedGifViewer {
 			// Slider.
 			this.Slider = new System.Windows.Forms.TrackBar();
 			
-
 			// Buttons.
 			this.EnableButtons(false);
 
@@ -620,6 +655,7 @@ namespace AnimatedGifViewer {
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
 
 			// Set to handle keyboard events.
+			this.FullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
 			this.KeyPreview = true;
 		}
 
@@ -703,8 +739,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">NextButton</param>
 		/// <param name="e">Event arguments.</param>
 		private void NextButton_Click(object sender, EventArgs e) {
-			if(this.filenames.Any())
+			if (this.filenames.Any()) {
 				this.ImageBox.Image = this.LoadImage(this.NextImage());
+				this.ShowImageInFullScreen();
+			}
 		}
 
 		/// <summary>
@@ -714,25 +752,30 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">PrevButton</param>
 		/// <param name="e">Event arguments.</param>
 		private void PrevButton_Click(object sender, EventArgs e) {
-			if (this.filenames.Any())
+			if (this.filenames.Any()) {
 				this.ImageBox.Image = this.LoadImage(this.PrevImage());
+				this.ShowImageInFullScreen();
+			}
 		}
 
 		/// <summary>
-		/// 
+		/// Shows the FullScreenForm when the full screen button is pressed.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">FullScreenButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void FullScreenButton_Click(object sender, EventArgs e) {
-
+			if (this.filenames.Any()) {
+				this.FullScreenForm.Show();
+				this.ShowImageInFullScreen();
+			}
 		}
 
 		/// <summary>
 		/// Rotates the image 90 degrees counterclockwise 
 		/// when the rotate counterclockwise button is clicked.
 		/// </summary>
-		/// <param name="sender">Cloc</param>
-		/// <param name="e"></param>
+		/// <param name="sender">RotateCounterButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void RotateCounterButton_Click(object sender, EventArgs e) {
 			this.RotateImage(System.Drawing.RotateFlipType.Rotate270FlipNone);
 		}
@@ -741,8 +784,8 @@ namespace AnimatedGifViewer {
 		/// Rotates the image 90 degrees clockwise when
 		/// the rotate clockwise button is clicked.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">RotateClockwiseButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void RotateClockwiseButton_Click(object sender, EventArgs e) {
 			this.RotateImage(System.Drawing.RotateFlipType.Rotate90FlipNone);
 		}
@@ -967,47 +1010,62 @@ namespace AnimatedGifViewer {
 
 		#region Keyboard Handlers
 		/// <summary>
-		/// Interprets keys as keyboard shortcuts for certain buttons
-		/// and functions and performs clicks or actions for those items.
+		/// Processes key commands when they are triggered by user input.
 		/// </summary>
 		/// <param name="msg">Windows message with details of the user input.</param>
 		/// <param name="keyData">Contains data about which key events occurred.</param>
 		/// <returns></returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
-
-			if ((keyData == Keys.Left) ||
-				(keyData == Keys.A)) {
-				this.PrevButton.PerformClick();
-			}
-
-			if ((keyData == Keys.Right) ||
-				(keyData == Keys.D)) {
-				this.NextButton.PerformClick();
-			}
-
-			if ((keyData == Keys.Up) ||
-				(keyData == Keys.W)) {
-				this.FullScreenButton.PerformClick();
-			}
-
-			if ((keyData == Keys.Down) ||
-				(keyData == Keys.S)) {
-				this.FitSizeButton.PerformClick();
-			}
-
-			if (keyData == Keys.Oemcomma) {
-				this.RotateCounterButton.PerformClick();
-			}
-
-			if (keyData == Keys.OemPeriod) {
-				this.RotateClockwiseButton.PerformClick();
-			}
-
-			if (keyData == Keys.Delete) {
-				this.DeleteImage();
-			}
-
+			this.KeyDownHandler(keyData);
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// <summary>
+		/// Interprets keys as keyboard shortcuts for certain buttons
+		/// and functions and performs clicks or actions for those items.
+		/// </summary>
+		/// <param name="keyData">Contains data about which key events occurred.</param>
+		internal void KeyDownHandler(Keys keyData) {
+
+			MainFormDelegate handKeys = delegate() {
+
+				if ((keyData == Keys.Left) ||
+					(keyData == Keys.A)) {
+					this.PrevButton.PerformClick();
+				}
+
+				if ((keyData == Keys.Right) ||
+					(keyData == Keys.D)) {
+					this.NextButton.PerformClick();
+				}
+
+				if ((keyData == Keys.Up) ||
+					(keyData == Keys.W)) {
+					this.FullScreenButton.PerformClick();
+				}
+
+				if ((keyData == Keys.Down) ||
+					(keyData == Keys.S)) {
+					this.FitSizeButton.PerformClick();
+				}
+
+				if (keyData == Keys.Oemcomma) {
+					this.RotateCounterButton.PerformClick();
+				}
+
+				if (keyData == Keys.OemPeriod) {
+					this.RotateClockwiseButton.PerformClick();
+				}
+
+				if (keyData == Keys.Delete) {
+					this.DeleteImage();
+				}
+			};
+
+			if (this.InvokeRequired)
+				this.Invoke(handKeys);
+			else
+				handKeys();
 		}
 		#endregion
 

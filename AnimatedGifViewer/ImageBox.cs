@@ -21,7 +21,6 @@ namespace AnimatedGifViewer {
 		#region Members
 		private AnimPictureBox PictureBox;
 		private System.Windows.Forms.Panel Window;
-		public ImageBoxMenu ImageBoxMenu;
 		private bool fitToWindow;
 		delegate void ImageBoxDelegate();
 
@@ -84,7 +83,6 @@ namespace AnimatedGifViewer {
 		private void InitializeComponent() {
 			this.PictureBox = new AnimPictureBox();
 			this.Window = new System.Windows.Forms.Panel();
-			this.ImageBoxMenu = new ImageBoxMenu();
 			this.Window.SuspendLayout();
 			this.SuspendLayout();
 			
@@ -96,11 +94,6 @@ namespace AnimatedGifViewer {
 			this.PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 			this.PictureBox.TabIndex = 3;
 			this.PictureBox.TabStop = false;
-
-			// ImageBoxMenu
-			this.ImageBoxMenu.Name = "ImageBoxMenu";
-			this.ImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.ImageBoxMenu.Size = new System.Drawing.Size(180, 70);
 
 			// Window
 			this.Window.AutoScroll = false;
@@ -117,7 +110,6 @@ namespace AnimatedGifViewer {
 			this.Controls.Add(this.Window);
 			this.Name = "ImageBox";
 			this.Size = new System.Drawing.Size(210, 190);
-			this.ContextMenuStrip = this.ImageBoxMenu;
 			this.Window.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -190,8 +182,17 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		[Browsable(false)]
 		public BorderStyle Border {
-			get { return Window.BorderStyle; }
-			set { Window.BorderStyle = value; }
+			get { return this.Window.BorderStyle; }
+			set { this.Window.BorderStyle = value; }
+		}
+
+		/// <summary>
+		/// Sets or gets the back color of the window.
+		/// </summary>
+		[Browsable(false)]
+		public new System.Drawing.Color BackColor {
+			get { return this.Window.BackColor; }
+			set { this.Window.BackColor = value; }
 		}
 		#endregion
 
@@ -281,7 +282,7 @@ namespace AnimatedGifViewer {
 		/// <summary>
 		/// If the image is larger than the window, scale it down to fit within the window.
 		/// </summary>
-		private void FitToWindow() {
+		internal void FitToWindow() {
 
 			ImageBoxDelegate fitToWindow = delegate() {
 
@@ -319,6 +320,18 @@ namespace AnimatedGifViewer {
 				this.Invoke(fitToWindow);
 			else
 				fitToWindow();
+		}
+
+		internal void StretchToWindow() {
+
+			ImageBoxDelegate stretchToWindow = delegate() {
+
+			};
+
+			if (this.InvokeRequired)
+				this.Invoke(stretchToWindow);
+			else
+				stretchToWindow();
 		}
 
 		/// <summary>
@@ -469,6 +482,23 @@ namespace AnimatedGifViewer {
 				}
 			}
 		}
+		#endregion
+
+		#region Keyboard Event Handlers
+		/// <summary>
+		/// Processes key commands when they are triggered by user input.
+		/// </summary>
+		/// <param name="msg">Windows message with details of the user input.</param>
+		/// <param name="keyData">Contains data about which key events occurred.</param>
+		/// <returns></returns>
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+			if (this.ProcessCmdKeyEvent != null)
+				this.ProcessCmdKeyEvent(keyData);
+
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		internal event Action<System.Windows.Forms.Keys> ProcessCmdKeyEvent;
 		#endregion
 
 		#region Control Handlers
