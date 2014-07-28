@@ -52,21 +52,9 @@ namespace AnimatedGifViewer {
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
 			this.Controls.Add(this.ImageBox);
-
-			this.ProcessCmdKeyEvent += new Action<System.Windows.Forms.Keys>(this.HideForm);
 		}
 
 		#region Keyboard Event Handlers
-		/// <summary>
-		/// Attempts to hide the form if the user inputs the escape key.
-		/// </summary>
-		/// <param name="keyData">The key that is pressed by the user.</param>
-		private void HideForm(System.Windows.Forms.Keys keyData) {
-			if (keyData == Keys.Escape) {
-				this.Hide();
-			}
-		}
-
 		/// <summary>
 		/// Processes key commands when they are triggered by user input.
 		/// </summary>

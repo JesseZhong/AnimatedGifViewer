@@ -196,7 +196,7 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
-		#region Zooming Methods
+		#region Zoom Methods
 		/// <summary>
 		/// Checks if the image size exceeds the size of the window.
 		/// </summary>
@@ -322,6 +322,9 @@ namespace AnimatedGifViewer {
 				fitToWindow();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		internal void StretchToWindow() {
 
 			ImageBoxDelegate stretchToWindow = delegate() {

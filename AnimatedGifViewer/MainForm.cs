@@ -541,6 +541,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		private void InitializeFullScreenForm() {
 			this.FullScreenForm = new FullScreenForm();
+			this.FullScreenForm.ProcessCmdKeyEvent += this.FullScreenForm_ExitFullScreen;
 			this.FullScreenForm.Hide();
 		}
 
@@ -767,6 +768,7 @@ namespace AnimatedGifViewer {
 			if (this.filenames.Any()) {
 				this.FullScreenForm.Show();
 				this.ShowImageInFullScreen();
+				this.Hide();
 			}
 		}
 
@@ -876,6 +878,20 @@ namespace AnimatedGifViewer {
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+		#endregion
+
+		#region Full Screen Form Handlers
+		/// <summary>
+		/// Attempts to hide the full screen form and bring back the main form.
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="keyData"></param>
+		private void FullScreenForm_ExitFullScreen(Keys keyData) {
+			if ((keyData == Keys.Escape) && !this.Visible) {
+				this.FullScreenForm.Hide();
+				this.Show();
+			}
 		}
 		#endregion
 
