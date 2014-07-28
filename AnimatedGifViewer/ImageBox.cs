@@ -164,7 +164,7 @@ namespace AnimatedGifViewer {
 				this.PictureBox.Image = value;
 				this.fitToWindow = true;
 				if (this.PictureBox.Image != null)
-					this.FitToWindow();
+					this.FitIntoWindow();
 			}
 		}
 
@@ -282,25 +282,13 @@ namespace AnimatedGifViewer {
 		/// <summary>
 		/// If the image is larger than the window, scale it down to fit within the window.
 		/// </summary>
-		internal void FitToWindow() {
+		internal void FitIntoWindow() {
 
-			ImageBoxDelegate fitToWindow = delegate() {
+			ImageBoxDelegate fitIntoWindow = delegate() {
 
 				// Test if the image goes out of the window's bounds.
 				if (this.IsImageExceedinWindow()) {
-
-					// Calculate image to window ratio for width and height.
-					double widthRatio = this.PictureBox.Image.Width / (double)this.Window.Width;
-					double heightRatio = this.PictureBox.Image.Height / (double)this.Window.Height;
-
-					// Compare which ratio is larger, and size down the picture box accordingly.
-					if (widthRatio > heightRatio) {
-						this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / widthRatio);
-						this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / widthRatio);
-					} else {
-						this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / heightRatio);
-						this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / heightRatio);
-					}
+					this.FitToWindow();
 				} else {
 					// Resize the picture box to the image's 
 					// dimensions if the dimensions fit inside the window.
@@ -317,9 +305,29 @@ namespace AnimatedGifViewer {
 			};
 
 			if (this.InvokeRequired)
-				this.Invoke(fitToWindow);
+				this.Invoke(fitIntoWindow);
 			else
-				fitToWindow();
+				fitIntoWindow();
+		}
+
+		/// <summary>
+		/// Attempts to stretch or shrink the image so at least a single pair 
+		/// of edges, horizontal or vertical, meet with the edge of the window.
+		/// </summary>
+		internal void FitUpToWindow() {
+
+			ImageBoxDelegate fitUpToWindow = delegate() {
+				this.FitToWindow();
+
+				// Realign the picture box with the window.
+				this.UpdateMouseTargetRatios();
+				this.AlignPictureBox();
+			};
+
+			if (this.InvokeRequired)
+				this.Invoke(fitUpToWindow);
+			else
+				fitUpToWindow();
 		}
 
 		/// <summary>
@@ -335,6 +343,26 @@ namespace AnimatedGifViewer {
 				this.Invoke(stretchToWindow);
 			else
 				stretchToWindow();
+		}
+
+		/// <summary>
+		/// Resizes the image so that at least one pair of the edges, horizontal or vertical, touches 
+		/// the edge of the box, and the other pair touching or within the bounds of the image box.
+		/// </summary>
+		private void FitToWindow() {
+
+			// Calculate image to window ratio for width and height.
+			double widthRatio = this.PictureBox.Image.Width / (double)this.Window.Width;
+			double heightRatio = this.PictureBox.Image.Height / (double)this.Window.Height;
+
+			// Compare which ratio is larger, and size the picture box accordingly.
+			if (widthRatio > heightRatio) {
+				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / widthRatio);
+				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / widthRatio);
+			} else {
+				this.PictureBox.Width = Convert.ToInt32(this.PictureBox.Image.Width / heightRatio);
+				this.PictureBox.Height = Convert.ToInt32(this.PictureBox.Image.Height / heightRatio);
+			}
 		}
 
 		/// <summary>
@@ -513,7 +541,7 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void Window_Resize(object sender, EventArgs e) {
 			if (this.fitToWindow)
-				this.FitToWindow();
+				this.FitIntoWindow();
 			if (this.IsPictureExceedingWindow()) {
 				if (this.NearZoom != null)
 					this.NearZoom(this, e);

@@ -465,7 +465,7 @@ namespace AnimatedGifViewer {
 			if (this.FullScreenForm.Visible) {
 				MainFormDelegate assign = delegate() {
 					this.FullScreenForm.ImageBox.Image = this.ImageBox.Image;
-					//this.FullScreenForm.ImageBox.FitToWindow();
+					this.FullScreenForm.ImageBox.FitUpToWindow();
 				};
 				if (this.FullScreenForm.InvokeRequired)
 					this.FullScreenForm.Invoke(assign);
@@ -487,7 +487,6 @@ namespace AnimatedGifViewer {
 			// Initialize the form's components.
 			this.InitializeComponent();
 			this.InitializeImageBox();
-			this.InitializeFullScreenForm();
 
 			// Initialize variables.
 			this.filenameIndex = 0;
@@ -537,15 +536,6 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Initializes the full screen form components.
-		/// </summary>
-		private void InitializeFullScreenForm() {
-			this.FullScreenForm = new FullScreenForm();
-			this.FullScreenForm.ProcessCmdKeyEvent += this.FullScreenForm_ExitFullScreen;
-			this.FullScreenForm.Hide();
-		}
-
-		/// <summary>
 		/// Initializes the system file watcher to
 		/// begin watching for file changed, deleted,
 		/// created, or renamed events to be raised.
@@ -583,6 +573,10 @@ namespace AnimatedGifViewer {
 
 			// Image box.
 			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
+
+			// Full Screen Form.
+			this.FullScreenForm = new FullScreenForm();
+			this.FullScreenForm.Hide();
 
 			// Tool tip settings.
 			this.ToolTip = new ToolTip();
@@ -657,6 +651,7 @@ namespace AnimatedGifViewer {
 
 			// Set to handle keyboard events.
 			this.FullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
+			this.FullScreenForm.ProcessCmdKeyEvent += this.FullScreenForm_ExitFullScreen;
 			this.KeyPreview = true;
 		}
 
@@ -1047,12 +1042,12 @@ namespace AnimatedGifViewer {
 
 				if ((keyData == Keys.Left) ||
 					(keyData == Keys.A)) {
-					this.PrevButton.PerformClick();
+					this.PrevButton_Click(this, null);
 				}
 
 				if ((keyData == Keys.Right) ||
 					(keyData == Keys.D)) {
-					this.NextButton.PerformClick();
+					this.NextButton_Click(this, null);
 				}
 
 				if ((keyData == Keys.Up) ||
@@ -1066,11 +1061,11 @@ namespace AnimatedGifViewer {
 				}
 
 				if (keyData == Keys.Oemcomma) {
-					this.RotateCounterButton.PerformClick();
+					this.RotateCounterButton_Click(this, null);
 				}
 
 				if (keyData == Keys.OemPeriod) {
-					this.RotateClockwiseButton.PerformClick();
+					this.RotateClockwiseButton_Click(this, null);
 				}
 
 				if (keyData == Keys.Delete) {
