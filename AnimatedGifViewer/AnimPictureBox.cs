@@ -34,28 +34,28 @@ namespace AnimatedGifViewer {
 		/// Indicates whether the image loaded into the
 		/// animated picture box is an animated GIF.
 		/// </summary>
-		private bool isAnimGIF = false;
+		private bool mIsAnimGIF = false;
 
 		/// <summary>
 		/// Records the number of frames a loaded animated GIF has.
 		/// </summary>
-		private int gifFrameCount = 0;
+		private int mGifFrameCount = 0;
 
 		/// <summary>
 		/// Indicates the current frame of a loaded animated GIF
 		/// that is being displayed in the animated picture box.
 		/// </summary>
-		private int gifFrameIndex = 0;
+		private int mGifFrameIndex = 0;
 
 		/// <summary>
 		/// Records the delay times of each frame in a loaded animated GIF.
 		/// </summary>
-		private int[] gifFrameDelays;
+		private int[] mGifFrameDelays;
 
 		/// <summary>
 		/// This is the timer used for timing the animations.
 		/// </summary>
-		private System.Windows.Forms.Timer gifTimer = new System.Windows.Forms.Timer();
+		private System.Windows.Forms.Timer mGifTimer = new System.Windows.Forms.Timer();
 		#endregion
 
 		#region Instance
@@ -63,7 +63,7 @@ namespace AnimatedGifViewer {
 		/// Assign the tick event handler to the timer.
 		/// </summary>
 		public AnimPictureBox() {
-			this.gifTimer.Tick += new System.EventHandler(this.gifTimer_Tick);
+			this.mGifTimer.Tick += new System.EventHandler(this.gifTimer_Tick);
 		}
 		#endregion
 
@@ -84,27 +84,27 @@ namespace AnimatedGifViewer {
 
 				base.Image = value;
 				if (base.Image.RawFormat.Guid == System.Drawing.Imaging.ImageFormat.Gif.Guid) {
-					this.gifFrameCount = base.Image.GetFrameCount(System.Drawing.Imaging.FrameDimension.Time);
-					if (this.gifFrameCount > 1) {
-						this.isAnimGIF = true;
-						this.gifFrameDelays = new int[this.gifFrameCount];
+					this.mGifFrameCount = base.Image.GetFrameCount(System.Drawing.Imaging.FrameDimension.Time);
+					if (this.mGifFrameCount > 1) {
+						this.mIsAnimGIF = true;
+						this.mGifFrameDelays = new int[this.mGifFrameCount];
 						byte[] times = base.Image.GetPropertyItem(0x5100).Value;
-						for (int frame = 0; frame < this.gifFrameCount; frame++) {
+						for (int frame = 0; frame < this.mGifFrameCount; frame++) {
 							int delay = BitConverter.ToInt32(times, 4 * frame) * GIF_DELAY_MULTIPLIER - GIF_DELAY_EPSILON;
-							this.gifFrameDelays[frame] = (delay < MIN_GIF_DELAY) ? MIN_GIF_DELAY : delay;
+							this.mGifFrameDelays[frame] = (delay < MIN_GIF_DELAY) ? MIN_GIF_DELAY : delay;
 						}
 
-						this.gifFrameIndex = 0;
-						this.gifTimer.Interval = this.gifFrameDelays[0];
+						this.mGifFrameIndex = 0;
+						this.mGifTimer.Interval = this.mGifFrameDelays[0];
 
-						if (!this.gifTimer.Enabled)
-							this.gifTimer.Start();
+						if (!this.mGifTimer.Enabled)
+							this.mGifTimer.Start();
 						return;
 					}
 				}
-				this.isAnimGIF = false;
-				if (this.gifTimer.Enabled)
-					this.gifTimer.Stop();
+				this.mIsAnimGIF = false;
+				if (this.mGifTimer.Enabled)
+					this.mGifTimer.Stop();
 			}
 		}
 		#endregion
@@ -117,10 +117,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">gifTimer</param>
 		/// <param name="e">Event arguments.</param>
 		private void gifTimer_Tick(object sender, EventArgs e) {
-			this.gifFrameIndex++;
-			if (this.gifFrameIndex >= this.gifFrameCount)
-				this.gifFrameIndex = 0;
-			this.gifTimer.Interval = this.gifFrameDelays[this.gifFrameIndex];
+			this.mGifFrameIndex++;
+			if (this.mGifFrameIndex >= this.mGifFrameCount)
+				this.mGifFrameIndex = 0;
+			this.mGifTimer.Interval = this.mGifFrameDelays[this.mGifFrameIndex];
 			this.Refresh();
 		}
 
@@ -130,8 +130,8 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e) {
 			e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-			if (this.isAnimGIF) {
-				base.Image.SelectActiveFrame(System.Drawing.Imaging.FrameDimension.Time, this.gifFrameIndex);
+			if (this.mIsAnimGIF) {
+				base.Image.SelectActiveFrame(System.Drawing.Imaging.FrameDimension.Time, this.mGifFrameIndex);
 				e.Graphics.DrawImage(base.Image, this.ClientRectangle);
 			} else
 				base.OnPaint(e);

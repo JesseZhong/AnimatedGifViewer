@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace AnimatedGifViewer {
 	public partial class FullScreenForm : Form {
 
 		#region Members
-		internal ImageBox ImageBox;
+		private Timer mActivityTimer;
+		private TimeSpan mActivityThreshold;
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// The image box for the full screen window.
+		/// </summary>
+		internal ImageBox ImageBox {
+			get;
+			set;
+		}
 		#endregion
 
 		/// <summary>
@@ -54,6 +66,13 @@ namespace AnimatedGifViewer {
 			this.Controls.Add(this.ImageBox);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		private void InitializeTimer() {
+			this.mActivityTimer = new Timer();
+		}
+
 		#region Keyboard Event Handlers
 		/// <summary>
 		/// Processes key commands when they are triggered by user input.
@@ -94,6 +113,24 @@ namespace AnimatedGifViewer {
 
 		public static void SetWinFullScreen(IntPtr hwnd) {
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, ScreenX, ScreenY, SWP_SHOWWINDOW);
+		}
+
+		public static TimeSpan GetLastInput() {
+			var plii = new LASTINPUTINFO();
+			plii.cbSize = (uint)Marshal.SizeOf(plii);
+
+			if (GetLastInputInfo(ref plii))
+				return TimeSpan.FromMilliseconds(Environment.TickCount - plii.dwTime);
+			else
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+		}
+
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+		struct LASTINPUTINFO {
+			public uint cbSize;
+			public uint dwTime;
 		}
 		#endregion
 	}
