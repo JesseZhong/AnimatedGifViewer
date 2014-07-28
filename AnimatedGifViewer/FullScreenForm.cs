@@ -1,15 +1,29 @@
-﻿using System;
+﻿// FullScreenForm.cs
+// Authored by Jesse Z. Zhong
+#region Usings
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+#endregion
 
 namespace AnimatedGifViewer {
 	public partial class FullScreenForm : Form {
 
+		#region Constants
+		/// <summary>
+		/// Indicates the amount of seconds that 
+		/// the mouse is inactive before it is hidden.
+		/// </summary>
+		/// <remarks>The time is measured in secconds.</remarks>
+		private const int ACTIVITY_THRESHOLD = 2;
+		#endregion
+
 		#region Members
 		private Timer mActivityTimer;
 		private TimeSpan mActivityThreshold;
+		private bool mCursorHidden;
 		#endregion
 
 		#region Properties
@@ -22,12 +36,14 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
+		#region Initialization
 		/// <summary>
 		/// Initialize form components.
 		/// </summary>
 		public FullScreenForm() {
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeTimer();
 		}
 
 		/// <summary>
@@ -67,11 +83,40 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Initialize the members relating to the mouse activity timer.
 		/// </summary>
 		private void InitializeTimer() {
 			this.mActivityTimer = new Timer();
+			this.mActivityTimer.Tick += this.ActivityTimer_Tick;
+			this.mActivityTimer.Interval = 100;
+			this.mActivityTimer.Enabled = true;
+
+			this.mActivityThreshold = TimeSpan.FromSeconds(ACTIVITY_THRESHOLD);
+
+			this.mCursorHidden = false;
 		}
+		#endregion
+
+		#region Timer Handlers
+		/// <summary>
+		/// Checks how long the mouse is inactive and hides the cursor 
+		/// after no input is detected after a certain amount of time.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ActivityTimer_Tick(object sender, EventArgs e) {
+			bool shouldHide = GetLastInput() > this.mActivityThreshold;
+			if (this.mCursorHidden != shouldHide) {
+
+				if (shouldHide)
+					Cursor.Hide();
+				else
+					Cursor.Show();
+
+				this.mCursorHidden = shouldHide;
+			}
+		}
+		#endregion
 
 		#region Keyboard Event Handlers
 		/// <summary>
