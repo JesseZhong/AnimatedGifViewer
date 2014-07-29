@@ -29,7 +29,7 @@ namespace AnimatedGifViewer {
 		/// for image files in the working directory.
 		/// </summary>
 		/// <remarks>Note: Windows file system is case-insensitive.</remarks>
-		private const string FILE_TYPES = "*.bmp|*.dib|*.jpg|*.jpeg|*.jpe|*.jfif|*.gif|*.png|*.tiff|*.ico";
+		private const string FILE_TYPES = ".bmp|.dib|.jpg|.jpeg|.jpe|.jfif|.gif|.png|.tiff|.ico";
 
 		/// <summary>
 		/// The filter used by the file dialog to let the 
@@ -55,6 +55,7 @@ namespace AnimatedGifViewer {
 
 		private List<string> mFilenames;
 		private int mFilenameIndex;
+		private string[] mSearchPatterns;
 		private string[] mArguments;
 		private string mLoadedFile;
 		private string mAssemblyProduct;
@@ -78,10 +79,11 @@ namespace AnimatedGifViewer {
 		/// <param name="filename">Path of the file that will be loaded.</param>
 		/// <returns>Returns true if the file exists and was loaded.</returns>
 		private bool OpenImageFile(string filename) {
-			if (!File.Exists(filename)) {
+			if (!File.Exists(filename) || !this.CheckFileFormat(filename)) {
 
 				// Disable all the buttons.
 				this.EnableButtons(false);
+				this.mImageBox.Image = null;
 				return false;
 			}
 
@@ -101,7 +103,7 @@ namespace AnimatedGifViewer {
 			this.mLoadedFilenames = delegate() {
 
 				// Search the directory for other images.
-				this.mFilenames = this.GetFiles(workingDirectory, FILE_TYPES);
+				this.mFilenames = this.GetFiles(workingDirectory);
 
 				// Disable buttons and clear the image
 				// box if no images exist in the folder.
@@ -170,20 +172,37 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		private bool CheckFileFormat(string filename) {
+			string extension = Path.GetExtension(filename);
+			for (int i = 0, len = this.mSearchPatterns.Length; i < len; i++)
+				if (extension == this.mSearchPatterns[i])
+					return true;
+			return false;
+		}
+
+		/// <summary>
 		/// Returns a list of files of a path,
 		/// according to the specified search pattern.
 		/// </summary>
 		/// <param name="path">Path where the files are to be searched for.</param>
-		/// <param name="searchPattern">Criteria, delimited by a '|', used for a targetted file search.</param>
 		/// <returns></returns>
-		private List<string> GetFiles(string path, string searchPattern) {
+		private List<string> GetFiles(string path) {
 			if (!Directory.Exists(path))
 				throw new Exception("GetFiles(): path does not exist.");
 
-			string[] searchPatterns = searchPattern.Split('|');
 			List<string> filenames = new List<string>();
-			foreach (string pattern in searchPatterns)
-				filenames.AddRange(Directory.GetFiles(path, pattern));
+			string[] allFilenames = Directory.GetFiles(path);
+
+			for (int i = 0, len = allFilenames.Length; i < len; i++) {
+				string filename = allFilenames[i];
+				if (this.CheckFileFormat(filename))
+					filenames.Add(filename);
+			}
+
 			filenames.Sort();
 			return filenames;
 		}
@@ -492,6 +511,7 @@ namespace AnimatedGifViewer {
 			this.mFilenameIndex = 0;
 			this.mArguments = args;
 			this.mFilenames = new List<string>();
+			this.mSearchPatterns = FILE_TYPES.Split('|');
 
 			// Get assembly information.
 			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
@@ -570,6 +590,7 @@ namespace AnimatedGifViewer {
 			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
 			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
 			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
+			this.AllowDrop = true;
 
 			// Image box.
 			this.mImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -648,6 +669,8 @@ namespace AnimatedGifViewer {
 			this.Move += new System.EventHandler(this.MainForm_Move);
 			this.Resize += new System.EventHandler(this.MainForm_Resize);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
+			this.DragEnter += new DragEventHandler(this.MainForm_DragEnter);
+			this.DragDrop += new DragEventHandler(this.MainForm_DragDrop);
 
 			// Set to handle keyboard events.
 			this.mFullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
@@ -873,6 +896,30 @@ namespace AnimatedGifViewer {
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+		#endregion
+
+		#region Drag and Drop Handlers
+		/// <summary>
+		/// Displays the copy icon effect when dragging a file over the form.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_DragEnter(object sender, DragEventArgs e) {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop)) 
+				e.Effect = DragDropEffects.Copy;
+		}
+
+		/// <summary>
+		/// Attempts to open the file in the image box.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_DragDrop(object sender, DragEventArgs e) {
+			string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
+			if (filenames.Any()) {
+				this.OpenImageFile(filenames[0]);
+			}
 		}
 		#endregion
 

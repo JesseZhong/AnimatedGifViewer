@@ -103,7 +103,7 @@ namespace AnimatedGifViewer {
 
 		#region Timer Handlers
 		/// <summary>
-		/// 
+		/// Shows the mouse if has been hidden.
 		/// </summary>
 		private void FullScreenForm_MouseMoved() {
 			this.mLastMouseMove = DateTime.Now;
