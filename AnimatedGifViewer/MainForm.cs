@@ -772,8 +772,12 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void NextButton_Click(object sender, EventArgs e) {
 			if (this.mFilenames.Any()) {
+				DrawingControl.SuspendDrawing(this.mImageBox);
+				DrawingControl.SuspendDrawing(this.mFullScreenForm.ImageBox);
 				this.mImageBox.Image = this.LoadImage(this.NextImage());
 				this.ShowImageInFullScreen();
+				DrawingControl.ResumeDrawing(this.mImageBox);
+				DrawingControl.ResumeDrawing(this.mFullScreenForm.ImageBox);
 			}
 		}
 
@@ -785,8 +789,12 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void PrevButton_Click(object sender, EventArgs e) {
 			if (this.mFilenames.Any()) {
+				DrawingControl.SuspendDrawing(this.mImageBox);
+				DrawingControl.SuspendDrawing(this.mFullScreenForm.ImageBox);
 				this.mImageBox.Image = this.LoadImage(this.PrevImage());
 				this.ShowImageInFullScreen();
+				DrawingControl.ResumeDrawing(this.mImageBox);
+				DrawingControl.ResumeDrawing(this.mFullScreenForm.ImageBox);
 			}
 		}
 
