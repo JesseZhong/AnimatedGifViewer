@@ -37,6 +37,8 @@ You can drag and drop the image you wish to view on the **Animated GIF Viewer** 
 The following is an list of features exclusive to the **Animated GIF Viewer**:
 
 - Opens and displays GIF, JPEG/JPG, BMP/DIB, PNG, ICO, and TIFF images.
+	- Allows **dragging and dropping** of images into the window to open the image in the program.
+	- Allows **dragging and dropping** of images over the executable (EXE) to open the program with the image.
 - Plays GIF images that have animated frames.
 	- Supports animations that are faster than the rate supported by Windows (ex: Internet Explorer).
 	- Supports animations with variable frame delays.
@@ -46,9 +48,9 @@ The following is an list of features exclusive to the **Animated GIF Viewer**:
 - Allows **image rotation**, for both clockwise and counter clockwise.
 - Allows for **deleting** and **copying** of an image from within the viewer.
 	- Copies retain undoctored information from their originals. (Important for animated GIFs)
-- Allows **dragging and dropping** of images over the executable (EXE) to open the program with the image.
 - Allows **cycling and viewing images in the same folder** using the **"previous" and "next" arrow buttons**.
 	- Knows when images are new images are added and includes them in the list of view-able images. (Not possible with Windows Photo Viewer)
+- Allows for **full screen mode** where images are automatically stretched to the size of the screen for easy viewing.
 - Changes **appearance** with the system's **Windows Theme**.
 
 4. Building from the Source
