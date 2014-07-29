@@ -201,7 +201,7 @@ namespace AnimatedGifViewer {
 		/// Checks if the image size exceeds the size of the window.
 		/// </summary>
 		/// <returns>True if it does, false otherwise.</returns>
-		private bool IsImageExceedinWindow() {
+		private bool IsImageExceedingWindow() {
 			if ((this.mWindow != null) &&
 				(this.mPictureBox != null) &&
 				(this.mPictureBox.Image != null))
@@ -287,7 +287,7 @@ namespace AnimatedGifViewer {
 			ImageBoxDelegate fitIntoWindow = delegate() {
 
 				// Test if the image goes out of the window's bounds.
-				if (this.IsImageExceedinWindow()) {
+				if (this.IsImageExceedingWindow()) {
 					this.FitToWindow();
 				} else {
 					// Resize the picture box to the image's 
@@ -419,13 +419,27 @@ namespace AnimatedGifViewer {
 
 			// While the picture box exceeds the bounds of the window, make sure that the picture
 			// box always lines up with the side of the window instead of being shifted out of view.
-			if (!this.IsPictureWithinWindow()) {
+
+			if (this.mWindow.Width < this.mPictureBox.Width) {
 				xPoint = (xPoint < 0) ? xPoint : 0;
-				xPoint = ((xPoint + this.mPictureBox.Width) > this.mWindow.Width) ? xPoint : (this.mWindow.Width - this.mPictureBox.Width);
-				yPoint = (yPoint < 0) ? yPoint : 0;
-				yPoint = ((yPoint + this.mPictureBox.Height) > this.mWindow.Height) ? yPoint : (this.mWindow.Height - this.mPictureBox.Height);
+				xPoint = ((xPoint + this.mPictureBox.Width) > this.mWindow.Width)
+					? xPoint : (this.mWindow.Width - this.mPictureBox.Width);
+			} else {
+				xPoint = (xPoint >= 0) ? xPoint : 0;
+				xPoint = ((xPoint + this.mPictureBox.Width) <= this.mWindow.Width)
+					? xPoint : (this.mWindow.Width - this.mPictureBox.Width);
 			}
 
+			if (this.mWindow.Height < this.mPictureBox.Height) {
+				yPoint = (yPoint < 0) ? yPoint : 0;
+				yPoint = ((yPoint + this.mPictureBox.Height) > this.mWindow.Height)
+					? yPoint : (this.mWindow.Height - this.mPictureBox.Height);
+			} else {
+				yPoint = (yPoint >= 0) ? yPoint : 0;
+				yPoint = ((yPoint + this.mPictureBox.Height) <= this.mWindow.Height)
+					? yPoint : (this.mWindow.Height - this.mPictureBox.Height);
+			}
+			
 			return new System.Drawing.Point(xPoint, yPoint);
 		}
 		#endregion

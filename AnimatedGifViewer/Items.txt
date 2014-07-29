@@ -1,6 +1,6 @@
 ﻿Icons for MenuStrip									- Done
 Read Images from Zip files
-Drag and Drop Loading								
+Drag and Drop Loading								- Done
 Multi-Page (ICO or GIF) viewing
 Animate/mask buttons								- Done
 Fullscreen mode										- Partial
@@ -60,6 +60,7 @@ When the picture still exceeds the window, point zooming out will cause the imag
 is centered after being sized down within the window bounds. The ratios need to be adjusted accordingly.
 Flickering occurs when zooming out along the right and bottom edges.
 Animation delay minimum for animated GIFs in a PictureBox is presumably 100ms, which is unacceptable, as many GIFs have higher FPSs.
+If the image doesn't exceed the window, it won't be restricted within the window when moved by the mouse.
 
 Concerns:
 Animated GIFs currently cannot be rotated, as all animation is removed from the image.
