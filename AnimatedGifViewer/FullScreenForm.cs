@@ -16,7 +16,7 @@ namespace AnimatedGifViewer {
 		/// Indicates the amount of seconds that 
 		/// the mouse is inactive before it is hidden.
 		/// </summary>
-		/// <remarks>The time is measured in secconds.</remarks>
+		/// <remarks>The time is measured in seconds.</remarks>
 		private const int ACTIVITY_THRESHOLD = 2;
 		#endregion
 
@@ -43,23 +43,23 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		public FullScreenForm() {
 			this.InitializeComponent();
+			this.InitializeFullScreenForm();
 			this.InitializeImageBox();
 			this.InitializeMouseActivity();
 		}
 
 		/// <summary>
-		/// Loads additional content when the form is created.
+		/// Set up the full screen effect for the form.
 		/// </summary>
-		/// <param name="sender">FullScreenForm</param>
-		/// <param name="e">Event arguments.</param>
-		private void FullScreenForm_Load(object sender, EventArgs e) {
+		private void InitializeFullScreenForm() {
 			this.WindowState = FormWindowState.Maximized;
 			this.FormBorderStyle = FormBorderStyle.None;
 			this.TopMost = true;
-			SetWinFullScreen(this.Handle);
 
 			// Set to handle keyboard events.
 			this.KeyPreview = true;
+
+			SetWinFullScreen(this.Handle);
 		}
 
 		/// <summary>
