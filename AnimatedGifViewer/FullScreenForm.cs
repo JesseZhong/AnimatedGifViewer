@@ -1,21 +1,50 @@
-﻿using System;
+﻿// FullScreenForm.cs
+// Authored by Jesse Z. Zhong
+#region Usings
+using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
+#endregion
 
 namespace AnimatedGifViewer {
 	public partial class FullScreenForm : Form {
 
-		#region Members
-		internal ImageBox ImageBox;
+		#region Constants
+		/// <summary>
+		/// Indicates the amount of seconds that 
+		/// the mouse is inactive before it is hidden.
+		/// </summary>
+		/// <remarks>The time is measured in secconds.</remarks>
+		private const int ACTIVITY_THRESHOLD = 2;
 		#endregion
 
+		#region Members
+		private Timer mActivityTimer;
+		private TimeSpan mActivityThreshold;
+		private DateTime mLastMouseMove;
+		private bool mCursorHidden;
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// The image box for the full screen window.
+		/// </summary>
+		internal ImageBox ImageBox {
+			get;
+			set;
+		}
+		#endregion
+
+		#region Initialization
 		/// <summary>
 		/// Initialize form components.
 		/// </summary>
 		public FullScreenForm() {
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeMouseActivity();
 		}
 
 		/// <summary>
@@ -52,21 +81,54 @@ namespace AnimatedGifViewer {
 			this.ImageBox.TabIndex = 0;
 			this.ImageBox.TabStop = false;
 			this.Controls.Add(this.ImageBox);
-
-			this.ProcessCmdKeyEvent += new Action<System.Windows.Forms.Keys>(this.HideForm);
 		}
 
-		#region Keyboard Event Handlers
 		/// <summary>
-		/// Attempts to hide the form if the user inputs the escape key.
+		/// Initialize the members relating to the mouse activity.
 		/// </summary>
-		/// <param name="keyData">The key that is pressed by the user.</param>
-		private void HideForm(System.Windows.Forms.Keys keyData) {
-			if (keyData == Keys.Escape) {
-				this.Hide();
+		private void InitializeMouseActivity() {
+
+			MouseHandler mouseHandler = new MouseHandler();
+			mouseHandler.MouseMoved += FullScreenForm_MouseMoved;
+			Application.AddMessageFilter(mouseHandler);
+
+			this.mActivityTimer = new Timer();
+			this.mActivityTimer.Tick += this.ActivityTimer_Tick;
+			this.mActivityTimer.Interval = 100;
+			this.mActivityTimer.Enabled = true;
+			this.mActivityThreshold = TimeSpan.FromSeconds(ACTIVITY_THRESHOLD);
+			this.mCursorHidden = false;
+		}
+		#endregion
+
+		#region Timer Handlers
+		/// <summary>
+		/// Shows the mouse if has been hidden.
+		/// </summary>
+		private void FullScreenForm_MouseMoved() {
+			this.mLastMouseMove = DateTime.Now;
+			if (this.mCursorHidden) {
+				Cursor.Show();
+				this.mCursorHidden = false;
 			}
 		}
 
+		/// <summary>
+		/// Checks how long the mouse is inactive and hides the cursor 
+		/// after no input is detected after a certain amount of time.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ActivityTimer_Tick(object sender, EventArgs e) {
+			TimeSpan elapsedTime = DateTime.Now - this.mLastMouseMove;
+			if (((elapsedTime >= this.mActivityThreshold) != this.mCursorHidden) && this.Visible) {
+				Cursor.Hide();
+				this.mCursorHidden = true;
+			}
+		}
+		#endregion
+
+		#region Keyboard Event Handlers
 		/// <summary>
 		/// Processes key commands when they are triggered by user input.
 		/// </summary>

@@ -29,7 +29,7 @@ namespace AnimatedGifViewer {
 		/// for image files in the working directory.
 		/// </summary>
 		/// <remarks>Note: Windows file system is case-insensitive.</remarks>
-		private const string FILE_TYPES = "*.bmp|*.dib|*.jpg|*.jpeg|*.jpe|*.jfif|*.gif|*.png|*.tiff|*.ico";
+		private const string FILE_TYPES = ".bmp|.dib|.jpg|.jpeg|.jpe|.jfif|.gif|.png|.tiff|.ico";
 
 		/// <summary>
 		/// The filter used by the file dialog to let the 
@@ -47,23 +47,24 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		#region Members
-		private ImageBox ImageBox;
-		private MainFormImageBoxMenu ImageBoxMenu;
-		private FullScreenForm FullScreenForm;
-		private System.Windows.Forms.ToolTip ToolTip;
-		private System.Windows.Forms.TrackBar Slider;
+		private ImageBox mImageBox;
+		private MainFormImageBoxMenu mImageBoxMenu;
+		private FullScreenForm mFullScreenForm;
+		private System.Windows.Forms.ToolTip mToolTip;
+		private System.Windows.Forms.TrackBar mSlider;
 
-		private List<string> filenames;
-		private int filenameIndex;
-		private string[] arguments;
-		private string loadedFile;
-		private string assemblyProduct;
+		private List<string> mFilenames;
+		private int mFilenameIndex;
+		private string[] mSearchPatterns;
+		private string[] mArguments;
+		private string mLoadedFile;
+		private string mAssemblyProduct;
 
-		private FileSystemWatcher watcher = new FileSystemWatcher();
-		private Dictionary<Button, ButtonImageSet> buttonImages = new Dictionary<Button, ButtonImageSet>();
+		private FileSystemWatcher mWatcher = new FileSystemWatcher();
+		private Dictionary<Button, ButtonImageSet> mButtonImages = new Dictionary<Button, ButtonImageSet>();
 
 		private delegate void MainFormDelegate();
-		private MainFormDelegate loadFileNames;
+		private MainFormDelegate mLoadedFilenames;
 		#endregion
 
 		#region Work
@@ -78,15 +79,16 @@ namespace AnimatedGifViewer {
 		/// <param name="filename">Path of the file that will be loaded.</param>
 		/// <returns>Returns true if the file exists and was loaded.</returns>
 		private bool OpenImageFile(string filename) {
-			if (!File.Exists(filename)) {
+			if (!File.Exists(filename) || !this.CheckFileFormat(filename)) {
 
 				// Disable all the buttons.
 				this.EnableButtons(false);
+				this.mImageBox.Image = null;
 				return false;
 			}
 
 			// Load the file into the image box.
-			this.ImageBox.Image = this.LoadImage(filename);
+			this.mImageBox.Image = this.LoadImage(filename);
 
 			// Set the working directory to that of the passed file.
 			string workingDirectory = Path.GetDirectoryName(filename);
@@ -98,31 +100,31 @@ namespace AnimatedGifViewer {
 			// Initialize the delegate so that it will grab all the
 			// files in the same directory as the originally loaded file.
 			#region this.loadFileNames
-			this.loadFileNames = delegate() {
+			this.mLoadedFilenames = delegate() {
 
 				// Search the directory for other images.
-				this.filenames = this.GetFiles(workingDirectory, FILE_TYPES);
+				this.mFilenames = this.GetFiles(workingDirectory);
 
 				// Disable buttons and clear the image
 				// box if no images exist in the folder.
-				if (!this.filenames.Any()) {
+				if (!this.mFilenames.Any()) {
 					this.EnableButtons(false);
-					this.ImageBox.Image = null;
+					this.mImageBox.Image = null;
 					return;
 				}
 
 				// Find the index of the filename in the list of filenames.
 				// Set the current filename index to that of the filename's.
-				if (this.filenames.Contains(this.loadedFile))
-					this.filenameIndex = this.filenames.FindIndex(delegate(string name) {
-						return name == this.loadedFile;
+				if (this.mFilenames.Contains(this.mLoadedFile))
+					this.mFilenameIndex = this.mFilenames.FindIndex(delegate(string name) {
+						return name == this.mLoadedFile;
 					});
 
 				// Attempt to load the original image into the image box.
-				if (this.CheckFilenamesBounds(this.filenameIndex))
-					this.ImageBox.Image = this.LoadImage(this.filenames[this.filenameIndex]);
+				if (this.CheckFilenamesBounds(this.mFilenameIndex))
+					this.mImageBox.Image = this.LoadImage(this.mFilenames[this.mFilenameIndex]);
 				else
-					this.ImageBox.Image = null;
+					this.mImageBox.Image = null;
 
 				// Enable the buttons.
 				this.EnableButtons(true);
@@ -130,7 +132,7 @@ namespace AnimatedGifViewer {
 			#endregion
 
 			// Grab all the files from the directory.
-			this.loadFileNames();
+			this.mLoadedFilenames();
 			return true;
 		}
 
@@ -155,18 +157,31 @@ namespace AnimatedGifViewer {
 				? ButtonImageSet.EState.Active
 				: ButtonImageSet.EState.Inactive;
 
-			foreach (KeyValuePair<Button, ButtonImageSet> item in this.buttonImages) {
+			foreach (KeyValuePair<Button, ButtonImageSet> item in this.mButtonImages) {
 				item.Key.BackgroundImage = item.Value.GetImage(state);
 			}
 
 			// Add tool tips to the buttons.
-			this.ToolTip.SetToolTip(this.NextButton, enable ? global::AnimatedGifViewer.Properties.Resources.NextButtonToolTip : "");
-			this.ToolTip.SetToolTip(this.PrevButton, enable ? global::AnimatedGifViewer.Properties.Resources.PrevButtonToolTip : "");
-			this.ToolTip.SetToolTip(this.FullScreenButton, enable ? global::AnimatedGifViewer.Properties.Resources.FullScreenButtonToolTip : "");
-			this.ToolTip.SetToolTip(this.SizeButton, enable ? global::AnimatedGifViewer.Properties.Resources.SizeButtonToolTip : "");
-			this.ToolTip.SetToolTip(this.RotateCounterButton, enable ? global::AnimatedGifViewer.Properties.Resources.RotateCounterButtonToolTip : "");
-			this.ToolTip.SetToolTip(this.RotateClockwiseButton, enable ? global::AnimatedGifViewer.Properties.Resources.RotateClockwiseButtonToolTip : "");
-			this.ToolTip.SetToolTip(this.DeleteButton, enable ? global::AnimatedGifViewer.Properties.Resources.DeleteButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.NextButton, enable ? global::AnimatedGifViewer.Properties.Resources.NextButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.PrevButton, enable ? global::AnimatedGifViewer.Properties.Resources.PrevButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.FullScreenButton, enable ? global::AnimatedGifViewer.Properties.Resources.FullScreenButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.SizeButton, enable ? global::AnimatedGifViewer.Properties.Resources.SizeButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.RotateCounterButton, enable ? global::AnimatedGifViewer.Properties.Resources.RotateCounterButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.RotateClockwiseButton, enable ? global::AnimatedGifViewer.Properties.Resources.RotateClockwiseButtonToolTip : "");
+			this.mToolTip.SetToolTip(this.DeleteButton, enable ? global::AnimatedGifViewer.Properties.Resources.DeleteButtonToolTip : "");
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		private bool CheckFileFormat(string filename) {
+			string extension = Path.GetExtension(filename);
+			for (int i = 0, len = this.mSearchPatterns.Length; i < len; i++)
+				if (extension == this.mSearchPatterns[i])
+					return true;
+			return false;
 		}
 
 		/// <summary>
@@ -174,16 +189,20 @@ namespace AnimatedGifViewer {
 		/// according to the specified search pattern.
 		/// </summary>
 		/// <param name="path">Path where the files are to be searched for.</param>
-		/// <param name="searchPattern">Criteria, delimited by a '|', used for a targetted file search.</param>
 		/// <returns></returns>
-		private List<string> GetFiles(string path, string searchPattern) {
+		private List<string> GetFiles(string path) {
 			if (!Directory.Exists(path))
 				throw new Exception("GetFiles(): path does not exist.");
 
-			string[] searchPatterns = searchPattern.Split('|');
 			List<string> filenames = new List<string>();
-			foreach (string pattern in searchPatterns)
-				filenames.AddRange(Directory.GetFiles(path, pattern));
+			string[] allFilenames = Directory.GetFiles(path);
+
+			for (int i = 0, len = allFilenames.Length; i < len; i++) {
+				string filename = allFilenames[i];
+				if (this.CheckFileFormat(filename))
+					filenames.Add(filename);
+			}
+
 			filenames.Sort();
 			return filenames;
 		}
@@ -252,8 +271,8 @@ namespace AnimatedGifViewer {
 		/// <param name="index">The index in question.</param>
 		/// <returns>True if in bounds, false otherwise.</returns>
 		private bool CheckFilenamesBounds(int index) {
-			if ((this.filenames.Any()) && 
-				(index < this.filenames.Count) && 
+			if ((this.mFilenames.Any()) && 
+				(index < this.mFilenames.Count) && 
 				(index >= 0))
 				return true;
 			return false;
@@ -272,13 +291,13 @@ namespace AnimatedGifViewer {
 				byte[] bytes = File.ReadAllBytes(filename);
 				MemoryStream ms = new MemoryStream(bytes);
 				Image img = Image.FromStream(ms);
-				this.loadedFile = filename;
+				this.mLoadedFile = filename;
 
 				// Change the title of the form to have the file name.
 				MainFormDelegate changeText = delegate() {
 					this.Text = String.Format("{0} - {1}",
 						Path.GetFileName(filename),
-						this.assemblyProduct);
+						this.mAssemblyProduct);
 				};
 				if (this.InvokeRequired)
 					this.Invoke(changeText);
@@ -299,11 +318,11 @@ namespace AnimatedGifViewer {
 		private string NextImage() {
 
 			// Check if there are any files.
-			if (!this.filenames.Any())
+			if (!this.mFilenames.Any())
 				throw new Exception("NextImage(): Illegal procedure. There are no files to be found.");
 
-			this.filenameIndex = ((this.filenameIndex + 1) < this.filenames.Count) ? (this.filenameIndex + 1) : 0;
-			return this.filenames[this.filenameIndex];
+			this.mFilenameIndex = ((this.mFilenameIndex + 1) < this.mFilenames.Count) ? (this.mFilenameIndex + 1) : 0;
+			return this.mFilenames[this.mFilenameIndex];
 		}
 
 		/// <summary>
@@ -314,11 +333,11 @@ namespace AnimatedGifViewer {
 		private string PrevImage() {
 
 			// Check if there are any files.
-			if (!this.filenames.Any())
+			if (!this.mFilenames.Any())
 				throw new Exception("PrevImage(): Illegal procedure. There are no files to be found.");
 
-			this.filenameIndex = ((this.filenameIndex - 1) < 0) ? (this.filenames.Count - 1) : (this.filenameIndex - 1);
-			return this.filenames[this.filenameIndex];
+			this.mFilenameIndex = ((this.mFilenameIndex - 1) < 0) ? (this.mFilenames.Count - 1) : (this.mFilenameIndex - 1);
+			return this.mFilenames[this.mFilenameIndex];
 		}
 
 		/// <summary>
@@ -332,17 +351,17 @@ namespace AnimatedGifViewer {
 		private void RotateImage(System.Drawing.RotateFlipType rotateType) {
 
 			// Ignore if the file is a GIF.
-			string ext = Path.GetExtension(this.loadedFile);
+			string ext = Path.GetExtension(this.mLoadedFile);
 			if ("GIF" == this.GetFormatName(ext))
 				return;
 
 			// Check if the image is on the disk.
-			if (File.Exists(this.loadedFile)) {
+			if (File.Exists(this.mLoadedFile)) {
 
 				// Load the file into memory, rotate it, and save it.
-				Image imgFile = System.Drawing.Image.FromFile(this.loadedFile);
+				Image imgFile = System.Drawing.Image.FromFile(this.mLoadedFile);
 				imgFile.RotateFlip(rotateType);
-				imgFile.Save(this.loadedFile);
+				imgFile.Save(this.mLoadedFile);
 			}
 		}
 
@@ -353,8 +372,8 @@ namespace AnimatedGifViewer {
 		private void DeleteImage() {
 
 			// Attempt to delete the current file.
-			if (this.filenames.Any() && this.CheckFilenamesBounds(this.filenameIndex)) {
-				bool deleted = FileOperationAPIWrapper.Send(this.filenames[this.filenameIndex]);
+			if (this.mFilenames.Any() && this.CheckFilenamesBounds(this.mFilenameIndex)) {
+				bool deleted = FileOperationAPIWrapper.Send(this.mFilenames[this.mFilenameIndex]);
 				if (deleted)
 					this.NextButton.PerformClick();
 			}
@@ -366,38 +385,38 @@ namespace AnimatedGifViewer {
 		private void MakeImageCopy() {
 
 			// Ensure that the file is still in the directory.
-			if (File.Exists(this.loadedFile)) {
+			if (File.Exists(this.mLoadedFile)) {
 				Stream stream;
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
 
 				// Check the file name's extension and add a filter
 				// to the save file dialog with the same extension.
-				string ext = Path.GetExtension(this.loadedFile);
-				if((ext != String.Empty) && (this.ImageBox.Image != null))
+				string ext = Path.GetExtension(this.mLoadedFile);
+				if((ext != String.Empty) && (this.mImageBox.Image != null))
 					saveFileDialog.Filter = this.GetFormatName(ext) + "|*" + ext;
 
 				saveFileDialog.RestoreDirectory = false;
-				saveFileDialog.FileName = Path.GetFileName(this.loadedFile);
+				saveFileDialog.FileName = Path.GetFileName(this.mLoadedFile);
 
 				// Show the dialog.
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
 
 					// Check that the file name selected isn't the same as 
 					// the original. Pretend it is saved if it is the original.
-					if (saveFileDialog.FileName != this.loadedFile) {
+					if (saveFileDialog.FileName != this.mLoadedFile) {
 
 						if ((stream = saveFileDialog.OpenFile()) != null) {
 
 							// Check again that the original file exists 
 							// before attempting to write to the new file.
-							if (File.Exists(this.loadedFile) &&
+							if (File.Exists(this.mLoadedFile) &&
 								(saveFileDialog.FileName != string.Empty)) {
-								byte[] bytes = File.ReadAllBytes(this.loadedFile);
+								byte[] bytes = File.ReadAllBytes(this.mLoadedFile);
 								stream.Write(bytes, 0, bytes.Length);
 
 							} else {
 								string message = "The original file \""
-									+ Path.GetFileName(this.loadedFile)
+									+ Path.GetFileName(this.mLoadedFile)
 									+ " could not be found.";
 								const string caption = "File Missing";
 								DialogResult result = MessageBox.Show(message, caption,
@@ -414,16 +433,16 @@ namespace AnimatedGifViewer {
 		/// Makes a copy of the current image box image to the clipboard.
 		/// </summary>
 		private void CopyImageToClipboard() {
-			if(File.Exists(this.loadedFile))
-				Clipboard.SetImage(this.ImageBox.Image);
+			if(File.Exists(this.mLoadedFile))
+				Clipboard.SetImage(this.mImageBox.Image);
 		}
 
 		/// <summary>
 		/// Displays the properties dialog for the image in the image box.
 		/// </summary>
 		private void ShowImageProperties() {
-			if (File.Exists(this.loadedFile))
-				ShowFileProperties(this.loadedFile);
+			if (File.Exists(this.mLoadedFile))
+				ShowFileProperties(this.mLoadedFile);
 		}
 
 		/// <summary>
@@ -435,9 +454,9 @@ namespace AnimatedGifViewer {
 		/// used as a background must be first converted into a BMP.
 		/// </remarks>
 		private void SetAsDesktopBackground() {
-			if (File.Exists(this.loadedFile)) {
+			if (File.Exists(this.mLoadedFile)) {
 				string tempPath = Path.Combine(Path.GetTempPath(), "Wallpaper.bmp");
-				this.ImageBox.Image.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+				this.mImageBox.Image.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
 
 				// In the event that the user or the program does not have system permissions
 				// to use the temp directory, the file will not be saved and will not be found
@@ -453,8 +472,8 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <remarks>The file will be selected when the explorer is opened.</remarks>
 		private void OpenFileLocation() {
-			if (File.Exists(this.loadedFile)) {
-				System.Diagnostics.Process.Start("explorer.exe", "/select, " + this.loadedFile);
+			if (File.Exists(this.mLoadedFile)) {
+				System.Diagnostics.Process.Start("explorer.exe", "/select, " + this.mLoadedFile);
 			}
 		}
 
@@ -462,13 +481,13 @@ namespace AnimatedGifViewer {
 		/// Attempts to assign the loaded image into the full screen image box.
 		/// </summary>
 		private void ShowImageInFullScreen() {
-			if (this.FullScreenForm.Visible) {
+			if (this.mFullScreenForm.Visible) {
 				MainFormDelegate assign = delegate() {
-					this.FullScreenForm.ImageBox.Image = this.ImageBox.Image;
-					//this.FullScreenForm.ImageBox.FitToWindow();
+					this.mFullScreenForm.ImageBox.Image = this.mImageBox.Image;
+					this.mFullScreenForm.ImageBox.FitUpToWindow();
 				};
-				if (this.FullScreenForm.InvokeRequired)
-					this.FullScreenForm.Invoke(assign);
+				if (this.mFullScreenForm.InvokeRequired)
+					this.mFullScreenForm.Invoke(assign);
 				else
 					assign();
 			}
@@ -487,16 +506,16 @@ namespace AnimatedGifViewer {
 			// Initialize the form's components.
 			this.InitializeComponent();
 			this.InitializeImageBox();
-			this.InitializeFullScreenForm();
 
 			// Initialize variables.
-			this.filenameIndex = 0;
-			this.arguments = args;
-			this.filenames = new List<string>();
+			this.mFilenameIndex = 0;
+			this.mArguments = args;
+			this.mFilenames = new List<string>();
+			this.mSearchPatterns = FILE_TYPES.Split('|');
 
 			// Get assembly information.
 			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			this.assemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+			this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
 		}
 
 		/// <summary>
@@ -504,44 +523,36 @@ namespace AnimatedGifViewer {
 		/// onto the MainForm.
 		/// </summary>
 		private void InitializeImageBox() {
-			this.ImageBox = new ImageBox();
-			this.ImageBox.Border = System.Windows.Forms.BorderStyle.None;
-			this.ImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
+			this.mImageBox = new ImageBox();
+			this.mImageBox.Border = System.Windows.Forms.BorderStyle.None;
+			this.mImageBox.Anchor = (System.Windows.Forms.AnchorStyles)
 				(AnchorStyles.Top | AnchorStyles.Bottom |
 				AnchorStyles.Left | AnchorStyles.Right);
 
-			this.ImageBox.Location = new Point(0, 24);
-			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
-			this.ImageBox.Name = "ImageBox";
-			this.ImageBox.Size = new System.Drawing.Size(this.ClientSize.Width,
+			this.mImageBox.Location = new Point(0, 24);
+			this.mImageBox.Margin = new System.Windows.Forms.Padding(0);
+			this.mImageBox.Name = "ImageBox";
+			this.mImageBox.Size = new System.Drawing.Size(this.ClientSize.Width,
 				(this.ClientSize.Height > IMG_BOX_H_PAD ? this.ClientSize.Height - IMG_BOX_H_PAD : this.ClientSize.Height));
-			this.ImageBox.TabIndex = 0;
-			this.ImageBox.TabStop = false;
-			this.Controls.Add(this.ImageBox);
+			this.mImageBox.TabIndex = 0;
+			this.mImageBox.TabStop = false;
+			this.Controls.Add(this.mImageBox);
 
 			// ImageBoxMenu.
-			this.ImageBoxMenu = new MainFormImageBoxMenu();
-			this.ImageBoxMenu.Name = "ImageBoxMenu";
-			this.ImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.ImageBoxMenu.Size = new System.Drawing.Size(180, 70);
-			this.ImageBox.ContextMenuStrip = this.ImageBoxMenu;
+			this.mImageBoxMenu = new MainFormImageBoxMenu();
+			this.mImageBoxMenu.Name = "ImageBoxMenu";
+			this.mImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.mImageBoxMenu.Size = new System.Drawing.Size(180, 70);
+			this.mImageBox.ContextMenuStrip = this.mImageBoxMenu;
 
 			// Context menu event handlers.
-			this.ImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
-			this.ImageBoxMenu.OpenLocationMenuItem.Click += new System.EventHandler(this.ImageBoxMenuOpenLocation);
-			this.ImageBoxMenu.RotateClockwiseMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateClockwise_Click);
-			this.ImageBoxMenu.RotateCounterCMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateCounterC_Click);
-			this.ImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
-			this.ImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
-			this.ImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
-		}
-
-		/// <summary>
-		/// Initializes the full screen form components.
-		/// </summary>
-		private void InitializeFullScreenForm() {
-			this.FullScreenForm = new FullScreenForm();
-			this.FullScreenForm.Hide();
+			this.mImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
+			this.mImageBoxMenu.OpenLocationMenuItem.Click += new System.EventHandler(this.ImageBoxMenuOpenLocation);
+			this.mImageBoxMenu.RotateClockwiseMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateClockwise_Click);
+			this.mImageBoxMenu.RotateCounterCMenuItem.Click += new System.EventHandler(this.ImageBoxMenuRotateCounterC_Click);
+			this.mImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
+			this.mImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
+			this.mImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
 		}
 
 		/// <summary>
@@ -550,21 +561,21 @@ namespace AnimatedGifViewer {
 		/// created, or renamed events to be raised.
 		/// </summary>
 		private void InitFileWatcher() {
-			this.watcher = new FileSystemWatcher();
-			this.watcher.Path = Directory.GetCurrentDirectory();
-			this.watcher.NotifyFilter = NotifyFilters.LastAccess |
+			this.mWatcher = new FileSystemWatcher();
+			this.mWatcher.Path = Directory.GetCurrentDirectory();
+			this.mWatcher.NotifyFilter = NotifyFilters.LastAccess |
 				NotifyFilters.LastWrite | NotifyFilters.FileName |
 				NotifyFilters.DirectoryName;
 			//this.watcher.Filter = FILE_TYPES;
 
 			// Add event handlers.
-			this.watcher.Changed += new FileSystemEventHandler(this.FileSystem_Changed);
-			this.watcher.Created += new FileSystemEventHandler(this.FileSystem_Changed);
-			this.watcher.Deleted += new FileSystemEventHandler(this.FileSystem_Changed);
-			this.watcher.Renamed += new RenamedEventHandler(this.FileSystem_Renamed);
+			this.mWatcher.Changed += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.mWatcher.Created += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.mWatcher.Deleted += new FileSystemEventHandler(this.FileSystem_Changed);
+			this.mWatcher.Renamed += new RenamedEventHandler(this.FileSystem_Renamed);
 
 			// Start watching for events.
-			this.watcher.EnableRaisingEvents = true;
+			this.mWatcher.EnableRaisingEvents = true;
 		}
 
 		/// <summary>
@@ -575,41 +586,46 @@ namespace AnimatedGifViewer {
 		private void MainForm_Load(object sender, EventArgs e) {
 
 			// MainForm.
-			this.Text = this.assemblyProduct;
+			this.Text = this.mAssemblyProduct;
 			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
 			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
 			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
+			this.AllowDrop = true;
 
 			// Image box.
-			this.ImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
+			this.mImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
+
+			// Full Screen Form.
+			this.mFullScreenForm = new FullScreenForm();
+			this.mFullScreenForm.Hide();
 
 			// Tool tip settings.
-			this.ToolTip = new ToolTip();
-			this.ToolTip.AutomaticDelay = 5000;
-			this.ToolTip.InitialDelay = 1000;
-			this.ToolTip.ReshowDelay = 500;
-			this.ToolTip.ShowAlways = true;
+			this.mToolTip = new ToolTip();
+			this.mToolTip.AutomaticDelay = 5000;
+			this.mToolTip.InitialDelay = 1000;
+			this.mToolTip.ReshowDelay = 500;
+			this.mToolTip.ShowAlways = true;
 
 			// Slider.
-			this.Slider = new System.Windows.Forms.TrackBar();
+			this.mSlider = new System.Windows.Forms.TrackBar();
 			
 			// Buttons.
 			this.EnableButtons(false);
 
 			// Load the image sets for each button.
-			this.buttonImages.Add(this.PrevButton, 
+			this.mButtonImages.Add(this.PrevButton, 
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Previous));
-			this.buttonImages.Add(this.NextButton,
+			this.mButtonImages.Add(this.NextButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
-			this.buttonImages.Add(this.FullScreenButton,
+			this.mButtonImages.Add(this.FullScreenButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
-			this.buttonImages.Add(this.SizeButton,
+			this.mButtonImages.Add(this.SizeButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Size));
-			this.buttonImages.Add(this.RotateCounterButton,
+			this.mButtonImages.Add(this.RotateCounterButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter));
-			this.buttonImages.Add(this.RotateClockwiseButton,
+			this.mButtonImages.Add(this.RotateClockwiseButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise));
-			this.buttonImages.Add(this.DeleteButton,
+			this.mButtonImages.Add(this.DeleteButton,
 				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Delete));
 
 			// Mouse enter events.
@@ -653,9 +669,12 @@ namespace AnimatedGifViewer {
 			this.Move += new System.EventHandler(this.MainForm_Move);
 			this.Resize += new System.EventHandler(this.MainForm_Resize);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
+			this.DragEnter += new DragEventHandler(this.MainForm_DragEnter);
+			this.DragDrop += new DragEventHandler(this.MainForm_DragDrop);
 
 			// Set to handle keyboard events.
-			this.FullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
+			this.mFullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
+			this.mFullScreenForm.ProcessCmdKeyEvent += this.FullScreenForm_ExitFullScreen;
 			this.KeyPreview = true;
 		}
 
@@ -668,8 +687,8 @@ namespace AnimatedGifViewer {
 		private void MainForm_Shown(object sender, EventArgs e) {
 
 			// Checks if there was a filename passed.
-			if (this.arguments.Any())
-				this.OpenImageFile(this.arguments[0]);
+			if (this.mArguments.Any())
+				this.OpenImageFile(this.mArguments[0]);
 		}
 		#endregion
 
@@ -684,7 +703,7 @@ namespace AnimatedGifViewer {
 
 			// Change the state image for each 
 			// button when the form falls out of focus.
-			foreach (KeyValuePair<Button, ButtonImageSet> item in this.buttonImages) {
+			foreach (KeyValuePair<Button, ButtonImageSet> item in this.mButtonImages) {
 				if (item.Key.Enabled) {
 					item.Key.BackgroundImage = item.Value.GetImage(ButtonImageSet.EState.Active);
 				}
@@ -739,8 +758,8 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">NextButton</param>
 		/// <param name="e">Event arguments.</param>
 		private void NextButton_Click(object sender, EventArgs e) {
-			if (this.filenames.Any()) {
-				this.ImageBox.Image = this.LoadImage(this.NextImage());
+			if (this.mFilenames.Any()) {
+				this.mImageBox.Image = this.LoadImage(this.NextImage());
 				this.ShowImageInFullScreen();
 			}
 		}
@@ -752,8 +771,8 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">PrevButton</param>
 		/// <param name="e">Event arguments.</param>
 		private void PrevButton_Click(object sender, EventArgs e) {
-			if (this.filenames.Any()) {
-				this.ImageBox.Image = this.LoadImage(this.PrevImage());
+			if (this.mFilenames.Any()) {
+				this.mImageBox.Image = this.LoadImage(this.PrevImage());
 				this.ShowImageInFullScreen();
 			}
 		}
@@ -764,9 +783,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">FullScreenButton</param>
 		/// <param name="e">Event arguments.</param>
 		private void FullScreenButton_Click(object sender, EventArgs e) {
-			if (this.filenames.Any()) {
-				this.FullScreenForm.Show();
+			if (this.mFilenames.Any()) {
+				this.mFullScreenForm.Show();
 				this.ShowImageInFullScreen();
+				this.Hide();
 			}
 		}
 
@@ -879,6 +899,44 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
+		#region Drag and Drop Handlers
+		/// <summary>
+		/// Displays the copy icon effect when dragging a file over the form.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_DragEnter(object sender, DragEventArgs e) {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop)) 
+				e.Effect = DragDropEffects.Copy;
+		}
+
+		/// <summary>
+		/// Attempts to open the file in the image box.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_DragDrop(object sender, DragEventArgs e) {
+			string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
+			if (filenames.Any()) {
+				this.OpenImageFile(filenames[0]);
+			}
+		}
+		#endregion
+
+		#region Full Screen Form Handlers
+		/// <summary>
+		/// Attempts to hide the full screen form and bring back the main form.
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="keyData"></param>
+		private void FullScreenForm_ExitFullScreen(Keys keyData) {
+			if ((keyData == Keys.Escape) && !this.Visible) {
+				this.mFullScreenForm.Hide();
+				this.Show();
+			}
+		}
+		#endregion
+
 		#region Image Box Menu Handlers
 		/// <summary>
 		/// Opens the current image's file location when the image
@@ -985,11 +1043,11 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">FileSystemWatcher</param>
 		/// <param name="e">File system event arguments.</param>
 		private void FileSystem_Changed(object sender, FileSystemEventArgs e) {
-			if (this.loadFileNames != null) {
+			if (this.mLoadedFilenames != null) {
 				if (this.InvokeRequired)
-					this.Invoke(this.loadFileNames);
+					this.Invoke(this.mLoadedFilenames);
 				else
-					this.loadFileNames();
+					this.mLoadedFilenames();
 			}
 		}
 
@@ -999,11 +1057,11 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">FileSystemWatcher</param>
 		/// <param name="e">Renamed event arguments.</param>
 		private void FileSystem_Renamed(object sender, RenamedEventArgs e) {
-			if (this.loadFileNames != null) {
+			if (this.mLoadedFilenames != null) {
 				if (this.InvokeRequired)
-					this.Invoke(this.loadFileNames);
+					this.Invoke(this.mLoadedFilenames);
 				else
-					this.loadFileNames();
+					this.mLoadedFilenames();
 			}
 		}
 		#endregion
@@ -1031,12 +1089,12 @@ namespace AnimatedGifViewer {
 
 				if ((keyData == Keys.Left) ||
 					(keyData == Keys.A)) {
-					this.PrevButton.PerformClick();
+					this.PrevButton_Click(this, null);
 				}
 
 				if ((keyData == Keys.Right) ||
 					(keyData == Keys.D)) {
-					this.NextButton.PerformClick();
+					this.NextButton_Click(this, null);
 				}
 
 				if ((keyData == Keys.Up) ||
@@ -1050,11 +1108,11 @@ namespace AnimatedGifViewer {
 				}
 
 				if (keyData == Keys.Oemcomma) {
-					this.RotateCounterButton.PerformClick();
+					this.RotateCounterButton_Click(this, null);
 				}
 
 				if (keyData == Keys.OemPeriod) {
-					this.RotateClockwiseButton.PerformClick();
+					this.RotateClockwiseButton_Click(this, null);
 				}
 
 				if (keyData == Keys.Delete) {
@@ -1080,8 +1138,8 @@ namespace AnimatedGifViewer {
 			
 			Button button = (Button)sender;
 			if (button.Enabled) {
-				if (this.buttonImages.ContainsKey(button))
-					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Hover);
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
 			}
 		}
 
@@ -1095,8 +1153,8 @@ namespace AnimatedGifViewer {
 
 			Button button = (Button)sender;
 			if (button.Enabled) {
-				if (this.buttonImages.ContainsKey(button))
-					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Active);
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Active);
 			}
 		}
 
@@ -1110,8 +1168,8 @@ namespace AnimatedGifViewer {
 
 			Button button = (Button)sender;
 			if (button.Enabled) {
-				if (this.buttonImages.ContainsKey(button))
-					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Clicked);
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Clicked);
 			}
 		}
 
@@ -1125,8 +1183,8 @@ namespace AnimatedGifViewer {
 
 			Button button = (Button)sender;
 			if (button.Enabled) {
-				if (this.buttonImages.ContainsKey(button))
-					button.BackgroundImage = this.buttonImages[button].GetImage(ButtonImageSet.EState.Hover);
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
 			}
 		}
 		#endregion
@@ -1250,7 +1308,7 @@ namespace AnimatedGifViewer {
 			if (AeroGlassCompositionEnabled) {
 				Rectangle clientScreen = this.RectangleToScreen(this.ClientRectangle);
 				Rectangle controlScreen = Rectangle.Union(this.MenuStrip.RectangleToScreen(this.MenuStrip.ClientRectangle),
-					this.ImageBox.RectangleToScreen(this.ImageBox.ClientRectangle));
+					this.mImageBox.RectangleToScreen(this.mImageBox.ClientRectangle));
 
 
 				Margins margins = new Margins();
@@ -1336,6 +1394,18 @@ namespace AnimatedGifViewer {
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+		#endregion
+
+		#region Program Entry Point
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args) {
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new MainForm(args));
+		}
 		#endregion
 	}
 }
