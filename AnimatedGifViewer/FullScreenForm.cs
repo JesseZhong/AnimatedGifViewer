@@ -23,6 +23,7 @@ namespace AnimatedGifViewer {
 		#region Members
 		private Timer mActivityTimer;
 		private TimeSpan mActivityThreshold;
+		private DateTime mLastMouseMove;
 		private bool mCursorHidden;
 		#endregion
 
@@ -43,7 +44,7 @@ namespace AnimatedGifViewer {
 		public FullScreenForm() {
 			this.InitializeComponent();
 			this.InitializeImageBox();
-			this.InitializeTimer();
+			this.InitializeMouseActivity();
 		}
 
 		/// <summary>
@@ -83,21 +84,35 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Initialize the members relating to the mouse activity timer.
+		/// Initialize the members relating to the mouse activity.
 		/// </summary>
-		private void InitializeTimer() {
+		private void InitializeMouseActivity() {
+
+			MouseHandler mouseHandler = new MouseHandler();
+			mouseHandler.MouseMoved += FullScreenForm_MouseMoved;
+			Application.AddMessageFilter(mouseHandler);
+
 			this.mActivityTimer = new Timer();
 			this.mActivityTimer.Tick += this.ActivityTimer_Tick;
 			this.mActivityTimer.Interval = 100;
 			this.mActivityTimer.Enabled = true;
-
 			this.mActivityThreshold = TimeSpan.FromSeconds(ACTIVITY_THRESHOLD);
-
 			this.mCursorHidden = false;
 		}
 		#endregion
 
 		#region Timer Handlers
+		/// <summary>
+		/// 
+		/// </summary>
+		private void FullScreenForm_MouseMoved() {
+			this.mLastMouseMove = DateTime.Now;
+			if (this.mCursorHidden) {
+				Cursor.Show();
+				this.mCursorHidden = false;
+			}
+		}
+
 		/// <summary>
 		/// Checks how long the mouse is inactive and hides the cursor 
 		/// after no input is detected after a certain amount of time.
@@ -105,15 +120,10 @@ namespace AnimatedGifViewer {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ActivityTimer_Tick(object sender, EventArgs e) {
-			bool shouldHide = GetLastInput() > this.mActivityThreshold;
-			if (this.mCursorHidden != shouldHide) {
-
-				if (shouldHide)
-					Cursor.Hide();
-				else
-					Cursor.Show();
-
-				this.mCursorHidden = shouldHide;
+			TimeSpan elapsedTime = DateTime.Now - this.mLastMouseMove;
+			if (((elapsedTime >= this.mActivityThreshold) != this.mCursorHidden) && this.Visible) {
+				Cursor.Hide();
+				this.mCursorHidden = true;
 			}
 		}
 		#endregion
@@ -158,24 +168,6 @@ namespace AnimatedGifViewer {
 
 		public static void SetWinFullScreen(IntPtr hwnd) {
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, ScreenX, ScreenY, SWP_SHOWWINDOW);
-		}
-
-		public static TimeSpan GetLastInput() {
-			var plii = new LASTINPUTINFO();
-			plii.cbSize = (uint)Marshal.SizeOf(plii);
-
-			if (GetLastInputInfo(ref plii))
-				return TimeSpan.FromMilliseconds(Environment.TickCount - plii.dwTime);
-			else
-				throw new Win32Exception(Marshal.GetLastWin32Error());
-		}
-
-		[DllImport("user32.dll", SetLastError = true)]
-		static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-
-		struct LASTINPUTINFO {
-			public uint cbSize;
-			public uint dwTime;
 		}
 		#endregion
 	}
