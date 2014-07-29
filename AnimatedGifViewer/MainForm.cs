@@ -504,8 +504,10 @@ namespace AnimatedGifViewer {
 		public MainForm(string[] args = null) {
 
 			// Initialize the form's components.
+			this.InitializeMainForm();
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeEventHandlers();
 
 			// Initialize variables.
 			this.mFilenameIndex = 0;
@@ -516,6 +518,35 @@ namespace AnimatedGifViewer {
 			// Get assembly information.
 			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
 			this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+		}
+
+		/// <summary>
+		/// Instantiates and set properties for some 
+		/// of the major controls in the main form.
+		/// </summary>
+		private void InitializeMainForm() {
+
+			// MainForm.
+			this.Text = this.mAssemblyProduct;
+			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
+			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
+			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
+			this.AllowDrop = true;
+			this.KeyPreview = true;
+
+			// Full Screen Form.
+			this.mFullScreenForm = new FullScreenForm();
+			this.mFullScreenForm.Hide();
+
+			// Tool tip settings.
+			this.mToolTip = new ToolTip();
+			this.mToolTip.AutomaticDelay = 5000;
+			this.mToolTip.InitialDelay = 1000;
+			this.mToolTip.ReshowDelay = 500;
+			this.mToolTip.ShowAlways = true;
+
+			// Slider.
+			this.mSlider = new System.Windows.Forms.TrackBar();
 		}
 
 		/// <summary>
@@ -544,6 +575,7 @@ namespace AnimatedGifViewer {
 			this.mImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.mImageBoxMenu.Size = new System.Drawing.Size(180, 70);
 			this.mImageBox.ContextMenuStrip = this.mImageBoxMenu;
+			this.mImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
 			// Context menu event handlers.
 			this.mImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
@@ -579,54 +611,9 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Loads additional content when the form is created.
+		/// Assigns event handlers to certain events. 
 		/// </summary>
-		/// <param name="sender">MainForm</param>
-		/// <param name="e">Event arguments.</param>
-		private void MainForm_Load(object sender, EventArgs e) {
-
-			// MainForm.
-			this.Text = this.mAssemblyProduct;
-			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
-			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
-			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
-			this.AllowDrop = true;
-
-			// Image box.
-			this.mImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
-
-			// Full Screen Form.
-			this.mFullScreenForm = new FullScreenForm();
-			this.mFullScreenForm.Hide();
-
-			// Tool tip settings.
-			this.mToolTip = new ToolTip();
-			this.mToolTip.AutomaticDelay = 5000;
-			this.mToolTip.InitialDelay = 1000;
-			this.mToolTip.ReshowDelay = 500;
-			this.mToolTip.ShowAlways = true;
-
-			// Slider.
-			this.mSlider = new System.Windows.Forms.TrackBar();
-			
-			// Buttons.
-			this.EnableButtons(false);
-
-			// Load the image sets for each button.
-			this.mButtonImages.Add(this.PrevButton, 
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Previous));
-			this.mButtonImages.Add(this.NextButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
-			this.mButtonImages.Add(this.FullScreenButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
-			this.mButtonImages.Add(this.SizeButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Size));
-			this.mButtonImages.Add(this.RotateCounterButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter));
-			this.mButtonImages.Add(this.RotateClockwiseButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise));
-			this.mButtonImages.Add(this.DeleteButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Delete));
+		private void InitializeEventHandlers() {
 
 			// Mouse enter events.
 			this.PrevButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
@@ -675,7 +662,33 @@ namespace AnimatedGifViewer {
 			// Set to handle keyboard events.
 			this.mFullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
 			this.mFullScreenForm.ProcessCmdKeyEvent += this.FullScreenForm_ExitFullScreen;
-			this.KeyPreview = true;
+		}
+
+		/// <summary>
+		/// Loads additional content when the form is created.
+		/// </summary>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
+		private void MainForm_Load(object sender, EventArgs e) {
+
+			// Buttons.
+			this.EnableButtons(false);
+
+			// Load the image sets for each button.
+			this.mButtonImages.Add(this.PrevButton, 
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Previous));
+			this.mButtonImages.Add(this.NextButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
+			this.mButtonImages.Add(this.FullScreenButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
+			this.mButtonImages.Add(this.SizeButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Size));
+			this.mButtonImages.Add(this.RotateCounterButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter));
+			this.mButtonImages.Add(this.RotateClockwiseButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise));
+			this.mButtonImages.Add(this.DeleteButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Delete));
 		}
 
 		/// <summary>
