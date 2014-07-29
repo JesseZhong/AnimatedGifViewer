@@ -18,7 +18,7 @@ Animated GIF Viewer is a free program that is distributed under the GNU General 
 
 2. Download & Installation
 --------------------------
-The most recent version is **1.0.5319**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5319.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5319.zip)
+The most recent version is **1.0.5322**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5322.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5322.zip)
 
 New and old releases of the viewer are available on the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page.
 
