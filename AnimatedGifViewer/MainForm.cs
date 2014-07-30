@@ -65,6 +65,8 @@ namespace AnimatedGifViewer {
 
 		private delegate void MainFormDelegate();
 		private MainFormDelegate mLoadedFilenames;
+
+		private int mPrevSliderValue;
 		#endregion
 
 		#region Work
@@ -172,10 +174,10 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Checks if the file extension is an accepted image.
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
+		/// <param name="filename">The name of the file.</param>
+		/// <returns>True if the extension has a match.</returns>
 		private bool CheckFileFormat(string filename) {
 			string extension = Path.GetExtension(filename);
 			for (int i = 0, len = this.mSearchPatterns.Length; i < len; i++)
@@ -514,6 +516,7 @@ namespace AnimatedGifViewer {
 			this.mArguments = args;
 			this.mFilenames = new List<string>();
 			this.mSearchPatterns = FILE_TYPES.Split('|');
+			this.mPrevSliderValue = 0;
 
 			// Get assembly information.
 			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
@@ -547,6 +550,14 @@ namespace AnimatedGifViewer {
 
 			// Slider.
 			this.mSlider = new System.Windows.Forms.TrackBar();
+			this.mSlider.Orientation = Orientation.Vertical;
+			this.mSlider.Minimum = 0;
+			// 2 * for both enlarging and shrinking and + 1 for no change.
+			this.mSlider.Maximum = 2 * ImageBox.LEVELS_OF_COMPOUND_MAGNIFICATION + 1;
+			this.mSlider.TickStyle = TickStyle.None;
+			//this.mSlider.Hide();
+
+			this.Controls.Add(this.mSlider);
 		}
 
 		/// <summary>
@@ -658,6 +669,14 @@ namespace AnimatedGifViewer {
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
 			this.DragEnter += new DragEventHandler(this.MainForm_DragEnter);
 			this.DragDrop += new DragEventHandler(this.MainForm_DragDrop);
+
+			// Image Box events.
+			this.mImageBox.ImageChanged += new ZoomEventHandler(this.ImageBox_SetSlider);
+			this.mImageBox.ZoomedIn += new ZoomEventHandler(this.ImageBox_SetSlider);
+			this.mImageBox.ZoomedOut += new ZoomEventHandler(this.ImageBox_SetSlider);
+
+			// Slider events.
+			this.mSlider.Scroll += new EventHandler(this.Slider_Scroll);
 
 			// Set to handle keyboard events.
 			this.mFullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
@@ -841,6 +860,34 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
+		#region Slider Handlers
+		/// <summary>
+		/// Magnifies the image in the image box when the slider box / knob is moved.
+		/// </summary>
+		/// <param name="sender">Slider</param>
+		/// <param name="e">Event arguments.</param>
+		private void Slider_Scroll(object sender, EventArgs e) {
+
+			// Calculate the movement.
+			int delta = this.mPrevSliderValue - this.mSlider.Value;
+
+			// Determine which direction the movement was in and which magnification method to use.
+			MethodInvoker invoker = (delta < 0) 
+				? (MethodInvoker)delegate { this.mImageBox.ZoomIn(ImageBox.SLIDER_ZOOM_FACTOR); }
+				: (MethodInvoker)delegate { this.mImageBox.ZoomOut(ImageBox.SLIDER_ZOOM_FACTOR); };
+
+			// Magnify depending on the delta of the movement.
+			for (int i = 0, count = Math.Abs(delta); i < count; i++) {
+				if (this.mImageBox.InvokeRequired)
+					this.mImageBox.Invoke(invoker);
+				else
+					invoker();
+			}
+			
+			this.mPrevSliderValue = this.mSlider.Value;
+		}
+		#endregion
+
 		#region Menu Bar Handlers
 		/// <summary>
 		/// Opens a file dialog that allows the user to choose an image to open.
@@ -917,6 +964,30 @@ namespace AnimatedGifViewer {
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+		#endregion
+
+		#region Image Box Handlers
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ImageBox_SetSlider(object sender, ZoomEventArgs e) {
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;
+
+			// Calculate the aspect ratios for the image and screen.
+			double imageRatio = e.OriginalWidth / e.OriginalHeight;
+			double screenRatio = screen.Width / screen.Height;
+
+			// Determine which pair of edges, vertical or horizontal, the image will touch first when fully zoomed to the maximum allowed bounds by the screen.
+			// Calculate the ratio of the widths or heights depending on which edges are touched first.
+			double screenToImageRatio = ImageBox.ZOOM_MIN_MAX * ((imageRatio > screenRatio) ? screen.Width / (double)e.CurrentWidth : screen.Height / (double)e.CurrentHeight);
+
+			// Calculate the current magnification level and assign it to the slider.
+			int currentZoomLevel = this.mSlider.Maximum - Convert.ToInt32(Math.Truncate(Math.Log(screenToImageRatio) / Math.Log(ImageBox.SLIDER_ZOOM_FACTOR)));
+			if (this.mSlider.Value != currentZoomLevel)
+				this.mSlider.Value = currentZoomLevel;
 		}
 		#endregion
 
