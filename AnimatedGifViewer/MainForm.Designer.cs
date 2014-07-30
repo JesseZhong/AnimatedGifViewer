@@ -173,6 +173,7 @@
 			this.SizeButton.Size = new System.Drawing.Size(37, 25);
 			this.SizeButton.TabIndex = 9;
 			this.SizeButton.UseVisualStyleBackColor = false;
+			this.SizeButton.Click += new System.EventHandler(this.SizeButton_Click);
 			// 
 			// FitSizeButton
 			// 

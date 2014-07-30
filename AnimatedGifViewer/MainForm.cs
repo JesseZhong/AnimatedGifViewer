@@ -555,7 +555,7 @@ namespace AnimatedGifViewer {
 			// 2 * for both enlarging and shrinking and + 1 for no change.
 			this.mSlider.Maximum = 2 * ImageBox.LEVELS_OF_COMPOUND_MAGNIFICATION + 1;
 			this.mSlider.TickStyle = TickStyle.None;
-			//this.mSlider.Hide();
+			this.mSlider.Hide();
 
 			this.Controls.Add(this.mSlider);
 		}
@@ -677,6 +677,9 @@ namespace AnimatedGifViewer {
 
 			// Slider events.
 			this.mSlider.Scroll += new EventHandler(this.Slider_Scroll);
+			MouseHandler mouseHandler = new MouseHandler();
+			mouseHandler.MouseClicked += this.Mouse_SliderLostFocus;
+			Application.AddMessageFilter(mouseHandler);
 
 			// Set to handle keyboard events.
 			this.mFullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
@@ -858,6 +861,81 @@ namespace AnimatedGifViewer {
 		private void DeleteButton_Click(object sender, EventArgs e) {
 			this.DeleteImage();
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SizeButton_Click(object sender, EventArgs e) {
+			int height = this.mSlider.Height;
+			this.mSlider.Show();
+			this.mSlider.Focus();
+			var p = this.mSlider.Margin;
+		}
+
+		#region All Button Handlers
+		/// <summary>
+		/// Changes the image of the button to the
+		/// hover state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseEnter(object sender, EventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// active state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseLeave(object sender, EventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Active);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// clicked/pressed state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseDown(object sender, MouseEventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Clicked);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// active state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseUp(object sender, MouseEventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
+			}
+		}
+		#endregion
+
 		#endregion
 
 		#region Slider Handlers
@@ -969,10 +1047,10 @@ namespace AnimatedGifViewer {
 
 		#region Image Box Handlers
 		/// <summary>
-		/// 
+		/// Sets the position of the slider box / knob when the magnification level changes.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">ImageBox</param>
+		/// <param name="e">Event arguments.</param>
 		private void ImageBox_SetSlider(object sender, ZoomEventArgs e) {
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;
 
@@ -1221,62 +1299,15 @@ namespace AnimatedGifViewer {
 
 		#region Mouse Handlers
 		/// <summary>
-		/// Changes the image of the button to the
-		/// hover state if the button is enabled.
+		/// Hides the slider when it loses focus.
 		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseEnter(object sender, EventArgs e) {
-			
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
-			}
-		}
-
-		/// <summary>
-		/// Changes the image of the button to the
-		/// active state if the button is enabled.
-		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseLeave(object sender, EventArgs e) {
-
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Active);
-			}
-		}
-
-		/// <summary>
-		/// Changes the image of the button to the
-		/// clicked/pressed state if the button is enabled.
-		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseDown(object sender, MouseEventArgs e) {
-
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Clicked);
-			}
-		}
-
-		/// <summary>
-		/// Changes the image of the button to the
-		/// active state if the button is enabled.
-		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseUp(object sender, MouseEventArgs e) {
-
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Mouse_SliderLostFocus() {
+			if (this.mSlider.Visible) {
+				var r = this.mSlider.RectangleToScreen(this.mSlider.Bounds);
+				if (!r.Contains(Cursor.Position))
+					this.mSlider.Hide();
 			}
 		}
 		#endregion

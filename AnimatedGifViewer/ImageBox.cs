@@ -464,13 +464,14 @@ namespace AnimatedGifViewer {
 		/// that the picture box is smaller than the window, the picture box will aligned to the center instead.
 		/// </summary>
 		private void AlignPictureBox() {
+			bool focused = this.mPictureBox.Focused;
 
 			// If the picture box exceeds any of the window's dimensions, use the ratios
 			// to align the picture box. Otherwise, center the picture instead.
-			this.mXMouseToWinRatio = (this.mWindow.Width < this.mPictureBox.Width) ? this.mXMouseToWinRatio : CENTER;
-			this.mYMouseToWinRatio = (this.mWindow.Height < this.mPictureBox.Height) ? this.mYMouseToWinRatio : CENTER;
-			this.mXMouseToPicRatio = (this.mWindow.Width < this.mPictureBox.Width) ? this.mXMouseToPicRatio : CENTER;
-			this.mYMouseToPicRatio = (this.mWindow.Height < this.mPictureBox.Height) ? this.mYMouseToPicRatio : CENTER;
+			this.mXMouseToWinRatio = (focused && (this.mWindow.Width < this.mPictureBox.Width)) ? this.mXMouseToWinRatio : CENTER;
+			this.mYMouseToWinRatio = (focused && (this.mWindow.Height < this.mPictureBox.Height)) ? this.mYMouseToWinRatio : CENTER;
+			this.mXMouseToPicRatio = (focused && (this.mWindow.Width < this.mPictureBox.Width)) ? this.mXMouseToPicRatio : CENTER;
+			this.mYMouseToPicRatio = (focused && (this.mWindow.Height < this.mPictureBox.Height)) ? this.mYMouseToPicRatio : CENTER;
 
 			// Calculate the location of the picture box on the window where the points overlap.
 			int xPoint = (int)((this.mWindow.Width * mXMouseToWinRatio) - (this.mPictureBox.Width * mXMouseToPicRatio));
