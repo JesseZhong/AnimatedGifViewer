@@ -530,12 +530,12 @@ namespace AnimatedGifViewer {
 		private void InitializeMainForm() {
 
 			// MainForm.
-			this.Text = this.mAssemblyProduct;
-			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
-			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
-			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
 			this.AllowDrop = true;
 			this.KeyPreview = true;
+			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
+			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
+			this.Text = this.mAssemblyProduct;
+			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
 
 			// Full Screen Form.
 			this.mFullScreenForm = new FullScreenForm();
@@ -550,12 +550,16 @@ namespace AnimatedGifViewer {
 
 			// Slider.
 			this.mSlider = new System.Windows.Forms.TrackBar();
-			this.mSlider.Orientation = Orientation.Vertical;
-			this.mSlider.Minimum = 0;
+			this.mSlider.AutoSize = false;
+			this.mSlider.BackColor = SystemColors.ControlDark;
 			// 2 * for both enlarging and shrinking and + 1 for no change.
 			this.mSlider.Maximum = 2 * ImageBox.LEVELS_OF_COMPOUND_MAGNIFICATION + 1;
+			this.mSlider.Minimum = 0;
+			this.mSlider.Orientation = Orientation.Vertical;
+			this.mSlider.Size = new System.Drawing.Size(24, 60);
 			this.mSlider.TickStyle = TickStyle.None;
 			this.mSlider.Hide();
+
 
 			this.Controls.Add(this.mSlider);
 		}
@@ -863,15 +867,17 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Shows the slider when the size button is clicked.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="sender">SizeButton</param>
+		/// <param name="e">Event arguments.</param>
 		private void SizeButton_Click(object sender, EventArgs e) {
-			int height = this.mSlider.Height;
+			Point posOnForm = this.PointToClient(Cursor.Position);
+			int x = posOnForm.X - this.mSlider.Width / 2;
+			int y = posOnForm.Y - this.mSlider.Height;
+			this.mSlider.Location = new Point(x, y);
 			this.mSlider.Show();
 			this.mSlider.Focus();
-			var p = this.mSlider.Margin;
 		}
 
 		#region All Button Handlers
@@ -1305,7 +1311,7 @@ namespace AnimatedGifViewer {
 		/// <param name="e"></param>
 		private void Mouse_SliderLostFocus() {
 			if (this.mSlider.Visible) {
-				var r = this.mSlider.RectangleToScreen(this.mSlider.Bounds);
+				var r = this.mSlider.RectangleToScreen(this.mSlider.ClientRectangle);
 				if (!r.Contains(Cursor.Position))
 					this.mSlider.Hide();
 			}

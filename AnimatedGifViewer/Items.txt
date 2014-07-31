@@ -17,7 +17,7 @@ Implement About menu item							- Done
 MainForm title changes to the current file name		- Done
 Add program settings for window size and position	- Done
 Implement rotation buttons							- Done
-Implement size button
+Implement size button								- Done (buggy)
 Implement fit to window and actual size buttons		
 Add user preferences
 Add file association
