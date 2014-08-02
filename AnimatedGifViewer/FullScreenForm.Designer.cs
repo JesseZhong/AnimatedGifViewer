@@ -33,7 +33,6 @@
 			this.ClientSize = new System.Drawing.Size(284, 262);
 			this.Name = "FullScreenForm";
 			this.Text = "FullScreenForm";
-			this.Load += new System.EventHandler(this.FullScreenForm_Load);
 			this.ResumeLayout(false);
 
 		}

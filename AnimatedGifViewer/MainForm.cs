@@ -65,6 +65,8 @@ namespace AnimatedGifViewer {
 
 		private delegate void MainFormDelegate();
 		private MainFormDelegate mLoadedFilenames;
+
+		private int mPrevSliderValue;
 		#endregion
 
 		#region Work
@@ -172,10 +174,10 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// 
+		/// Checks if the file extension is an accepted image.
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
+		/// <param name="filename">The name of the file.</param>
+		/// <returns>True if the extension has a match.</returns>
 		private bool CheckFileFormat(string filename) {
 			string extension = Path.GetExtension(filename);
 			for (int i = 0, len = this.mSearchPatterns.Length; i < len; i++)
@@ -504,18 +506,62 @@ namespace AnimatedGifViewer {
 		public MainForm(string[] args = null) {
 
 			// Initialize the form's components.
+			this.InitializeMainForm();
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeEventHandlers();
 
 			// Initialize variables.
 			this.mFilenameIndex = 0;
 			this.mArguments = args;
 			this.mFilenames = new List<string>();
 			this.mSearchPatterns = FILE_TYPES.Split('|');
+			this.mPrevSliderValue = 0;
 
 			// Get assembly information.
 			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
 			this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+		}
+
+		/// <summary>
+		/// Instantiates and set properties for some 
+		/// of the major controls in the main form.
+		/// </summary>
+		private void InitializeMainForm() {
+
+			// MainForm.
+			this.AllowDrop = true;
+			this.KeyPreview = true;
+			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
+			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
+			this.Text = this.mAssemblyProduct;
+			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
+
+			// Full Screen Form.
+			this.mFullScreenForm = new FullScreenForm();
+			this.mFullScreenForm.Hide();
+
+			// Tool tip settings.
+			this.mToolTip = new ToolTip();
+			this.mToolTip.AutomaticDelay = 5000;
+			this.mToolTip.InitialDelay = 1000;
+			this.mToolTip.ReshowDelay = 500;
+			this.mToolTip.ShowAlways = true;
+
+			// Slider.
+			this.mSlider = new System.Windows.Forms.TrackBar();
+			this.mSlider.AutoSize = false;
+			this.mSlider.BackColor = SystemColors.ControlDark;
+			// 2 * for both enlarging and shrinking and + 1 for no change.
+			this.mSlider.Maximum = 2 * ImageBox.LEVELS_OF_COMPOUND_MAGNIFICATION + 1;
+			this.mSlider.Minimum = 0;
+			this.mSlider.Orientation = Orientation.Vertical;
+			this.mSlider.Size = new System.Drawing.Size(24, 60);
+			this.mSlider.TickStyle = TickStyle.None;
+			this.mSlider.Hide();
+
+
+			this.Controls.Add(this.mSlider);
 		}
 
 		/// <summary>
@@ -544,6 +590,7 @@ namespace AnimatedGifViewer {
 			this.mImageBoxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.mImageBoxMenu.Size = new System.Drawing.Size(180, 70);
 			this.mImageBox.ContextMenuStrip = this.mImageBoxMenu;
+			this.mImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
 			// Context menu event handlers.
 			this.mImageBoxMenu.SetAsDesktopMenuItem.Click += new System.EventHandler(this.ImageBoxMenuSetAsDesktop);
@@ -579,54 +626,9 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
-		/// Loads additional content when the form is created.
+		/// Assigns event handlers to certain events. 
 		/// </summary>
-		/// <param name="sender">MainForm</param>
-		/// <param name="e">Event arguments.</param>
-		private void MainForm_Load(object sender, EventArgs e) {
-
-			// MainForm.
-			this.Text = this.mAssemblyProduct;
-			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
-			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
-			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
-			this.AllowDrop = true;
-
-			// Image box.
-			this.mImageBox.SizeMode = PictureBoxSizeMode.CenterImage;
-
-			// Full Screen Form.
-			this.mFullScreenForm = new FullScreenForm();
-			this.mFullScreenForm.Hide();
-
-			// Tool tip settings.
-			this.mToolTip = new ToolTip();
-			this.mToolTip.AutomaticDelay = 5000;
-			this.mToolTip.InitialDelay = 1000;
-			this.mToolTip.ReshowDelay = 500;
-			this.mToolTip.ShowAlways = true;
-
-			// Slider.
-			this.mSlider = new System.Windows.Forms.TrackBar();
-			
-			// Buttons.
-			this.EnableButtons(false);
-
-			// Load the image sets for each button.
-			this.mButtonImages.Add(this.PrevButton, 
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Previous));
-			this.mButtonImages.Add(this.NextButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
-			this.mButtonImages.Add(this.FullScreenButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
-			this.mButtonImages.Add(this.SizeButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Size));
-			this.mButtonImages.Add(this.RotateCounterButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter));
-			this.mButtonImages.Add(this.RotateClockwiseButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise));
-			this.mButtonImages.Add(this.DeleteButton,
-				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Delete));
+		private void InitializeEventHandlers() {
 
 			// Mouse enter events.
 			this.PrevButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
@@ -672,10 +674,47 @@ namespace AnimatedGifViewer {
 			this.DragEnter += new DragEventHandler(this.MainForm_DragEnter);
 			this.DragDrop += new DragEventHandler(this.MainForm_DragDrop);
 
+			// Image Box events.
+			this.mImageBox.ImageChanged += new ZoomEventHandler(this.ImageBox_SetSlider);
+			this.mImageBox.ZoomedIn += new ZoomEventHandler(this.ImageBox_SetSlider);
+			this.mImageBox.ZoomedOut += new ZoomEventHandler(this.ImageBox_SetSlider);
+
+			// Slider events.
+			this.mSlider.Scroll += new EventHandler(this.Slider_Scroll);
+			MouseHandler mouseHandler = new MouseHandler();
+			mouseHandler.MouseClicked += this.Mouse_SliderLostFocus;
+			Application.AddMessageFilter(mouseHandler);
+
 			// Set to handle keyboard events.
 			this.mFullScreenForm.ProcessCmdKeyEvent += new Action<Keys>(this.KeyDownHandler);
 			this.mFullScreenForm.ProcessCmdKeyEvent += this.FullScreenForm_ExitFullScreen;
-			this.KeyPreview = true;
+		}
+
+		/// <summary>
+		/// Loads additional content when the form is created.
+		/// </summary>
+		/// <param name="sender">MainForm</param>
+		/// <param name="e">Event arguments.</param>
+		private void MainForm_Load(object sender, EventArgs e) {
+
+			// Buttons.
+			this.EnableButtons(false);
+
+			// Load the image sets for each button.
+			this.mButtonImages.Add(this.PrevButton, 
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Previous));
+			this.mButtonImages.Add(this.NextButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Next));
+			this.mButtonImages.Add(this.FullScreenButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_FullScreen));
+			this.mButtonImages.Add(this.SizeButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Size));
+			this.mButtonImages.Add(this.RotateCounterButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateCounter));
+			this.mButtonImages.Add(this.RotateClockwiseButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_RotateClockwise));
+			this.mButtonImages.Add(this.DeleteButton,
+				new ButtonImageSet(global::AnimatedGifViewer.Properties.Resources.Button_Delete));
 		}
 
 		/// <summary>
@@ -759,8 +798,12 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void NextButton_Click(object sender, EventArgs e) {
 			if (this.mFilenames.Any()) {
+				DrawingControl.SuspendDrawing(this.mImageBox);
+				DrawingControl.SuspendDrawing(this.mFullScreenForm.ImageBox);
 				this.mImageBox.Image = this.LoadImage(this.NextImage());
 				this.ShowImageInFullScreen();
+				DrawingControl.ResumeDrawing(this.mImageBox);
+				DrawingControl.ResumeDrawing(this.mFullScreenForm.ImageBox);
 			}
 		}
 
@@ -772,8 +815,12 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void PrevButton_Click(object sender, EventArgs e) {
 			if (this.mFilenames.Any()) {
+				DrawingControl.SuspendDrawing(this.mImageBox);
+				DrawingControl.SuspendDrawing(this.mFullScreenForm.ImageBox);
 				this.mImageBox.Image = this.LoadImage(this.PrevImage());
 				this.ShowImageInFullScreen();
+				DrawingControl.ResumeDrawing(this.mImageBox);
+				DrawingControl.ResumeDrawing(this.mFullScreenForm.ImageBox);
 			}
 		}
 
@@ -817,6 +864,111 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void DeleteButton_Click(object sender, EventArgs e) {
 			this.DeleteImage();
+		}
+
+		/// <summary>
+		/// Shows the slider when the size button is clicked.
+		/// </summary>
+		/// <param name="sender">SizeButton</param>
+		/// <param name="e">Event arguments.</param>
+		private void SizeButton_Click(object sender, EventArgs e) {
+			Point posOnForm = this.PointToClient(Cursor.Position);
+			int x = posOnForm.X - this.mSlider.Width / 2;
+			int y = posOnForm.Y - this.mSlider.Height;
+			this.mSlider.Location = new Point(x, y);
+			this.mSlider.Show();
+			this.mSlider.Focus();
+		}
+
+		#region All Button Handlers
+		/// <summary>
+		/// Changes the image of the button to the
+		/// hover state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseEnter(object sender, EventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// active state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseLeave(object sender, EventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Active);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// clicked/pressed state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseDown(object sender, MouseEventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Clicked);
+			}
+		}
+
+		/// <summary>
+		/// Changes the image of the button to the
+		/// active state if the button is enabled.
+		/// </summary>
+		/// <param name="sender">Button that is sending the event.</param>
+		/// <param name="e">Event arguments.</param>
+		private void Button_MouseUp(object sender, MouseEventArgs e) {
+
+			Button button = (Button)sender;
+			if (button.Enabled) {
+				if (this.mButtonImages.ContainsKey(button))
+					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
+			}
+		}
+		#endregion
+
+		#endregion
+
+		#region Slider Handlers
+		/// <summary>
+		/// Magnifies the image in the image box when the slider box / knob is moved.
+		/// </summary>
+		/// <param name="sender">Slider</param>
+		/// <param name="e">Event arguments.</param>
+		private void Slider_Scroll(object sender, EventArgs e) {
+
+			// Calculate the movement.
+			int delta = this.mPrevSliderValue - this.mSlider.Value;
+
+			// Determine which direction the movement was in and which magnification method to use.
+			MethodInvoker invoker = (delta < 0) 
+				? (MethodInvoker)delegate { this.mImageBox.ZoomIn(ImageBox.SLIDER_ZOOM_FACTOR); }
+				: (MethodInvoker)delegate { this.mImageBox.ZoomOut(ImageBox.SLIDER_ZOOM_FACTOR); };
+
+			// Magnify depending on the delta of the movement.
+			for (int i = 0, count = Math.Abs(delta); i < count; i++) {
+				if (this.mImageBox.InvokeRequired)
+					this.mImageBox.Invoke(invoker);
+				else
+					invoker();
+			}
+			
+			this.mPrevSliderValue = this.mSlider.Value;
 		}
 		#endregion
 
@@ -896,6 +1048,30 @@ namespace AnimatedGifViewer {
 		private void AboutMenuItem_Click(object sender, EventArgs e) {
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+		#endregion
+
+		#region Image Box Handlers
+		/// <summary>
+		/// Sets the position of the slider box / knob when the magnification level changes.
+		/// </summary>
+		/// <param name="sender">ImageBox</param>
+		/// <param name="e">Event arguments.</param>
+		private void ImageBox_SetSlider(object sender, ZoomEventArgs e) {
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;
+
+			// Calculate the aspect ratios for the image and screen.
+			double imageRatio = e.OriginalWidth / e.OriginalHeight;
+			double screenRatio = screen.Width / screen.Height;
+
+			// Determine which pair of edges, vertical or horizontal, the image will touch first when fully zoomed to the maximum allowed bounds by the screen.
+			// Calculate the ratio of the widths or heights depending on which edges are touched first.
+			double screenToImageRatio = ImageBox.ZOOM_MIN_MAX * ((imageRatio > screenRatio) ? screen.Width / (double)e.CurrentWidth : screen.Height / (double)e.CurrentHeight);
+
+			// Calculate the current magnification level and assign it to the slider.
+			int currentZoomLevel = this.mSlider.Maximum - Convert.ToInt32(Math.Truncate(Math.Log(screenToImageRatio) / Math.Log(ImageBox.SLIDER_ZOOM_FACTOR)));
+			if (this.mSlider.Value != currentZoomLevel)
+				this.mSlider.Value = currentZoomLevel;
 		}
 		#endregion
 
@@ -1129,62 +1305,15 @@ namespace AnimatedGifViewer {
 
 		#region Mouse Handlers
 		/// <summary>
-		/// Changes the image of the button to the
-		/// hover state if the button is enabled.
+		/// Hides the slider when it loses focus.
 		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseEnter(object sender, EventArgs e) {
-			
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
-			}
-		}
-
-		/// <summary>
-		/// Changes the image of the button to the
-		/// active state if the button is enabled.
-		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseLeave(object sender, EventArgs e) {
-
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Active);
-			}
-		}
-
-		/// <summary>
-		/// Changes the image of the button to the
-		/// clicked/pressed state if the button is enabled.
-		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseDown(object sender, MouseEventArgs e) {
-
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Clicked);
-			}
-		}
-
-		/// <summary>
-		/// Changes the image of the button to the
-		/// active state if the button is enabled.
-		/// </summary>
-		/// <param name="sender">Button that is sending the event.</param>
-		/// <param name="e">Event arguments.</param>
-		private void Button_MouseUp(object sender, MouseEventArgs e) {
-
-			Button button = (Button)sender;
-			if (button.Enabled) {
-				if (this.mButtonImages.ContainsKey(button))
-					button.BackgroundImage = this.mButtonImages[button].GetImage(ButtonImageSet.EState.Hover);
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Mouse_SliderLostFocus() {
+			if (this.mSlider.Visible) {
+				var r = this.mSlider.RectangleToScreen(this.mSlider.ClientRectangle);
+				if (!r.Contains(Cursor.Position))
+					this.mSlider.Hide();
 			}
 		}
 		#endregion

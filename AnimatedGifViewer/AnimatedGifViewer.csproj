@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon_1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -77,6 +80,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ButtonImageSet.cs" />
+    <Compile Include="DrawingControl.cs" />
     <Compile Include="FileOperationAPIWrapper.cs" />
     <Compile Include="FullScreenForm.cs">
       <SubType>Form</SubType>
@@ -397,6 +401,7 @@
     <None Include="Resources\Button_Delete.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icon_1.ico" />
     <Content Include="Items.txt" />
     <None Include="Resources\Button_Size.png" />
     <None Include="Resources\Menu_Delete.png" />

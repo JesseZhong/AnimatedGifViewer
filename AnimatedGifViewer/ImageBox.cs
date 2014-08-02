@@ -13,9 +13,36 @@ namespace AnimatedGifViewer {
 	public class ImageBox : System.Windows.Forms.UserControl {
 
 		#region Constants
+		/// <summary>
+		/// 0.5 is the center of 1. Self explanatory.
+		/// </summary>
 		private const double CENTER = 0.5;
-		private const double ZOOMFACTOR = 1.25;
-		private const int MINMAX = 10;
+
+		/// <summary>
+		/// Indicates the rate at which an image can be magnified.
+		/// </summary>
+		private const double MOUSE_ZOOM_FACTOR = 1.10;
+
+		/// <summary>
+		/// Indicates the rate at which a slider will magnify an image.
+		/// </summary>
+		public const double SLIDER_ZOOM_FACTOR = 1.02;
+
+		/// <summary>
+		/// Indicates how many times an image can be magnified.
+		/// </summary>
+		public const int ZOOM_MIN_MAX = 10;
+
+		/// <summary>
+		/// Magnification uses a compound rate ("interest") approach. Because of this, a special function needs
+		/// to be used to calculate the maximum number of magnification levels that will be displayed in the slider.
+		/// This equation calculates the levels at which an image can be magnified, either enlarged or shrunken.
+		/// The interior of the function (floor(log(zoomMinMax) / log(zoomFactor))) captures the maximum number
+		/// of full magnifications of either enlarging or shrinking.
+		/// The 1 is to account for a partial step / level to full magnification.
+		/// </summary>
+		public static readonly int LEVELS_OF_COMPOUND_MAGNIFICATION = 
+			Convert.ToInt32(Math.Log(ZOOM_MIN_MAX) / Math.Log(SLIDER_ZOOM_FACTOR)) + 1;
 		#endregion
 
 		#region Members
@@ -69,7 +96,7 @@ namespace AnimatedGifViewer {
 		private bool mPanningMode = false;
 		#endregion
 
-		#region Instance
+		#region Instance 
 		/// <summary>
 		/// Initializes all the components.
 		/// </summary>
@@ -165,6 +192,8 @@ namespace AnimatedGifViewer {
 				this.mFitToWindow = true;
 				if (this.mPictureBox.Image != null)
 					this.FitIntoWindow();
+				if (this.ImageChanged != null)
+					this.ImageChanged(this, this.GetArguments());
 			}
 		}
 
@@ -197,6 +226,96 @@ namespace AnimatedGifViewer {
 		#endregion
 
 		#region Zoom Methods
+		/// <summary>
+		/// Makes the PictureBox dimensions larger to effect the Zoom.
+		/// </summary>
+		/// <param name="zoomFactor">The factor that the image will be increased by.</param>
+		public void ZoomIn(double zoomFactor) {
+
+			// Calculate the ratios of the mouse position to 
+			// the dimensions of the picture box and window.
+			this.UpdateMouseTargetRatios();
+
+			// Grab the screen dimensions.
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
+
+			// Calculate the maximum size allowed by this machine's resolution.
+			int maxWidth = ZOOM_MIN_MAX * screen.Width;
+			int maxHeight = ZOOM_MIN_MAX * screen.Height;
+
+			// Attempt to zoom in.
+			if ((this.mPictureBox.Width < maxWidth) &&
+				(this.mPictureBox.Height < maxHeight)) {
+
+				// Calculate what the new width and height might be.
+				int width = Convert.ToInt32(this.mPictureBox.Width * zoomFactor);
+				int height = Convert.ToInt32(this.mPictureBox.Height * zoomFactor);
+
+				// Test and set the new dimensions for the picture box depending on the maximum allowed size.
+				if (width > maxWidth) {
+					this.mPictureBox.Size = new System.Drawing.Size(maxWidth, Convert.ToInt32(maxWidth / (double)width * height));
+				} else if (height > maxHeight) {
+					this.mPictureBox.Size = new System.Drawing.Size(Convert.ToInt32(maxHeight / (double)height * width), maxHeight);
+				} else {
+					this.mPictureBox.Size = new System.Drawing.Size(width, height);
+				}
+
+				// Stretch and align the image into the picture box.
+				this.mPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+				this.AlignPictureBox();
+
+				// Raise the event.
+				if (this.ZoomedIn != null) {
+					this.ZoomedIn(this, this.GetArguments());
+				}
+			}
+		}
+
+		/// <summary>
+		/// Makes the PictureBox dimensions smaller to effect the Zoom.
+		/// </summary>
+		/// <param name="zoomFactor">The factor that the image will be shrunk by.</param>
+		public void ZoomOut(double zoomFactor) {
+
+			// Calculate the ratios of the mouse position to 
+			// the dimensions of the picture box and window.
+			this.UpdateMouseTargetRatios();
+
+			// Grab the screen dimensions.
+			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
+
+			// Calculate the minimum size allowed by this machine's resolution.
+			int minWidth = screen.Width / ZOOM_MIN_MAX;
+			int minHeight = screen.Height / ZOOM_MIN_MAX;
+
+			// Attempt to zoom out.
+			if ((this.mPictureBox.Width > minWidth) &&
+				(this.mPictureBox.Height > minHeight)) {
+
+				// Calculate what the new width and height might be.
+				int width = Convert.ToInt32(this.mPictureBox.Width / zoomFactor);
+				int height = Convert.ToInt32(this.mPictureBox.Height / zoomFactor);
+
+				// Test and set the new dimensions for the picture box depending on the minimum allowed size.
+				if (width < minWidth) {
+					this.mPictureBox.Size = new System.Drawing.Size(minWidth, Convert.ToInt32(minWidth / (double)width * height));
+				} else if (height < minHeight) {
+					this.mPictureBox.Size = new System.Drawing.Size(Convert.ToInt32(minHeight / (double)height * width), minHeight);
+				} else {
+					this.mPictureBox.Size = new System.Drawing.Size(width, height);
+				}
+
+				// Stretch and align the image into the picture box.
+				this.mPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+				this.AlignPictureBox();
+
+				// Raise the event.
+				if (this.ZoomedOut != null) {
+					this.ZoomedOut(this, this.GetArguments());
+				}
+			}
+		}
+
 		/// <summary>
 		/// Checks if the image size exceeds the size of the window.
 		/// </summary>
@@ -235,48 +354,6 @@ namespace AnimatedGifViewer {
 					(this.mWindow.Height >= this.mPictureBox.Height))
 					return true;
 			return false;
-		}
-
-		/// <summary>
-		/// Makes the PictureBox dimensions larger to effect the Zoom.
-		/// </summary>
-		/// <remarks>Maximum of 5 times larger.</remarks>
-		private void ZoomIn() {
-
-			// Calculate the ratios of the mouse position to 
-			// the dimensions of the picture box and window.
-			this.UpdateMouseTargetRatios();
-
-			// Attempt to zoom in.
-			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
-			if ((this.mPictureBox.Width < (MINMAX * screen.Width)) &&
-				(this.mPictureBox.Height < (MINMAX * screen.Height))) {
-				this.mPictureBox.Size = new System.Drawing.Size(Convert.ToInt32(this.mPictureBox.Width * ZOOMFACTOR),
-					Convert.ToInt32(this.mPictureBox.Height * ZOOMFACTOR));
-				this.mPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-				this.AlignPictureBox();
-			}
-		}
-
-		/// <summary>
-		/// Makes the PictureBox dimensions smaller to effect the Zoom.
-		/// </summary>
-		/// <remarks>Minimum of 5 times smaller.</remarks>
-		private void ZoomOut() {
-
-			// Calculate the ratios of the mouse position to 
-			// the dimensions of the picture box and window.
-			this.UpdateMouseTargetRatios();
-
-			// Attempt to zoom out.
-			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;	// Excludes the task bar.
-			if ((this.mPictureBox.Width > (screen.Width / MINMAX)) &&
-				(this.mPictureBox.Height > (screen.Height / MINMAX))) {
-				this.mPictureBox.Size = new System.Drawing.Size(Convert.ToInt32(this.mPictureBox.Width / ZOOMFACTOR),
-					Convert.ToInt32(this.mPictureBox.Height / ZOOMFACTOR));
-				this.mPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-				this.AlignPictureBox();
-			}
 		}
 
 		/// <summary>
@@ -387,13 +464,14 @@ namespace AnimatedGifViewer {
 		/// that the picture box is smaller than the window, the picture box will aligned to the center instead.
 		/// </summary>
 		private void AlignPictureBox() {
+			bool focused = this.mPictureBox.Focused;
 
 			// If the picture box exceeds any of the window's dimensions, use the ratios
 			// to align the picture box. Otherwise, center the picture instead.
-			this.mXMouseToWinRatio = (this.mWindow.Width < this.mPictureBox.Width) ? this.mXMouseToWinRatio : CENTER;
-			this.mYMouseToWinRatio = (this.mWindow.Height < this.mPictureBox.Height) ? this.mYMouseToWinRatio : CENTER;
-			this.mXMouseToPicRatio = (this.mWindow.Width < this.mPictureBox.Width) ? this.mXMouseToPicRatio : CENTER;
-			this.mYMouseToPicRatio = (this.mWindow.Height < this.mPictureBox.Height) ? this.mYMouseToPicRatio : CENTER;
+			this.mXMouseToWinRatio = (focused && (this.mWindow.Width < this.mPictureBox.Width)) ? this.mXMouseToWinRatio : CENTER;
+			this.mYMouseToWinRatio = (focused && (this.mWindow.Height < this.mPictureBox.Height)) ? this.mYMouseToWinRatio : CENTER;
+			this.mXMouseToPicRatio = (focused && (this.mWindow.Width < this.mPictureBox.Width)) ? this.mXMouseToPicRatio : CENTER;
+			this.mYMouseToPicRatio = (focused && (this.mWindow.Height < this.mPictureBox.Height)) ? this.mYMouseToPicRatio : CENTER;
 
 			// Calculate the location of the picture box on the window where the points overlap.
 			int xPoint = (int)((this.mWindow.Width * mXMouseToWinRatio) - (this.mPictureBox.Width * mXMouseToPicRatio));
@@ -442,6 +520,22 @@ namespace AnimatedGifViewer {
 			
 			return new System.Drawing.Point(xPoint, yPoint);
 		}
+
+		/// <summary>
+		/// Creates a set of zoom arguments using the current state of the image box.
+		/// </summary>
+		/// <returns>The new set of arguments.</returns>
+		private ZoomEventArgs GetArguments() {
+			if (this.mPictureBox.Image == null)
+				return null;
+			return new ZoomEventArgs() {
+						Magnification = this.mPictureBox.Width / this.mPictureBox.Image.Width,
+						OriginalWidth = this.mPictureBox.Image.Width,
+						OriginalHeight = this.mPictureBox.Image.Height,
+						CurrentWidth = this.mPictureBox.Width,
+						CurrentHeight = this.mPictureBox.Height
+					};
+		}
 		#endregion
 
 		#region Mouse Handlers
@@ -459,9 +553,9 @@ namespace AnimatedGifViewer {
 
 				this.mFitToWindow = false;
 				if (e.Delta < 0)
-					this.ZoomOut();
+					this.ZoomOut(MOUSE_ZOOM_FACTOR);
 				else
-					this.ZoomIn();
+					this.ZoomIn(MOUSE_ZOOM_FACTOR);
 			}
 		}
 
@@ -573,6 +667,21 @@ namespace AnimatedGifViewer {
 		/// out of the windows bounds due to zooming.
 		/// </summary>
 		public event EventHandler NearZoom;
+
+		/// <summary>
+		/// This event is raised when the magnification on the image increases.
+		/// </summary>
+		public event ZoomEventHandler ZoomedIn;
+
+		/// <summary>
+		/// This event is raised when the magnification on the image decreases.
+		/// </summary>
+		public event ZoomEventHandler ZoomedOut;
+
+		/// <summary>
+		/// This event is raised when a new image is assigned.
+		/// </summary>
+		public event ZoomEventHandler ImageChanged;
 		#endregion
 
 		#region Win32
@@ -610,4 +719,53 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 	}
+
+	#region Arguments
+	public class ZoomEventArgs : EventArgs {
+
+		/// <summary>
+		/// The amount of times the image is zoomed in or out on.
+		/// </summary>
+		public double Magnification {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// The original width of the image.
+		/// </summary>
+		public int OriginalWidth {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// The original height of the image.
+		/// </summary>
+		public int OriginalHeight {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// The width the image is at now with zoom.
+		/// </summary>
+		public int CurrentWidth {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// The height the image is at now with zoom.
+		/// </summary>
+		public int CurrentHeight {
+			get;
+			set;
+		}
+	}
+	#endregion
+
+	#region Delegates
+	public delegate void ZoomEventHandler(object sender, ZoomEventArgs e);
+	#endregion
 }
