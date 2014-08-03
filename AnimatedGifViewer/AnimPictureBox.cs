@@ -129,7 +129,9 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <param name="e">Event arguments.</param>
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e) {
-			e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+			if ((this.Width > this.Image.Width) || (this.Height > this.Image.Height)) {
+				e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+			}
 			if (this.mIsAnimGIF) {
 				base.Image.SelectActiveFrame(System.Drawing.Imaging.FrameDimension.Time, this.mGifFrameIndex);
 				e.Graphics.DrawImage(base.Image, this.ClientRectangle);
