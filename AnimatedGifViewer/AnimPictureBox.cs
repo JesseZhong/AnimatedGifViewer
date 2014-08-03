@@ -129,7 +129,7 @@ namespace AnimatedGifViewer {
 		/// </summary>
 		/// <param name="e">Event arguments.</param>
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e) {
-			if ((this.Width > this.Image.Width) || (this.Height > this.Image.Height)) {
+			if ((this.Image != null) && ((this.Width > this.Image.Width) || (this.Height > this.Image.Height))) {
 				e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 			}
 			if (this.mIsAnimGIF) {
