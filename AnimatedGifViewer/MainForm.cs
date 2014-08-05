@@ -1106,7 +1106,8 @@ namespace AnimatedGifViewer {
 		/// <param name="msg"></param>
 		/// <param name="keyData"></param>
 		private void FullScreenForm_ExitFullScreen(Keys keyData) {
-			if ((keyData == Keys.Escape) && !this.Visible) {
+			if (((keyData == Keys.Escape) || (keyData == Keys.Down) ||
+				(keyData == Keys.S)) && !this.Visible) {
 				this.mFullScreenForm.Hide();
 				this.Show();
 			}
@@ -1278,8 +1279,7 @@ namespace AnimatedGifViewer {
 					this.FullScreenButton.PerformClick();
 				}
 
-				if ((keyData == Keys.Down) ||
-					(keyData == Keys.S)) {
+				if (keyData == Keys.Space) {
 					this.FitSizeButton.PerformClick();
 				}
 

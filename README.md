@@ -5,10 +5,11 @@ Animated GIF Viewer
 Table of Contents
 -----------------
 1. What is the Animated GIF Viewer?
-2. Download & Installation
-3. Features
-4. Building from the Source
-5. Documentation
+2. Why?
+3. Download & Installation
+4. Current Features
+5. Building from the Source
+6. Documentation
 
 1. What is the Animated GIF Viewer?
 -------------------------------
@@ -16,7 +17,21 @@ Table of Contents
 
 Animated GIF Viewer is a free program that is distributed under the GNU General Public License. See [LICENSE.txt](https://bitbucket.org/jessezhong/animatedgifviewer/src/59dc56699bb402382f55e4cdce5632173237d35c/LICENSE.txt?at=master).
 
-2. Download & Installation
+2. Why?
+-------
+As much as I love the lean and minimalist Windows Photo Viewer, it lacks a few key features that I enjoy:
+
+- Reading and playing animated GIFs.
+- Dragging and dropping images into the window to open them.
+- View images you added to the folder you are viewing without having to reopen the Viewer.
+- Open and read ZIP and other popular archive files without having to extract them.
+- Intuitive keyboard shortcuts for things like "Slideshow" mode.
+- Preference window for customizing certain aspects of the Viewer, such as zoom rate.
+- A reskinnable user interface.
+
+This project aims to address these desires.
+
+3. Download & Installation
 --------------------------
 The most recent version is **1.0.5328**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5328.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5328.zip)
 
@@ -32,7 +47,7 @@ To use the program, extract it from the ZIP to any folder of your choosing.
 
 You can drag and drop the image you wish to view on the **Animated GIF Viewer** icon or open the program by double clicking the icon and clicking **File>Open** in the menubar and searching for your image.
 
-3. Features
+4. Current Features
 -----------
 The following is an list of features exclusive to the **Animated GIF Viewer**:
 
@@ -53,15 +68,23 @@ The following is an list of features exclusive to the **Animated GIF Viewer**:
 - Allows for **full screen mode** where images are automatically stretched to the size of the screen for easy viewing.
 - Changes **appearance** with the system's **Windows Theme**.
 
-4. Building from the Source
+5. Building from the Source
 ---------------------------
 These are the prerequisites that you will need to have downloaded and installed before you can build the source:
 
 - Microsoft Visual Studio 2012
 	- You can download the free Express version here: [http://www.microsoft.com/en-us/download/details.aspx?id=34673](http://www.microsoft.com/en-us/download/details.aspx?id=34673)
-- SmartGit/Hg (optional) ( [http://www.syntevo.com/smartgit/](http://www.syntevo.com/smartgit/) )
+- Git (optional) ( [http://git-scm.com/downloads](http://git-scm.com/downloads) ) or SmartGit/Hg (optional) ( [http://www.syntevo.com/smartgit/](http://www.syntevo.com/smartgit/) )
 
 To obtain the source you can download the repository from the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page. Here's a direct link: [Download repository](https://bitbucket.org/jessezhong/animatedgifviewer/get/9476dfddbec2.zip).
 
-5. Documentation
+Alternatively, you may clone the repository using Git or a SCM client, such as SmartGit/Hg.
+
+Once you have obtained the source, **open** the **Project Solution** (AnimatedGifViewer.sln) with Visual Studio. Press **F7** or, from the menu bar, go to and click **Build > Build Solution**. 
+
+When the project is finished compiling, you can find the resulting assembly / executable in the folder **AnimatedGifViewer / bin / Debug** or **AnimatedGifViewer / bin / Release** depending on which mode you built the project in, **Debug** or **Release**.
+
+The actual program's executable  is called **Animated GIF Viewer.exe**. You may move it anywhere you'd like and use it.
+
+6. Documentation
 ----------------
