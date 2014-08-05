@@ -61,6 +61,11 @@ is centered after being sized down within the window bounds. The ratios need to 
 Flickering occurs when zooming out along the right and bottom edges.
 Animation delay minimum for animated GIFs in a PictureBox is presumably 100ms, which is unacceptable, as many GIFs have higher FPSs.
 If the image doesn't exceed the window, it won't be restricted within the window when moved by the mouse.
+Nearest Neighbor Interpolation mode creates very blocky images when the presentation size is smaller than its original size. However, using default has been
+known to cause major performance problems in the past, especially when enlarging the image. The aesthetic result is bad as well, misrepresenting the pixel makeup
+of the image. To fix this, the default interpolation algorithm is used for when the image is its original size or smaller. The algorithm benefits from the smaller
+size of the image, and requires less calculation. Nearest Neighbor is used when either dimension of the image exceeds the original. The known performance boost is
+best used in this situation.
 
 Concerns:
 Animated GIFs currently cannot be rotated, as all animation is removed from the image.
