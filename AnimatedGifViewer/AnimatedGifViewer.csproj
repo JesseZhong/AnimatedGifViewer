@@ -55,6 +55,10 @@
     <ApplicationIcon>Icon_1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\Assemblies\Ionic.Zip.dll</HintPath>
+	  <IlMerge>True</IlMerge>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -403,25 +407,15 @@
   <ItemGroup>
     <Content Include="Icon_1.ico" />
     <Content Include="Items.txt" />
+    <Content Include="WindowsAPICodePack\Core\CustomDictionary.xml" />
+    <Content Include="WindowsAPICodePack\Shell\CustomDictionary.xml" />
     <None Include="Resources\Button_Size.png" />
     <None Include="Resources\Menu_Delete.png" />
     <None Include="Resources\Menu_Copy.png" />
     <None Include="Resources\Icon_1.ico" />
     <None Include="Resources\Cursor_1.cur" />
     <None Include="Resources\Cursor_2.cur" />
-    <Content Include="WindowsAPICodePack\Core\CustomDictionary.xml" />
-    <Content Include="WindowsAPICodePack\Shell\CustomDictionary.xml" />
     <None Include="Resources\folder_open.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="WindowsAPICodePack\Shell\Controls\CommandLinkWPF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WindowsAPICodePack\Shell\ExplorerBrowser\ExplorerBrowser.WPF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -440,12 +434,28 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="WindowsAPICodePack\Shell\Controls\CommandLinkWPF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WindowsAPICodePack\Shell\ExplorerBrowser\ExplorerBrowser.WPF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <CreateItem Include="@(ReferencePath)" Condition="'%(CopyLocal)'=='true' and '%(ReferencePath.IlMerge)'=='true'">
+      <Output TaskParameter="Include" ItemName="IlmergeAssemblies" />
+    </CreateItem>
+    <Message Text="MERGING: @(IlmergeAssemblies->'%(Filename)')" Importance="High" />
+    <Exec Command="&quot;$(SolutionDir)Tools\Ilmerge\Ilmerge.exe&quot; /targetplatform:&quot;v4,C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0&quot; /out:&quot;@(MainAssembly)&quot; &quot;@(IntermediateAssembly)&quot; @(IlmergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
+  </Target>
+  <Target Name="_CopyFilesMarkedCopyLocal" />
 </Project>
