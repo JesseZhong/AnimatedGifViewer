@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 #endregion
 
-namespace AnimatedGifViewer {
+namespace ClockworkControls {
 	public class AnimPictureBox : System.Windows.Forms.PictureBox {
 
 		#region Constants

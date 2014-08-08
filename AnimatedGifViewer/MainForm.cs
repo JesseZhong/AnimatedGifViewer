@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
+
+using ClockworkControls;
 #endregion
 
 namespace AnimatedGifViewer {
@@ -29,7 +31,7 @@ namespace AnimatedGifViewer {
 		/// for image files in the working directory.
 		/// </summary>
 		/// <remarks>Note: Windows file system is case-insensitive.</remarks>
-		private const string FILE_TYPES = ".bmp|.dib|.jpg|.jpeg|.jpe|.jfif|.gif|.png|.tiff|.ico";
+		private const string FILE_TYPES = ".bmp|.dib|.jpg|.jpeg|.jpe|.jfif|.gif|.png|.tiff|.ico|.zip";
 
 		/// <summary>
 		/// The filter used by the file dialog to let the 

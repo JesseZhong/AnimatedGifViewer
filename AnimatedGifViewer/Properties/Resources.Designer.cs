@@ -141,26 +141,6 @@ namespace AnimatedGifViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Cursor_PanningHand1 {
-            get {
-                object obj = ResourceManager.GetObject("Cursor_PanningHand1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Cursor_PanningHand2 {
-            get {
-                object obj = ResourceManager.GetObject("Cursor_PanningHand2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Delete (Delete).
         /// </summary>
         internal static string DeleteButtonToolTip {

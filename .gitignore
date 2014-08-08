@@ -3,7 +3,6 @@
 *.user
 *.sln.docstates
 wiki/
-inHouseGames_Data/
 
 # Build results
 
@@ -14,14 +13,6 @@ build/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
-
-!/Output/Win32/[Dd]ebug/*.dll
-!/Output/Win32/[Rr]elease/*.dll
-!/Output/x64/[Dd]ebug/*.dll
-!/Output/x64/[Rr]elease/*.dll
-!*.dll
-!/Simulation/Assemblies/*.dll
-*.exe
 *_i.c
 *_p.c
 *.ilk
@@ -149,4 +140,3 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
-

@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 #endregion
 
-namespace AnimatedGifViewer {
+namespace ClockworkControls {
 	public class ImageBox : System.Windows.Forms.UserControl {
 
 		#region Constants
@@ -141,8 +141,8 @@ namespace AnimatedGifViewer {
 			this.ResumeLayout(false);
 
 			// Cursors
-			this.mPanningHandOpen = this.LoadCursor(global::AnimatedGifViewer.Properties.Resources.Cursor_PanningHand1);
-			this.mPanningHandClosed = this.LoadCursor(global::AnimatedGifViewer.Properties.Resources.Cursor_PanningHand2);
+			this.mPanningHandOpen = this.LoadCursor(global::ClockworkControls.Properties.Resources.Cursor_PanningHand1);
+			this.mPanningHandClosed = this.LoadCursor(global::ClockworkControls.Properties.Resources.Cursor_PanningHand2);
 
 			// Event handlers
 			this.mWindow.MouseEnter += new System.EventHandler(this.ImageBox_MouseEnter);
@@ -391,7 +391,7 @@ namespace AnimatedGifViewer {
 		/// Attempts to stretch or shrink the image so at least a single pair 
 		/// of edges, horizontal or vertical, meet with the edge of the window.
 		/// </summary>
-		internal void FitUpToWindow() {
+		public void FitUpToWindow() {
 
 			ImageBoxDelegate fitUpToWindow = delegate() {
 				this.FitToWindow();
