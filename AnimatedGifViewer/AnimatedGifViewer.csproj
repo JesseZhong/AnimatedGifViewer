@@ -57,7 +57,7 @@
   <ItemGroup>
     <Reference Include="Ionic.Zip">
       <HintPath>..\Assemblies\Ionic.Zip.dll</HintPath>
-	  <IlMerge>True</IlMerge>
+      <IlMerge>True</IlMerge>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -80,9 +80,6 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="AnimPictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ButtonImageSet.cs" />
     <Compile Include="DrawingControl.cs" />
     <Compile Include="FileOperationAPIWrapper.cs" />
@@ -97,9 +94,6 @@
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ImageBox.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MouseHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,9 +347,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImageBox.resx">
-      <DependentUpon>ImageBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -413,8 +404,6 @@
     <None Include="Resources\Menu_Delete.png" />
     <None Include="Resources\Menu_Copy.png" />
     <None Include="Resources\Icon_1.ico" />
-    <None Include="Resources\Cursor_1.cur" />
-    <None Include="Resources\Cursor_2.cur" />
     <None Include="Resources\folder_open.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +432,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImageBox\ImageBox.csproj">
+      <Project>{ca18dbf4-9d52-474a-8b26-01d633cb5b20}</Project>
+      <Name>ImageBox</Name>
+	  <IlMerge>True</IlMerge>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
