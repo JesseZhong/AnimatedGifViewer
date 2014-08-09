@@ -13,7 +13,7 @@ Table of Contents
 
 1. What is the Animated GIF Viewer?
 -------------------------------
-**Animated GIF Viewer** is a small program that can open animated GIF images and play them. It is also a regular image viewer, supporting image types such as JPEGs, BMPs, PNGs, ICOs, and TIFFs. The viewer draws heavy influence from the standard Windows Photo Viewer that is shipped with Windows OS, but features notable differences.
+**Animated GIF Viewer** is a small program that can open animated GIF images and play them. It functions as an image viewer, supporting image types such as JPEGs, BMPs, PNGs, ICOs, and TIFFs. The viewer draws heavy influence from the standard Windows Photo Viewer that is shipped with Windows OS, but features notable differences.
 
 Animated GIF Viewer is a free program that is distributed under the GNU General Public License. See [LICENSE.txt](https://bitbucket.org/jessezhong/animatedgifviewer/src/59dc56699bb402382f55e4cdce5632173237d35c/LICENSE.txt?at=master).
 

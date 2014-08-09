@@ -46,7 +46,10 @@
 			this.FullScreenButton = new System.Windows.Forms.Button();
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
+			this.SplitContainer = new System.Windows.Forms.SplitContainer();
 			this.MenuStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
+			this.SplitContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MenuStrip
@@ -85,64 +88,64 @@
 			// 
 			this.OpenMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.folder_open;
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.OpenMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
 			// MenuItemSeparator3
 			// 
 			this.MenuItemSeparator3.Name = "MenuItemSeparator3";
-			this.MenuItemSeparator3.Size = new System.Drawing.Size(138, 6);
+			this.MenuItemSeparator3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// DeleteMenuItem
 			// 
 			this.DeleteMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Delete;
 			this.DeleteMenuItem.Name = "DeleteMenuItem";
-			this.DeleteMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.DeleteMenuItem.Text = "Delete";
 			this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
 			// 
 			// MakeCopyMenuItem
 			// 
 			this.MakeCopyMenuItem.Name = "MakeCopyMenuItem";
-			this.MakeCopyMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.MakeCopyMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.MakeCopyMenuItem.Text = "Make a Copy...";
 			this.MakeCopyMenuItem.Click += new System.EventHandler(this.MakeCopyMenuItem_Click);
 			// 
 			// MenuItemSeparator2
 			// 
 			this.MenuItemSeparator2.Name = "MenuItemSeparator2";
-			this.MenuItemSeparator2.Size = new System.Drawing.Size(138, 6);
+			this.MenuItemSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// CopyMenuItem
 			// 
 			this.CopyMenuItem.Image = global::AnimatedGifViewer.Properties.Resources.Menu_Copy;
 			this.CopyMenuItem.Name = "CopyMenuItem";
-			this.CopyMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.CopyMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.CopyMenuItem.Text = "Copy";
 			this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
 			// 
 			// MenuItemSeparator1
 			// 
 			this.MenuItemSeparator1.Name = "MenuItemSeparator1";
-			this.MenuItemSeparator1.Size = new System.Drawing.Size(138, 6);
+			this.MenuItemSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// PropertiesMenuItem
 			// 
 			this.PropertiesMenuItem.Name = "PropertiesMenuItem";
-			this.PropertiesMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.PropertiesMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.PropertiesMenuItem.Text = "Properties";
 			this.PropertiesMenuItem.Click += new System.EventHandler(this.PropertiesMenuItem_Click);
 			// 
 			// MenuItemSeparator
 			// 
 			this.MenuItemSeparator.Name = "MenuItemSeparator";
-			this.MenuItemSeparator.Size = new System.Drawing.Size(138, 6);
+			this.MenuItemSeparator.Size = new System.Drawing.Size(149, 6);
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ExitMenuItem.Text = "Exit";
 			this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
 			// 
@@ -287,12 +290,30 @@
 			this.PrevButton.UseVisualStyleBackColor = false;
 			this.PrevButton.Click += new System.EventHandler(this.PrevButton_Click);
 			// 
+			// SplitContainer
+			// 
+			this.SplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.SplitContainer.Location = new System.Drawing.Point(0, 24);
+			this.SplitContainer.Margin = new System.Windows.Forms.Padding(0);
+			this.SplitContainer.Name = "SplitContainer";
+			// 
+			// SplitContainer.Panel1
+			// 
+			this.SplitContainer.Panel1.BackColor = System.Drawing.SystemColors.Control;
+			this.SplitContainer.Panel2Collapsed = true;
+			this.SplitContainer.Size = new System.Drawing.Size(674, 329);
+			this.SplitContainer.SplitterDistance = 516;
+			this.SplitContainer.TabIndex = 10;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.ClientSize = new System.Drawing.Size(674, 410);
+			this.Controls.Add(this.SplitContainer);
 			this.Controls.Add(this.MenuStrip);
 			this.Controls.Add(this.SizeButton);
 			this.Controls.Add(this.FitSizeButton);
@@ -311,6 +332,8 @@
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.MenuStrip.ResumeLayout(false);
 			this.MenuStrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).EndInit();
+			this.SplitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -340,6 +363,7 @@
 		private System.Windows.Forms.Button FitSizeButton;
 		private System.Windows.Forms.Button SizeButton;
 		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
+		private System.Windows.Forms.SplitContainer SplitContainer;
 	}
 }
 

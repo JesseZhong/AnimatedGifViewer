@@ -22,11 +22,6 @@ namespace AnimatedGifViewer {
 
 		#region Constants
 		/// <summary>
-		/// The vertical padding above and below the image box.
-		/// </summary>
-		private const int IMG_BOX_H_PAD = 94;
-
-		/// <summary>
 		/// The filter used by the program to scan
 		/// for image files in the working directory.
 		/// </summary>
@@ -562,7 +557,6 @@ namespace AnimatedGifViewer {
 			this.mSlider.TickStyle = TickStyle.None;
 			this.mSlider.Hide();
 
-
 			this.Controls.Add(this.mSlider);
 		}
 
@@ -577,14 +571,13 @@ namespace AnimatedGifViewer {
 				(AnchorStyles.Top | AnchorStyles.Bottom |
 				AnchorStyles.Left | AnchorStyles.Right);
 
-			this.mImageBox.Location = new Point(0, 24);
+			this.mImageBox.Location = new Point(0, 0);
 			this.mImageBox.Margin = new System.Windows.Forms.Padding(0);
 			this.mImageBox.Name = "ImageBox";
-			this.mImageBox.Size = new System.Drawing.Size(this.ClientSize.Width,
-				(this.ClientSize.Height > IMG_BOX_H_PAD ? this.ClientSize.Height - IMG_BOX_H_PAD : this.ClientSize.Height));
+			this.mImageBox.Size = this.SplitContainer.Panel1.ClientSize;
 			this.mImageBox.TabIndex = 0;
 			this.mImageBox.TabStop = false;
-			this.Controls.Add(this.mImageBox);
+			this.SplitContainer.Panel1.Controls.Add(this.mImageBox);
 
 			// ImageBoxMenu.
 			this.mImageBoxMenu = new MainFormImageBoxMenu();
