@@ -437,7 +437,12 @@
     <ProjectReference Include="..\ImageBox\ImageBox.csproj">
       <Project>{ca18dbf4-9d52-474a-8b26-01d633cb5b20}</Project>
       <Name>ImageBox</Name>
-	  <IlMerge>True</IlMerge>
+      <IlMerge>True</IlMerge>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemBrowser\SystemBrowser.csproj">
+      <Project>{cb050801-388c-4fb4-98eb-28a0e86d2b8e}</Project>
+      <Name>SystemBrowser</Name>
+      <IlMerge>True</IlMerge>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

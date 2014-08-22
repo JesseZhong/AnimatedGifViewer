@@ -49,6 +49,7 @@ namespace AnimatedGifViewer {
 		private FullScreenForm mFullScreenForm;
 		private System.Windows.Forms.ToolTip mToolTip;
 		private System.Windows.Forms.TrackBar mSlider;
+		private SystemBrowser mSystemBrowser;
 
 		private List<string> mFilenames;
 		private int mFilenameIndex;
@@ -491,6 +492,13 @@ namespace AnimatedGifViewer {
 					assign();
 			}
 		}
+
+		/// <summary>
+		/// Toggles the visibility of the side panel.
+		/// </summary>
+		private void ToggleSidePanel() {
+			this.SplitContainer.Panel2Collapsed = !this.SplitContainer.Panel2Collapsed;
+		}
 		#endregion
 
 		#region Loading
@@ -506,6 +514,7 @@ namespace AnimatedGifViewer {
 			this.InitializeMainForm();
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeBrowser();
 			this.InitializeEventHandlers();
 
 			// Initialize variables.
@@ -595,6 +604,22 @@ namespace AnimatedGifViewer {
 			this.mImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
 			this.mImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
 			this.mImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		private void InitializeBrowser() {
+
+			this.mSystemBrowser = new SystemBrowser();
+			this.mSystemBrowser.Anchor = (System.Windows.Forms.AnchorStyles)
+				(AnchorStyles.Top | AnchorStyles.Bottom |
+				AnchorStyles.Left | AnchorStyles.Right);
+			this.mSystemBrowser.Location = new Point(0, 0);
+			this.mSystemBrowser.Name = "File Browser";
+			this.mSystemBrowser.Size = this.SplitContainer.Panel2.ClientSize;
+
+			this.SplitContainer.Panel2.Controls.Add(this.mSystemBrowser);
 		}
 
 		/// <summary>
@@ -1280,6 +1305,10 @@ namespace AnimatedGifViewer {
 
 				if (keyData == Keys.Oemcomma) {
 					this.RotateCounterButton_Click(this, null);
+				}
+
+				if (keyData == Keys.Tab) {
+					this.ToggleSidePanel();
 				}
 
 				if (keyData == Keys.OemPeriod) {
