@@ -510,6 +510,10 @@ namespace AnimatedGifViewer {
 		/// <param name="args">Program arguments.</param>
 		public MainForm(string[] args = null) {
 
+            // Get assembly information.
+            object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+            this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+
 			// Initialize the form's components.
 			this.InitializeMainForm();
 			this.InitializeComponent();
@@ -523,10 +527,6 @@ namespace AnimatedGifViewer {
 			this.mFilenames = new List<string>();
 			this.mSearchPatterns = FILE_TYPES.Split('|');
 			this.mPrevSliderValue = 0;
-
-			// Get assembly information.
-			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
 		}
 
 		/// <summary>
@@ -540,7 +540,6 @@ namespace AnimatedGifViewer {
 			this.KeyPreview = true;
 			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
 			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
-			this.Text = this.mAssemblyProduct;
 			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
 
 			// Full Screen Form.
@@ -716,6 +715,9 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">MainForm</param>
 		/// <param name="e">Event arguments.</param>
 		private void MainForm_Load(object sender, EventArgs e) {
+
+            // Alter the name of the form.
+            this.Text = this.mAssemblyProduct;
 
 			// Buttons.
 			this.EnableButtons(false);
