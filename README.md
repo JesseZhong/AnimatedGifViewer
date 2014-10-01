@@ -101,7 +101,7 @@ The actual program's executable  is called **Animated GIF Viewer.exe**. You may 
 
 **Notes**
 
-The build sequence uses the Microsoft utility, **ILMerge**, to merge all the assemblies in the project into a single executable. 
+The build sequence uses the Microsoft utility **ILMerge** to merge all the assemblies in the project into a single executable. 
 I have included and referenced a local copy of the utility in the [Tools/ILMerge](https://bitbucket.org/jessezhong/animatedgifviewer/src/ffd3eb3230c22903d48a9d4e71d5ed4a5022ce19/Tools/ILMerge/?at=master) for the sake of portability.
 Please refer to the documentation in the directory if you need more information.
 
