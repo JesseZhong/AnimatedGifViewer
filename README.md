@@ -79,11 +79,13 @@ These are the prerequisites that you will need to have downloaded and installed 
 	- You can download the free Express version here: [http://www.microsoft.com/en-us/download/details.aspx?id=34673](http://www.microsoft.com/en-us/download/details.aspx?id=34673)
 - Git (optional) ( [http://git-scm.com/downloads](http://git-scm.com/downloads) ) or SmartGit/Hg (optional) ( [http://www.syntevo.com/smartgit/](http://www.syntevo.com/smartgit/) )
 
+
 **Obtaining the Source**
 
 To obtain the source you can download the repository from the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page. Here's a direct link: [Download repository](https://bitbucket.org/jessezhong/animatedgifviewer/get/9476dfddbec2.zip).
 
 Alternatively, you may clone the repository using Git or a SCM client, such as SmartGit/Hg.
+
 
 **Building from Source**
 
@@ -91,14 +93,16 @@ Once you have obtained the source, **open** the **Project Solution** (AnimatedGi
 
 When the project is finished compiling, you can find the resulting assembly / executable in the folder **AnimatedGifViewer / bin / Debug** or **AnimatedGifViewer / bin / Release** depending on which mode you built the project in, **Debug** or **Release**.
 
+
 **Running the Program**
 
 The actual program's executable  is called **Animated GIF Viewer.exe**. You may move it anywhere you'd like and use it.
 
+
 **Notes**
 
 The build sequence uses the Microsoft utility, **ILMerge**, to merge all the assemblies in the project into a single executable. 
-I have included and referenced a local copy of the utility in the [Tools/ILMerge] (https://bitbucket.org/jessezhong/animatedgifviewer/src/ffd3eb3230c22903d48a9d4e71d5ed4a5022ce19/Tools/ILMerge/?at=master) for the sake of portablity.
+I have included and referenced a local copy of the utility in the [Tools/ILMerge](https://bitbucket.org/jessezhong/animatedgifviewer/src/ffd3eb3230c22903d48a9d4e71d5ed4a5022ce19/Tools/ILMerge/?at=master) for the sake of portability.
 Please refer to the documentation in the directory if you need more information.
 
 6. Documentation
