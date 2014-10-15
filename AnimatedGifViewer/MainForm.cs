@@ -133,6 +133,10 @@ namespace AnimatedGifViewer {
 
 			// Grab all the files from the directory.
 			this.mLoadedFilenames();
+			if (this.mSystemBrowser.InvokeRequired)
+				this.mSystemBrowser.Invoke(new MethodInvoker(() => this.mSystemBrowser.UpdateBrowser()));
+			else
+				this.mSystemBrowser.UpdateBrowser();
 			return true;
 		}
 
@@ -1080,6 +1084,9 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBox</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBox_SetSlider(object sender, ZoomEventArgs e) {
+			if (e == null)
+				return;
+
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;
 
 			// Calculate the aspect ratios for the image and screen.

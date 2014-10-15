@@ -34,8 +34,9 @@
 			// 
 			// ListView
 			// 
-			this.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.ListView.Location = new System.Drawing.Point(0, 25);
 			this.ListView.Margin = new System.Windows.Forms.Padding(0);
 			this.ListView.Name = "ListView";
@@ -46,7 +47,7 @@
 			// TextBox
 			// 
 			this.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextBox.Location = new System.Drawing.Point(0, 0);
 			this.TextBox.Margin = new System.Windows.Forms.Padding(0);
 			this.TextBox.Name = "TextBox";
