@@ -3,7 +3,7 @@ Read Images from Zip files
 Drag and Drop Loading								- Done
 Multi-Page (ICO or GIF) viewing
 Animate/mask buttons								- Done
-Fullscreen mode										- Partial
+Fullscreen mode										- Done
 Zoom in full screen									- Done
 Scroll wheel zoom									- Done
 Grabbing and panning image when zoomed				- Done
@@ -23,7 +23,9 @@ Add user preferences window and button:
 	Keyboard shorcut tab
 		Two columns, primary and secondary keys
 		Prompt for conflicts on key change
+	Enable/Disable social media option
 Implement portable version
+Implement integration with social media
 Add file association
 Implement the features for the File menu item		- Done
 Context menu on image right click:					- Almost (Open With)
