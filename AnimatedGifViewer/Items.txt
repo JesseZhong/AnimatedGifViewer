@@ -1,4 +1,11 @@
-﻿Icons for MenuStrip									- Done
+﻿[High Priority]
+Name change
+Custom UI
+Custom Icon & Logo
+Change license accordingly
+
+[Normal Priority]
+Icons for MenuStrip									- Done
 Read Images from Zip files
 Drag and Drop Loading								- Done
 Multi-Page (ICO or GIF) viewing
