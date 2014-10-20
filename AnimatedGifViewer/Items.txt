@@ -19,7 +19,11 @@ Add program settings for window size and position	- Done
 Implement rotation buttons							- Done
 Implement size button								- Done (buggy)
 Implement fit to window and actual size buttons		
-Add user preferences
+Add user preferences window and button:
+	Keyboard shorcut tab
+		Two columns, primary and secondary keys
+		Prompt for conflicts on key change
+Implement portable version
 Add file association
 Implement the features for the File menu item		- Done
 Context menu on image right click:					- Almost (Open With)
