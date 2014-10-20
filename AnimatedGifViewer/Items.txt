@@ -24,6 +24,7 @@ Add user preferences window and button:
 		Two columns, primary and secondary keys
 		Prompt for conflicts on key change
 	Enable/Disable social media option
+	Slide Show Speed default
 Implement portable version
 Implement integration with social media
 Add file association
@@ -42,9 +43,35 @@ Context menu on image right click:					- Almost (Open With)
 	Delete											- Done
 	-												- Done
 	Properties										- Done
+Add keyboard shortcut text (refer to preferences)
 
 Context menu when right clicking in fullscreen mode:
-
+	Next
+	Previous
+	-
+	Slide Show - Play
+	Slide Show - Pause
+	-
+	Slide Show Mode - Loop
+	Slide Show Mode - Shuffle
+	-
+	Slide Show Speed - Slow
+	Slide Show Speed - Medium
+	Slide Show Speed - Fast
+	-
+	[Regular Context Menu]
+	-
+	Exit
+Implement as extension of regular
+	(may need to move base code to method)
+	Load Order
+		list menu items
+		call base load
+		list exit item
+	Exit fullscreen for certain items
+		Open With
+		Open File Location
+		Properties
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
