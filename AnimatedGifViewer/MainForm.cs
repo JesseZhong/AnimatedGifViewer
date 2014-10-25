@@ -47,6 +47,8 @@ namespace AnimatedGifViewer {
 		private ImageBox mImageBox;
 		private MainFormImageBoxMenu mImageBoxMenu;
 		private FullScreenForm mFullScreenForm;
+		private PreferencesForm mPreferencesForm;
+		
 		private System.Windows.Forms.ToolTip mToolTip;
 		private System.Windows.Forms.TrackBar mSlider;
 		private SystemBrowser mSystemBrowser;
@@ -549,6 +551,10 @@ namespace AnimatedGifViewer {
 			// Full Screen Form.
 			this.mFullScreenForm = new FullScreenForm();
 			this.mFullScreenForm.Hide();
+
+			// Preferences Form.
+			this.mPreferencesForm = new PreferencesForm();
+			this.mPreferencesForm.Hide();
 
 			// Tool tip settings.
 			this.mToolTip = new ToolTip();
@@ -1064,6 +1070,18 @@ namespace AnimatedGifViewer {
 		/// <param name="e">Event arguments.</param>
 		private void ExitMenuItem_Click(object sender, EventArgs e) {
 			this.Close();
+		}
+
+		/// <summary>
+		/// Displays the preferences form if it is hidden. Bring it forward if it is visible.
+		/// </summary>
+		/// <param name="sender">PreferencesMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void PreferencesMenuItem_Click(object sender, EventArgs e) {
+			if (!this.mPreferencesForm.Visible)
+				this.mPreferencesForm.Show();
+			else
+				this.mPreferencesForm.Activate();
 		}
 
 		/// <summary>
