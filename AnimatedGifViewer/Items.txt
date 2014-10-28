@@ -29,6 +29,15 @@ Implement fit to window and actual size buttons
 Add user preferences window and button:
 	Keyboard shorcut tab
 		Two columns, primary and secondary keys
+		Shortcuts
+			Next
+			Previous
+			Fullscreen
+			Exit Fullscreen
+			Toggle Side Panel
+			Rotate Clockwise
+			Rotate Counter Clockwise
+
 		Prompt for conflicts on key change
 	Enable/Disable social media option
 	Slide Show Speed default

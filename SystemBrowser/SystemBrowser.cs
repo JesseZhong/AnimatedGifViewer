@@ -68,8 +68,6 @@ namespace ClockworkControls {
 			}
 
 			this.ListView.EndUpdate();
-
-			Console.WriteLine(this.ListView.Items.Count);
 		}
 	}
 }

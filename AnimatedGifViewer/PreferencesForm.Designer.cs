@@ -23,19 +23,19 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.PreferenceTab = new System.Windows.Forms.TabControl();
 			this.GeneralTab = new System.Windows.Forms.TabPage();
 			this.KeyboardShortcutsTab = new System.Windows.Forms.TabPage();
-			this.SlideShowTab = new System.Windows.Forms.TabPage();
-			this.KeyboardShortcutsPanel = new System.Windows.Forms.Panel();
+			this.ShortcutsGridView = new System.Windows.Forms.DataGridView();
 			this.SocialMediaTab = new System.Windows.Forms.TabPage();
-			this.KeyboardShortcutsListView = new System.Windows.Forms.ListView();
-			this.Shortcut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.PrimaryKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.SecondaryKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.SlideShowTab = new System.Windows.Forms.TabPage();
+			this.DefaultButton = new System.Windows.Forms.Button();
+			this.CancelButton = new System.Windows.Forms.Button();
+			this.ApplyButton = new System.Windows.Forms.Button();
 			this.PreferenceTab.SuspendLayout();
 			this.KeyboardShortcutsTab.SuspendLayout();
-			this.KeyboardShortcutsPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.ShortcutsGridView)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// PreferenceTab
@@ -67,7 +67,10 @@
 			// 
 			// KeyboardShortcutsTab
 			// 
-			this.KeyboardShortcutsTab.Controls.Add(this.KeyboardShortcutsPanel);
+			this.KeyboardShortcutsTab.Controls.Add(this.ApplyButton);
+			this.KeyboardShortcutsTab.Controls.Add(this.CancelButton);
+			this.KeyboardShortcutsTab.Controls.Add(this.DefaultButton);
+			this.KeyboardShortcutsTab.Controls.Add(this.ShortcutsGridView);
 			this.KeyboardShortcutsTab.Location = new System.Drawing.Point(4, 22);
 			this.KeyboardShortcutsTab.Name = "KeyboardShortcutsTab";
 			this.KeyboardShortcutsTab.Padding = new System.Windows.Forms.Padding(3);
@@ -76,76 +79,91 @@
 			this.KeyboardShortcutsTab.Text = "Keyboard Shortcuts";
 			this.KeyboardShortcutsTab.UseVisualStyleBackColor = true;
 			// 
-			// SlideShowTab
+			// ShortcutsGridView
 			// 
-			this.SlideShowTab.Location = new System.Drawing.Point(4, 22);
-			this.SlideShowTab.Name = "SlideShowTab";
-			this.SlideShowTab.Padding = new System.Windows.Forms.Padding(3);
-			this.SlideShowTab.Size = new System.Drawing.Size(741, 423);
-			this.SlideShowTab.TabIndex = 3;
-			this.SlideShowTab.Text = "Slide Show";
-			this.SlideShowTab.UseVisualStyleBackColor = true;
-			// 
-			// KeyboardShortcutsPanel
-			// 
-			this.KeyboardShortcutsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.ShortcutsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.KeyboardShortcutsPanel.Controls.Add(this.KeyboardShortcutsListView);
-			this.KeyboardShortcutsPanel.Location = new System.Drawing.Point(0, 0);
-			this.KeyboardShortcutsPanel.Margin = new System.Windows.Forms.Padding(0);
-			this.KeyboardShortcutsPanel.Name = "KeyboardShortcutsPanel";
-			this.KeyboardShortcutsPanel.Size = new System.Drawing.Size(472, 284);
-			this.KeyboardShortcutsPanel.TabIndex = 0;
+			this.ShortcutsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+			this.ShortcutsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.ShortcutsGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.ShortcutsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			this.ShortcutsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			this.ShortcutsGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+			this.ShortcutsGridView.Location = new System.Drawing.Point(0, 0);
+			this.ShortcutsGridView.Name = "ShortcutsGridView";
+			this.ShortcutsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.ShortcutsGridView.Size = new System.Drawing.Size(472, 263);
+			this.ShortcutsGridView.TabIndex = 1;
 			// 
 			// SocialMediaTab
 			// 
 			this.SocialMediaTab.Location = new System.Drawing.Point(4, 22);
 			this.SocialMediaTab.Name = "SocialMediaTab";
 			this.SocialMediaTab.Padding = new System.Windows.Forms.Padding(3);
-			this.SocialMediaTab.Size = new System.Drawing.Size(741, 423);
+			this.SocialMediaTab.Size = new System.Drawing.Size(472, 261);
 			this.SocialMediaTab.TabIndex = 2;
 			this.SocialMediaTab.Text = "Social Media";
 			this.SocialMediaTab.UseVisualStyleBackColor = true;
 			// 
-			// KeyboardShortcutsListView
+			// SlideShowTab
 			// 
-			this.KeyboardShortcutsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.KeyboardShortcutsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Shortcut,
-            this.PrimaryKey,
-            this.SecondaryKey});
-			this.KeyboardShortcutsListView.Location = new System.Drawing.Point(0, 0);
-			this.KeyboardShortcutsListView.Margin = new System.Windows.Forms.Padding(0);
-			this.KeyboardShortcutsListView.Name = "KeyboardShortcutsListView";
-			this.KeyboardShortcutsListView.Size = new System.Drawing.Size(472, 284);
-			this.KeyboardShortcutsListView.TabIndex = 2;
-			this.KeyboardShortcutsListView.UseCompatibleStateImageBehavior = false;
+			this.SlideShowTab.Location = new System.Drawing.Point(4, 22);
+			this.SlideShowTab.Name = "SlideShowTab";
+			this.SlideShowTab.Padding = new System.Windows.Forms.Padding(3);
+			this.SlideShowTab.Size = new System.Drawing.Size(472, 261);
+			this.SlideShowTab.TabIndex = 3;
+			this.SlideShowTab.Text = "Slide Show";
+			this.SlideShowTab.UseVisualStyleBackColor = true;
 			// 
-			// Shortcut
+			// DefaultButton
 			// 
-			this.Shortcut.Text = "Shortcut";
+			this.DefaultButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.DefaultButton.Location = new System.Drawing.Point(0, 261);
+			this.DefaultButton.Name = "DefaultButton";
+			this.DefaultButton.Size = new System.Drawing.Size(75, 23);
+			this.DefaultButton.TabIndex = 2;
+			this.DefaultButton.Text = "Default";
+			this.DefaultButton.UseVisualStyleBackColor = true;
 			// 
-			// PrimaryKey
+			// CancelButton
 			// 
-			this.PrimaryKey.Text = "Primary Key";
+			this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.CancelButton.Location = new System.Drawing.Point(397, 261);
+			this.CancelButton.Name = "CancelButton";
+			this.CancelButton.Size = new System.Drawing.Size(75, 23);
+			this.CancelButton.TabIndex = 3;
+			this.CancelButton.Text = "Cancel";
+			this.CancelButton.UseVisualStyleBackColor = true;
 			// 
-			// SecondaryKey
+			// ApplyButton
 			// 
-			this.SecondaryKey.Text = "Secondary Key";
+			this.ApplyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ApplyButton.Location = new System.Drawing.Point(316, 261);
+			this.ApplyButton.Name = "ApplyButton";
+			this.ApplyButton.Size = new System.Drawing.Size(75, 23);
+			this.ApplyButton.TabIndex = 4;
+			this.ApplyButton.Text = "Apply";
+			this.ApplyButton.UseVisualStyleBackColor = true;
 			// 
-			// Preferences
+			// PreferencesForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(504, 334);
 			this.Controls.Add(this.PreferenceTab);
-			this.Name = "Preferences";
+			this.Name = "PreferencesForm";
 			this.Text = "Preferences";
 			this.PreferenceTab.ResumeLayout(false);
 			this.KeyboardShortcutsTab.ResumeLayout(false);
-			this.KeyboardShortcutsPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.ShortcutsGridView)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -156,11 +174,10 @@
 		private System.Windows.Forms.TabPage GeneralTab;
 		private System.Windows.Forms.TabPage KeyboardShortcutsTab;
 		private System.Windows.Forms.TabPage SlideShowTab;
-		private System.Windows.Forms.Panel KeyboardShortcutsPanel;
 		private System.Windows.Forms.TabPage SocialMediaTab;
-		private System.Windows.Forms.ListView KeyboardShortcutsListView;
-		private System.Windows.Forms.ColumnHeader Shortcut;
-		private System.Windows.Forms.ColumnHeader PrimaryKey;
-		private System.Windows.Forms.ColumnHeader SecondaryKey;
+		private System.Windows.Forms.DataGridView ShortcutsGridView;
+		private System.Windows.Forms.Button DefaultButton;
+		private System.Windows.Forms.Button ApplyButton;
+		private System.Windows.Forms.Button CancelButton;
 	}
 }
