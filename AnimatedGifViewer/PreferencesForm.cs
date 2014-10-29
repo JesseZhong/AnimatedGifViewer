@@ -73,5 +73,46 @@ namespace AnimatedGifViewer {
 
 		}
 		#endregion
+
+		#region Keyboard Shortcut Events
+		private void ShortcutsGridView_CellClick(object sender, DataGridViewCellEventArgs e) {
+			const string message = "Enter a new key or press ESC to cancel.";
+			var result = KeyMessageBox.Show(this, message);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ApplyButton_Click(object sender, EventArgs e) {
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CancelButton_Click(object sender, EventArgs e) {
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DefaultButton_Click(object sender, EventArgs e) {
+
+		}
+		#endregion
+
+		#region Form Events
+		private void PreferencesForm_FormClosing(object sender, FormClosingEventArgs e) {
+			this.Hide();
+			e.Cancel = true;
+		}
+		#endregion
 	}
 }
