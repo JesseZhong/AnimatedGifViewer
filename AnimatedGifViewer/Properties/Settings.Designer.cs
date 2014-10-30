@@ -61,49 +61,12 @@ namespace AnimatedGifViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Left")]
-        public global::System.Windows.Forms.Keys NextPrimaryKey {
+        public System.Windows.Forms.Keys[,] KeyboardShortcuts {
             get {
-                return ((global::System.Windows.Forms.Keys)(this["NextPrimaryKey"]));
+                return ((System.Windows.Forms.Keys[,])(this["KeyboardShortcuts"]));
             }
             set {
-                this["NextPrimaryKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("A")]
-        public global::System.Windows.Forms.Keys NextSecondaryKey {
-            get {
-                return ((global::System.Windows.Forms.Keys)(this["NextSecondaryKey"]));
-            }
-            set {
-                this["NextSecondaryKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Right")]
-        public global::System.Windows.Forms.Keys PreviousPrimaryKey {
-            get {
-                return ((global::System.Windows.Forms.Keys)(this["PreviousPrimaryKey"]));
-            }
-            set {
-                this["PreviousPrimaryKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("S")]
-        public global::System.Windows.Forms.Keys PreviousSecondaryKey {
-            get {
-                return ((global::System.Windows.Forms.Keys)(this["PreviousSecondaryKey"]));
-            }
-            set {
-                this["PreviousSecondaryKey"] = value;
+                this["KeyboardShortcuts"] = value;
             }
         }
     }

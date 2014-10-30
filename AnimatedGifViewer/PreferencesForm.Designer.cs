@@ -23,7 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.PreferenceTab = new System.Windows.Forms.TabControl();
 			this.GeneralTab = new System.Windows.Forms.TabPage();
 			this.KeyboardShortcutsTab = new System.Windows.Forms.TabPage();
@@ -93,6 +93,7 @@
 			// CancelButton
 			// 
 			this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.CancelButton.Enabled = false;
 			this.CancelButton.Location = new System.Drawing.Point(397, 261);
 			this.CancelButton.Name = "CancelButton";
 			this.CancelButton.Size = new System.Drawing.Size(75, 23);
@@ -120,14 +121,14 @@
 			this.ShortcutsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
 			this.ShortcutsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.ShortcutsGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.ShortcutsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.ShortcutsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.ShortcutsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.ShortcutsGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
 			this.ShortcutsGridView.Location = new System.Drawing.Point(0, 0);
@@ -165,11 +166,11 @@
 			this.Controls.Add(this.PreferenceTab);
 			this.Name = "PreferencesForm";
 			this.Text = "Preferences";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PreferencesForm_FormClosing);
 			this.PreferenceTab.ResumeLayout(false);
 			this.KeyboardShortcutsTab.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ShortcutsGridView)).EndInit();
 			this.ResumeLayout(false);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PreferencesForm_FormClosing);
 
 		}
 
