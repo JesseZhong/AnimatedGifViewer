@@ -11,8 +11,13 @@
     <Setting Name="FormWindowState" Type="System.Windows.Forms.FormWindowState" Scope="User">
       <Value Profile="(Default)">Normal</Value>
     </Setting>
-    <Setting Name="KeyboardShortcuts" Type="System.Windows.Forms.Keys[,]" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="PrimaryShortcuts" Type="System.Windows.Forms.Keys[]" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfKeys xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Value>
+    </Setting>
+    <Setting Name="SecondaryShortcuts" Type="System.Windows.Forms.Keys[]" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfKeys xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

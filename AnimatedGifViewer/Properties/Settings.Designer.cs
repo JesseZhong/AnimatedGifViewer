@@ -61,12 +61,27 @@ namespace AnimatedGifViewer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public System.Windows.Forms.Keys[,] KeyboardShortcuts {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfKeys xmlns:xsi=\"http://www.w3.or" +
+            "g/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public System.Windows.Forms.Keys[] PrimaryShortcuts {
             get {
-                return ((System.Windows.Forms.Keys[,])(this["KeyboardShortcuts"]));
+                return ((System.Windows.Forms.Keys[])(this["PrimaryShortcuts"]));
             }
             set {
-                this["KeyboardShortcuts"] = value;
+                this["PrimaryShortcuts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfKeys xmlns:xsi=\"http://www.w3.or" +
+            "g/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public System.Windows.Forms.Keys[] SecondaryShortcuts {
+            get {
+                return ((System.Windows.Forms.Keys[])(this["SecondaryShortcuts"]));
+            }
+            set {
+                this["SecondaryShortcuts"] = value;
             }
         }
     }

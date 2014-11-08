@@ -5,6 +5,7 @@ Custom Icon & Logo
 Change license accordingly
 
 [Normal Priority]
+Adaptive sorting depending on folder				
 Icons for MenuStrip									- Done
 Read Images from Zip files
 Drag and Drop Loading								- Done

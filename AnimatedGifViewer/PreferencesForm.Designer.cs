@@ -82,6 +82,7 @@
 			// ApplyButton
 			// 
 			this.ApplyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ApplyButton.Enabled = false;
 			this.ApplyButton.Location = new System.Drawing.Point(316, 261);
 			this.ApplyButton.Name = "ApplyButton";
 			this.ApplyButton.Size = new System.Drawing.Size(75, 23);
@@ -167,6 +168,7 @@
 			this.Name = "PreferencesForm";
 			this.Text = "Preferences";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PreferencesForm_FormClosing);
+			this.Load += new System.EventHandler(this.PreferencesForm_Load);
 			this.PreferenceTab.ResumeLayout(false);
 			this.KeyboardShortcutsTab.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ShortcutsGridView)).EndInit();
