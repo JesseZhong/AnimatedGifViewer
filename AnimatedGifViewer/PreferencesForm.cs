@@ -15,27 +15,11 @@ namespace AnimatedGifViewer {
 
 		#region Constants and Statics
 		/// <summary>
-		/// List of default shortcuts and their keyboard keys.
-		/// </summary>
-		public static readonly KeyboardShortcut[] DEFAULT_SHORTCUTS = {
-			new KeyboardShortcut("Next Image", Keys.Right, Keys.None),
-			new KeyboardShortcut("Previous Image", Keys.Left, Keys.None),
-			new KeyboardShortcut("Enter Fullscreen", Keys.Up, Keys.None),
-			new KeyboardShortcut("Exit Fullscreen", Keys.Down, Keys.None),
-			new KeyboardShortcut("Toggle Side Panel", Keys.Tab, Keys.None),
-			new KeyboardShortcut("Rotate Image Clockwise", Keys.OemPeriod, Keys.None),
-			new KeyboardShortcut("Rotate Image Counter Clockwise", Keys.Oemcomma, Keys.None)
-		};
-
-		/// <summary>
-		/// The number of shortcuts that are in the program.
-		/// </summary>
-		public static readonly int NUMBER_OF_SHORTCUTS = DEFAULT_SHORTCUTS.Length;
-
-		/// <summary>
 		/// 
 		/// </summary>
 		private const string DISCARD_PROMPT_MESSAGE = "Are you sure you want to discard your changes?";
+
+		private static readonly Color KEY_CHANGE_COLOR = Color.Red;
 		#endregion
 
 		#region Members
@@ -73,7 +57,8 @@ namespace AnimatedGifViewer {
 			this.ShortcutsGridView.AutoGenerateColumns = false;
 			
 			DataGridViewTextBoxColumn shortcutColumn = new DataGridViewTextBoxColumn();
-			shortcutColumn.DataPropertyName = "Shortcut";
+			shortcutColumn.Name = KeyboardShortcut.SHORTCUT_PROPERTY_NAME;
+			shortcutColumn.DataPropertyName = KeyboardShortcut.SHORTCUT_PROPERTY_NAME;
 			shortcutColumn.HeaderText = "Shortcut";
 			shortcutColumn.ReadOnly = true;
 			shortcutColumn.DefaultCellStyle.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -81,14 +66,16 @@ namespace AnimatedGifViewer {
 			this.ShortcutsGridView.Columns.Add(shortcutColumn);
 
 			DataGridViewTextBoxColumn primaryKeyColumn = new DataGridViewTextBoxColumn();
-			primaryKeyColumn.DataPropertyName = "PrimaryKey";
+			primaryKeyColumn.Name = KeyboardShortcut.PRIMARY_KEY_PROPERTY_NAME;
+			primaryKeyColumn.DataPropertyName = KeyboardShortcut.PRIMARY_KEY_PROPERTY_NAME;
 			primaryKeyColumn.HeaderText = "Primary Key";
 			primaryKeyColumn.ReadOnly = true;
 			primaryKeyColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			this.ShortcutsGridView.Columns.Add(primaryKeyColumn);
 
 			DataGridViewTextBoxColumn secondaryKeyColumn = new DataGridViewTextBoxColumn();
-			secondaryKeyColumn.DataPropertyName = "SecondaryKey";
+			secondaryKeyColumn.Name = KeyboardShortcut.SECONDARY_KEY_PROPERTY_NAME;
+			secondaryKeyColumn.DataPropertyName = KeyboardShortcut.SECONDARY_KEY_PROPERTY_NAME;
 			secondaryKeyColumn.HeaderText = "Secondary Key";
 			secondaryKeyColumn.ReadOnly = true;
 			secondaryKeyColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -111,82 +98,13 @@ namespace AnimatedGifViewer {
 			int primaryLen = primaryShortcuts.Length;
 			int secondaryLen = secondaryShortcuts.Length;
 
-			for (int i = 0; i < NUMBER_OF_SHORTCUTS; i++) {
+			for (int i = 0; i < KeyboardShortcut.DEFAULT_SHORTCUTS.Count; i++) {
 
-				KeyboardShortcut defaultShortcut = DEFAULT_SHORTCUTS[i];
+				KeyboardShortcut defaultShortcut = KeyboardShortcut.DEFAULT_SHORTCUTS[i];
 				this.AddShortcut(defaultShortcut.Shortcut,
 					(i < primaryLen) ? primaryShortcuts[i] : defaultShortcut.PrimaryKey,
 					(i < secondaryLen) ? secondaryShortcuts[i] : defaultShortcut.SecondaryKey);
 			}
-		}
-		#endregion
-
-		#region Keyboard Shortcuts Methods
-		/// <summary>
-		/// Adds a new shortcut for the program.
-		/// </summary>
-		/// <param name="shortcutName">The name of the shortcut.</param>
-		/// <param name="primaryKey">The main key used for the shortcut.</param>
-		/// <param name="secondaryKey">The alternate key used for the shortcut.</param>
-		private void AddShortcut(string shortcutName, Keys primaryKey, Keys secondaryKey) {
-			this.mShortcutsDisplayList.Add(new KeyboardShortcut(shortcutName, primaryKey, secondaryKey));
-			this.mShortcutsList.Add(new KeyboardShortcut(shortcutName, primaryKey, secondaryKey));
-		}
-
-		/// <summary>
-		/// Confirm the list for new shortcuts. Applies changes to the system.
-		/// </summary>
-		private void ConfirmNewKeys() {
-			System.Diagnostics.Debug.Assert(this.mShortcutsList.Count == this.mShortcutsDisplayList.Count);
-			for (int i = 0, count = this.mShortcutsList.Count; i < NUMBER_OF_SHORTCUTS; i++) {
-				KeyboardShortcut shortcut = this.mShortcutsList[i];
-				KeyboardShortcut displayShortcut = this.mShortcutsDisplayList[i];
-				if ((i < count) && (shortcut != displayShortcut)) {
-					shortcut.Shortcut = displayShortcut.Shortcut;
-					shortcut.PrimaryKey = displayShortcut.PrimaryKey;
-					shortcut.SecondaryKey = displayShortcut.SecondaryKey;
-				} else {
-					displayShortcut.Shortcut = DEFAULT_SHORTCUTS[i].Shortcut;
-					displayShortcut.PrimaryKey = DEFAULT_SHORTCUTS[i].PrimaryKey;
-					displayShortcut.SecondaryKey = DEFAULT_SHORTCUTS[i].SecondaryKey;
-				}
-			}
-			this.CancelButton.Enabled = false;
-			this.ApplyButton.Enabled = false;
-			this.mShortcutsChanged = false;
-		}
-
-		/// <summary>
-		/// Resets the list for shortcut changes. Denies the changes to the system.
-		/// </summary>
-		private void ClearNewKeys() {
-			System.Diagnostics.Debug.Assert(this.mShortcutsList.Count == this.mShortcutsDisplayList.Count);
-			for (int i = 0, count = this.mShortcutsList.Count; i < NUMBER_OF_SHORTCUTS; i++) {
-				KeyboardShortcut shortcut = this.mShortcutsList[i];
-				KeyboardShortcut displayShortcut = this.mShortcutsDisplayList[i];
-				if ((i < count) && (shortcut != displayShortcut)) {
-					displayShortcut.Shortcut = shortcut.Shortcut;
-					displayShortcut.PrimaryKey = shortcut.PrimaryKey;
-					displayShortcut.SecondaryKey = shortcut.SecondaryKey;
-				} else {
-					displayShortcut.Shortcut = DEFAULT_SHORTCUTS[i].Shortcut;
-					displayShortcut.PrimaryKey = DEFAULT_SHORTCUTS[i].PrimaryKey;
-					displayShortcut.SecondaryKey = DEFAULT_SHORTCUTS[i].SecondaryKey;
-				}
-			}
-			this.CancelButton.Enabled = false;
-			this.ApplyButton.Enabled = false;
-			this.mShortcutsChanged = false;
-		}
-
-		/// <summary>
-		/// Resets the shortcuts to the programs default list.
-		/// </summary>
-		private void ResetShortcuts() {
-			this.ShortcutsGridView.DataSource = new BindingList<KeyboardShortcut>(DEFAULT_SHORTCUTS);
-			this.CancelButton.Enabled = true;
-			this.ApplyButton.Enabled = true;
-			this.mShortcutsChanged = true;
 		}
 		#endregion
 
@@ -200,10 +118,117 @@ namespace AnimatedGifViewer {
 		}
 		#endregion
 
+		#region Keyboard Shortcuts Methods
+		/// <summary>
+		/// Adds a new shortcut to the internal lists of shortcuts.
+		/// </summary>
+		/// <param name="shortcut">The name of the shortcut.</param>
+		/// <param name="primaryKey">The main key used for the shortcut.</param>
+		/// <param name="secondaryKey">The alternate key used for the shortcut.</param>
+		private void AddShortcut(Shortcut shortcut, Keys primaryKey, Keys secondaryKey) {
+			this.AddShortcut(new KeyboardShortcut(shortcut, primaryKey, secondaryKey));
+		}
+
+		/// <summary>
+		/// Adds a new shortcut to the internal lists of shortcuts.
+		/// </summary>
+		/// <param name="keyboardShortcut">The new shortcut.</param>
+		private void AddShortcut(KeyboardShortcut keyboardShortcut) {
+			this.mShortcutsDisplayList.Add(new KeyboardShortcut(keyboardShortcut.Shortcut, keyboardShortcut.PrimaryKey, keyboardShortcut.SecondaryKey));
+			this.mShortcutsList.Add(new KeyboardShortcut(keyboardShortcut.Shortcut, keyboardShortcut.PrimaryKey, keyboardShortcut.SecondaryKey));
+		}
+
+		/// <summary>
+		/// Confirm the list for new shortcuts. Applies changes to the system.
+		/// </summary>
+		private void ConfirmNewKeys() {
+			System.Diagnostics.Debug.Assert(this.mShortcutsList.Count == this.mShortcutsDisplayList.Count);
+			for (int i = 0, count = this.mShortcutsList.Count; i < KeyboardShortcut.DEFAULT_SHORTCUTS.Count; i++) {
+				KeyboardShortcut shortcut = this.mShortcutsList[i];
+				KeyboardShortcut displayShortcut = this.mShortcutsDisplayList[i];
+				if (i < count) {
+					if(shortcut != displayShortcut) {
+						shortcut.Shortcut = displayShortcut.Shortcut;
+						shortcut.PrimaryKey = displayShortcut.PrimaryKey;
+						shortcut.SecondaryKey = displayShortcut.SecondaryKey;
+
+						// Reset the cell colors.
+						DataGridViewCell primaryCell = (DataGridViewCell)ShortcutsGridView.Rows[i].Cells[this.ShortcutsGridView.Columns[KeyboardShortcut.PRIMARY_KEY_PROPERTY_NAME].Index];
+						DataGridViewCell secondaryCell = (DataGridViewCell)ShortcutsGridView.Rows[i].Cells[this.ShortcutsGridView.Columns[KeyboardShortcut.SECONDARY_KEY_PROPERTY_NAME].Index];
+						primaryCell.Style.ForeColor = SystemColors.ControlText;
+						secondaryCell.Style.ForeColor = SystemColors.ControlText;
+					}
+				} else
+					this.AddShortcut(KeyboardShortcut.DEFAULT_SHORTCUTS[i]);
+			}
+			this.CancelButton.Enabled = false;
+			this.ApplyButton.Enabled = false;
+			this.mShortcutsChanged = false;
+		}
+
+		/// <summary>
+		/// Resets the list for shortcut changes. Denies the changes to the system.
+		/// </summary>
+		private void ClearNewKeys() {
+			System.Diagnostics.Debug.Assert(this.mShortcutsList.Count == this.mShortcutsDisplayList.Count);
+			for (int i = 0, count = this.mShortcutsList.Count; i < KeyboardShortcut.DEFAULT_SHORTCUTS.Count; i++) {
+				KeyboardShortcut shortcut = this.mShortcutsList[i];
+				KeyboardShortcut displayShortcut = this.mShortcutsDisplayList[i];
+				if (i < count) {
+					if (shortcut != displayShortcut) {
+						displayShortcut.Shortcut = shortcut.Shortcut;
+						displayShortcut.PrimaryKey = shortcut.PrimaryKey;
+						displayShortcut.SecondaryKey = shortcut.SecondaryKey;
+
+						// Reset the cell colors.
+						DataGridViewCell primaryCell = (DataGridViewCell)ShortcutsGridView.Rows[i].Cells[this.ShortcutsGridView.Columns[KeyboardShortcut.PRIMARY_KEY_PROPERTY_NAME].Index];
+						DataGridViewCell secondaryCell = (DataGridViewCell)ShortcutsGridView.Rows[i].Cells[this.ShortcutsGridView.Columns[KeyboardShortcut.SECONDARY_KEY_PROPERTY_NAME].Index];
+						primaryCell.Style.ForeColor = SystemColors.ControlText;
+						secondaryCell.Style.ForeColor = SystemColors.ControlText;
+					}
+				} else
+					this.AddShortcut(KeyboardShortcut.DEFAULT_SHORTCUTS[i]);
+			}
+			this.CancelButton.Enabled = false;
+			this.ApplyButton.Enabled = false;
+			this.mShortcutsChanged = false;
+		}
+
+		/// <summary>
+		/// Resets the shortcuts to the programs default list.
+		/// </summary>
+		/// <remarks>Changes cell text color of the keys that have been changed.</remarks>
+		private void ResetShortcuts() {
+			for (int i = 0, count = this.mShortcutsDisplayList.Count; i < KeyboardShortcut.DEFAULT_SHORTCUTS.Count; i++) {
+				KeyboardShortcut shortcut = this.mShortcutsList[i];
+				KeyboardShortcut defaultShortcut = KeyboardShortcut.DEFAULT_SHORTCUTS[i];
+				KeyboardShortcut displayShortcut = this.mShortcutsDisplayList[i];
+				if (i < count) {
+					if (defaultShortcut != displayShortcut) {
+						displayShortcut.Shortcut = defaultShortcut.Shortcut;
+						displayShortcut.PrimaryKey = defaultShortcut.PrimaryKey;
+						displayShortcut.SecondaryKey = defaultShortcut.SecondaryKey;
+
+						// Change text colors.
+						DataGridViewCell primaryCell = (DataGridViewCell)ShortcutsGridView.Rows[i].Cells[this.ShortcutsGridView.Columns[KeyboardShortcut.PRIMARY_KEY_PROPERTY_NAME].Index];
+						DataGridViewCell secondaryCell = (DataGridViewCell)ShortcutsGridView.Rows[i].Cells[this.ShortcutsGridView.Columns[KeyboardShortcut.SECONDARY_KEY_PROPERTY_NAME].Index];
+						primaryCell.Style.ForeColor = (defaultShortcut.PrimaryKey == shortcut.PrimaryKey) ? SystemColors.ControlText : KEY_CHANGE_COLOR;
+						secondaryCell.Style.ForeColor = (defaultShortcut.SecondaryKey == shortcut.SecondaryKey) ? SystemColors.ControlText : KEY_CHANGE_COLOR;
+					}
+				} else
+					this.AddShortcut(KeyboardShortcut.DEFAULT_SHORTCUTS[i]);
+			}
+			this.CancelButton.Enabled = true;
+			this.ApplyButton.Enabled = true;
+			this.mShortcutsChanged = true;
+		}
+		#endregion
+
 		#region Keyboard Shortcut Events
 		/// <summary>
 		/// Prompts user for a key for a shortcut when a cell is clicked.
 		/// <para>Pressing Escape will cancel process.</para>
+		/// <remarks>Changed cells have the text color changed.</remarks>
 		/// </summary>
 		/// <param name="sender">ShortcutsGridView.</param>
 		/// <param name="e">Event arguments.</param>
@@ -228,13 +253,16 @@ namespace AnimatedGifViewer {
 				// Change the new displayed key.
 				cell.Value = result;
 
-				// Change cell text color to red, indicating that it has been changed.
-				cell.Style.ForeColor = System.Drawing.Color.Red;
+				// Change cell text color, indicating that it has been changed.
+				cell.Style.ForeColor = KEY_CHANGE_COLOR;
 
 				// Indicate that a change has been made and activate cancel and apply buttons.
 				this.mShortcutsChanged = true;
 				this.CancelButton.Enabled = true;
 				this.ApplyButton.Enabled = true;
+
+				// De-select the cell.
+				cell.Selected = false;
 			}
 		}
 

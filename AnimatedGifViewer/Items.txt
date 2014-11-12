@@ -1,5 +1,5 @@
 ﻿[High Priority]
-Name change
+Name change = Moonlight, Moonbeam, Umbra, Nyx, Selene
 Custom UI
 Custom Icon & Logo
 Change license accordingly
