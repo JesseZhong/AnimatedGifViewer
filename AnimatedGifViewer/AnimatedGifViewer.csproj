@@ -114,7 +114,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Shortcut.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\ApplicationRecoveryException.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\ApplicationRestartRecoveryManager.cs" />
     <Compile Include="WindowsAPICodePack\Core\AppRestartRecovery\RecoveryData.cs" />

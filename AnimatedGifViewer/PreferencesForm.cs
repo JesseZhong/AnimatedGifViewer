@@ -15,15 +15,19 @@ namespace AnimatedGifViewer {
 
 		#region Constants and Statics
 		/// <summary>
-		/// 
+		/// The message prompt displayed when warning the user that they will be discarding any changes they made.
 		/// </summary>
 		private const string DISCARD_PROMPT_MESSAGE = "Are you sure you want to discard your changes?";
 
+		/// <summary>
+		/// The color the text of a cell is changed to when its key is changed.
+		/// </summary>
 		private static readonly Color KEY_CHANGE_COLOR = Color.Red;
 		#endregion
 
 		#region Members
 		private List<KeyboardShortcut> mShortcutsList;
+		private Dictionary<KeyboardShortcut.Shortcuts, KeyboardShortcut> mShortcutsLookupList;
 		private BindingList<KeyboardShortcut> mShortcutsDisplayList;
 		private bool mShortcutsChanged;
 		private string mAssemblyProduct;
@@ -43,16 +47,17 @@ namespace AnimatedGifViewer {
 			this.mShortcutsChanged = false;
 
 			this.InitializeComponent();
-			this.InitializeShortcutsGridView();
+			this.InitializeShortcuts();
 		}
 
 		/// <summary>
-		/// Adds columns to the shortcuts grid view.
+		/// Initialize the shortcuts data grid view and other shortcuts related members.
 		/// </summary>
-		private void InitializeShortcutsGridView() {
+		private void InitializeShortcuts() {
 
 			this.mShortcutsList = new List<KeyboardShortcut>();
 			this.mShortcutsDisplayList = new BindingList<KeyboardShortcut>();
+			this.mShortcutsLookupList = new Dictionary<KeyboardShortcut.Shortcuts, KeyboardShortcut>();
 			
 			this.ShortcutsGridView.AutoGenerateColumns = false;
 			
@@ -120,12 +125,26 @@ namespace AnimatedGifViewer {
 
 		#region Keyboard Shortcuts Methods
 		/// <summary>
+		/// Looks up the primary and secondary keys for a given shortcut.
+		/// </summary>
+		/// <remarks>An exception is thrown if the shortcut requested is unrecognized.</remarks>
+		/// <param name="shortcut">The shortcut in question.</param>
+		/// <returns>The keyboard shortcuts.</returns>
+		public KeyboardShortcut GetKeys(KeyboardShortcut.Shortcuts shortcut) {
+			KeyboardShortcut result;
+			if (this.mShortcutsLookupList.TryGetValue(shortcut, out result))
+				return result;
+
+			throw new Exception(String.Format("Failed to find shortcut {0}, ID: {1}.", shortcut.Name, shortcut.ID));
+		}
+
+		/// <summary>
 		/// Adds a new shortcut to the internal lists of shortcuts.
 		/// </summary>
 		/// <param name="shortcut">The name of the shortcut.</param>
 		/// <param name="primaryKey">The main key used for the shortcut.</param>
 		/// <param name="secondaryKey">The alternate key used for the shortcut.</param>
-		private void AddShortcut(Shortcut shortcut, Keys primaryKey, Keys secondaryKey) {
+		private void AddShortcut(KeyboardShortcut.Shortcuts shortcut, Keys primaryKey, Keys secondaryKey) {
 			this.AddShortcut(new KeyboardShortcut(shortcut, primaryKey, secondaryKey));
 		}
 
@@ -135,7 +154,11 @@ namespace AnimatedGifViewer {
 		/// <param name="keyboardShortcut">The new shortcut.</param>
 		private void AddShortcut(KeyboardShortcut keyboardShortcut) {
 			this.mShortcutsDisplayList.Add(new KeyboardShortcut(keyboardShortcut.Shortcut, keyboardShortcut.PrimaryKey, keyboardShortcut.SecondaryKey));
-			this.mShortcutsList.Add(new KeyboardShortcut(keyboardShortcut.Shortcut, keyboardShortcut.PrimaryKey, keyboardShortcut.SecondaryKey));
+
+			// Created shortcut used for internal storage and look up. Same object to be referenced in a iterative list or by hash in a map.
+			KeyboardShortcut shortcut = new KeyboardShortcut(keyboardShortcut.Shortcut, keyboardShortcut.PrimaryKey, keyboardShortcut.SecondaryKey);
+			this.mShortcutsList.Add(shortcut);
+			this.mShortcutsLookupList.Add(shortcut.Shortcut, shortcut);
 		}
 
 		/// <summary>
