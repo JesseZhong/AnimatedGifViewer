@@ -90,6 +90,17 @@ Implement as extension of regular
 		Open File Location
 		Properties
 
+Present Concerns:
+Saving shortcuts to settings. <
+Prompt box for key change has the text box selectable and is automatically highlighted. <
+Shortcut column is highlighted when selected. <
+Remove column -1 from being visible. <
+Key conflicts are not being checked.
+Having double array for settings is a pain and very expensive. <
+Resizable cell heights and widths: turn it off. <
+Shortcuts and settings load too late with load method. <
+OEM keys string contains OEM.
+
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
 

@@ -116,6 +116,10 @@
 			// 
 			// ShortcutsGridView
 			// 
+			this.ShortcutsGridView.AllowUserToAddRows = false;
+			this.ShortcutsGridView.AllowUserToDeleteRows = false;
+			this.ShortcutsGridView.AllowUserToResizeColumns = false;
+			this.ShortcutsGridView.AllowUserToResizeRows = false;
 			this.ShortcutsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -168,7 +172,6 @@
 			this.Name = "PreferencesForm";
 			this.Text = "Preferences";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PreferencesForm_FormClosing);
-			this.Load += new System.EventHandler(this.PreferencesForm_Load);
 			this.PreferenceTab.ResumeLayout(false);
 			this.KeyboardShortcutsTab.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ShortcutsGridView)).EndInit();

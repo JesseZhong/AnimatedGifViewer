@@ -52,6 +52,7 @@ namespace AnimatedGifViewer {
 
 		/// <summary>
 		/// Initialize the shortcuts data grid view and other shortcuts related members.
+		/// <para>Attempts to load existing shortcut settings</para>
 		/// </summary>
 		private void InitializeShortcuts() {
 
@@ -60,14 +61,22 @@ namespace AnimatedGifViewer {
 			this.mShortcutsLookupList = new Dictionary<KeyboardShortcut.Shortcuts, KeyboardShortcut>();
 			
 			this.ShortcutsGridView.AutoGenerateColumns = false;
+			this.ShortcutsGridView.RowHeadersVisible = false;
 			
 			DataGridViewTextBoxColumn shortcutColumn = new DataGridViewTextBoxColumn();
 			shortcutColumn.Name = KeyboardShortcut.SHORTCUT_PROPERTY_NAME;
 			shortcutColumn.DataPropertyName = KeyboardShortcut.SHORTCUT_PROPERTY_NAME;
 			shortcutColumn.HeaderText = "Shortcut";
 			shortcutColumn.ReadOnly = true;
-			shortcutColumn.DefaultCellStyle.BackColor = System.Drawing.SystemColors.ControlDark;
 			shortcutColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+			shortcutColumn.DefaultCellStyle.Padding = new Padding(4);
+
+			// Selection doesn't stand out.
+			shortcutColumn.DefaultCellStyle.ForeColor = SystemColors.ControlText;
+			shortcutColumn.DefaultCellStyle.SelectionForeColor = SystemColors.ControlText;
+			shortcutColumn.DefaultCellStyle.SelectionBackColor = SystemColors.ControlDark;
+			shortcutColumn.DefaultCellStyle.BackColor = SystemColors.ControlDark;
+
 			this.ShortcutsGridView.Columns.Add(shortcutColumn);
 
 			DataGridViewTextBoxColumn primaryKeyColumn = new DataGridViewTextBoxColumn();
@@ -87,28 +96,22 @@ namespace AnimatedGifViewer {
 			this.ShortcutsGridView.Columns.Add(secondaryKeyColumn);
 
 			this.ShortcutsGridView.DataSource = this.mShortcutsDisplayList;
-		}
 
-		/// <summary>
-		/// Fills out lists of shortcuts using user settings and defaults.
-		/// </summary>
-		/// <param name="sender">PreferencesForm.</param>
-		/// <param name="e">Event arguments.</param>
-		private void PreferencesForm_Load(object sender, EventArgs e) {
-			
 			// Load keyboard shortcut settings.
-			Keys[] primaryShortcuts = AnimatedGifViewer.Properties.Settings.Default.PrimaryShortcuts;
-			Keys[] secondaryShortcuts = AnimatedGifViewer.Properties.Settings.Default.SecondaryShortcuts;
+			System.Collections.ObjectModel.ObservableCollection<KeyboardShortcut> shortcuts = global::AnimatedGifViewer.Properties.Settings.Default.KeyboardShortcuts;
+			Dictionary<KeyboardShortcut.Shortcuts, KeyboardShortcut> hashedShortcuts = new Dictionary<KeyboardShortcut.Shortcuts, KeyboardShortcut>();
+			if ((shortcuts != null) && (shortcuts.Any())) {
+				for (int i = 0, count = shortcuts.Count; i < count; i++) {
+					KeyboardShortcut shortcut = shortcuts[i];
+					hashedShortcuts[shortcut.Shortcut] = shortcut;
+				}
+			}
 
-			int primaryLen = primaryShortcuts.Length;
-			int secondaryLen = secondaryShortcuts.Length;
-
+			// Attempt to load in individual shortcuts, filling in missing ones with defaults.
 			for (int i = 0; i < KeyboardShortcut.DEFAULT_SHORTCUTS.Count; i++) {
-
+				KeyboardShortcut shortcut;
 				KeyboardShortcut defaultShortcut = KeyboardShortcut.DEFAULT_SHORTCUTS[i];
-				this.AddShortcut(defaultShortcut.Shortcut,
-					(i < primaryLen) ? primaryShortcuts[i] : defaultShortcut.PrimaryKey,
-					(i < secondaryLen) ? secondaryShortcuts[i] : defaultShortcut.SecondaryKey);
+				this.AddShortcut(hashedShortcuts.TryGetValue(defaultShortcut.Shortcut, out shortcut) ? shortcut : defaultShortcut);
 			}
 		}
 		#endregion
@@ -135,7 +138,7 @@ namespace AnimatedGifViewer {
 			if (this.mShortcutsLookupList.TryGetValue(shortcut, out result))
 				return result;
 
-			throw new Exception(String.Format("Failed to find shortcut {0}, ID: {1}.", shortcut.Name, shortcut.ID));
+			throw new Exception(String.Format("Failed to find shortcut {0}.", shortcut.Name));
 		}
 
 		/// <summary>
@@ -158,7 +161,7 @@ namespace AnimatedGifViewer {
 			// Created shortcut used for internal storage and look up. Same object to be referenced in a iterative list or by hash in a map.
 			KeyboardShortcut shortcut = new KeyboardShortcut(keyboardShortcut.Shortcut, keyboardShortcut.PrimaryKey, keyboardShortcut.SecondaryKey);
 			this.mShortcutsList.Add(shortcut);
-			this.mShortcutsLookupList.Add(shortcut.Shortcut, shortcut);
+			this.mShortcutsLookupList[shortcut.Shortcut] = shortcut;
 		}
 
 		/// <summary>
@@ -187,6 +190,9 @@ namespace AnimatedGifViewer {
 			this.CancelButton.Enabled = false;
 			this.ApplyButton.Enabled = false;
 			this.mShortcutsChanged = false;
+
+			// Save shortcuts to settings.
+			this.SaveShortcuts();
 		}
 
 		/// <summary>
@@ -245,6 +251,14 @@ namespace AnimatedGifViewer {
 			this.ApplyButton.Enabled = true;
 			this.mShortcutsChanged = true;
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private void SaveShortcuts() {
+			global::AnimatedGifViewer.Properties.Settings.Default.KeyboardShortcuts = new System.Collections.ObjectModel.ObservableCollection<KeyboardShortcut>(this.mShortcutsList);
+			global::AnimatedGifViewer.Properties.Settings.Default.Save();
+		}
 		#endregion
 
 		#region Keyboard Shortcut Events
@@ -258,7 +272,7 @@ namespace AnimatedGifViewer {
 		private void ShortcutsGridView_CellClick(object sender, DataGridViewCellEventArgs e) {
 
 			// Ensure that only the key cells are selected. -1 is for headers.
-			if ((e.ColumnIndex == 0) || (e.RowIndex == -1))
+			if ((e.ColumnIndex < 1) || (e.RowIndex < 0))
 				return;
 
 			// Display message box, prompting user for a new key for the shortcut.
@@ -351,6 +365,8 @@ namespace AnimatedGifViewer {
 
 					return;
 				}
+
+				this.SaveShortcuts();
 			}
 
 			this.Hide();

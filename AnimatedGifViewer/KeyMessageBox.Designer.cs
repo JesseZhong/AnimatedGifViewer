@@ -33,6 +33,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.Message.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.Message.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.Message.Enabled = false;
 			this.Message.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.Message.Location = new System.Drawing.Point(12, 12);
 			this.Message.Name = "Message";

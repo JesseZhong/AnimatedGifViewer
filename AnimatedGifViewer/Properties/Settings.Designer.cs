@@ -84,5 +84,16 @@ namespace AnimatedGifViewer.Properties {
                 this["SecondaryShortcuts"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public System.Collections.ObjectModel.ObservableCollection<KeyboardShortcut> KeyboardShortcuts {
+            get {
+				return ((System.Collections.ObjectModel.ObservableCollection<KeyboardShortcut>)(this["KeyboardShortcuts"]));
+            }
+            set {
+                this["KeyboardShortcuts"] = value;
+            }
+        }
     }
 }
