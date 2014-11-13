@@ -142,6 +142,20 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Tests if a key pressed matches the keys for a shortcut.
+		/// </summary>
+		/// <param name="shortcut">The shortcut in question.</param>
+		/// <param name="keyPressed">The key being pressed.</param>
+		/// <returns>True if the key pressed matches those in the shortcut.</returns>
+		public bool WasShortcutTriggered(KeyboardShortcut.Shortcuts shortcut, Keys keyPressed) {
+			KeyboardShortcut keyboardShortcut = this.GetKeys(shortcut);
+			if (keyboardShortcut == null)
+				return false;
+
+			return (keyPressed == keyboardShortcut.PrimaryKey) || (keyPressed == keyboardShortcut.SecondaryKey);
+		}
+
+		/// <summary>
 		/// Adds a new shortcut to the internal lists of shortcuts.
 		/// </summary>
 		/// <param name="shortcut">The name of the shortcut.</param>

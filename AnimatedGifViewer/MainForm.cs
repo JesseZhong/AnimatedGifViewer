@@ -1153,8 +1153,9 @@ namespace AnimatedGifViewer {
 		/// <param name="msg"></param>
 		/// <param name="keyData"></param>
 		private void FullScreenForm_ExitFullScreen(Keys keyData) {
-			if (((keyData == Keys.Escape) || (keyData == Keys.Down) ||
-				(keyData == Keys.S)) && !this.Visible) {
+			if (((keyData == Keys.Escape) 
+				|| this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.ExitFullscreen, keyData)) 
+				&& !this.Visible) {
 				this.mFullScreenForm.Hide();
 				this.Show();
 			}
@@ -1311,35 +1312,32 @@ namespace AnimatedGifViewer {
 
 			MainFormDelegate handKeys = delegate() {
 
-				if ((keyData == Keys.Left) ||
-					(keyData == Keys.A)) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.PreviousImage, keyData)) {
 					this.PrevButton_Click(this, null);
 				}
 
-				if ((keyData == Keys.Right) ||
-					(keyData == Keys.D)) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.NextImage, keyData)) {
 					this.NextButton_Click(this, null);
 				}
 
-				if ((keyData == Keys.Up) ||
-					(keyData == Keys.W)) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.EnterFullscreen, keyData)) {
 					this.FullScreenButton.PerformClick();
 				}
 
-				if (keyData == Keys.Space) {
-					this.FitSizeButton.PerformClick();
-				}
+// 				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut., keyData)) {
+// 					this.FitSizeButton.PerformClick();
+// 				}
 
-				if (keyData == Keys.Oemcomma) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.RotateImageClockwise, keyData)) {
 					this.RotateCounterButton_Click(this, null);
 				}
 
-				if (keyData == Keys.Tab) {
-					this.ToggleSidePanel();
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.RotateImageCounterClockwise, keyData)) {
+					this.RotateClockwiseButton_Click(this, null);
 				}
 
-				if (keyData == Keys.OemPeriod) {
-					this.RotateClockwiseButton_Click(this, null);
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.ToggleSidePanel, keyData)) {
+					this.ToggleSidePanel();
 				}
 
 				if (keyData == Keys.Delete) {

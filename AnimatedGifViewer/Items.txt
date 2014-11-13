@@ -100,6 +100,7 @@ Having double array for settings is a pain and very expensive. <
 Resizable cell heights and widths: turn it off. <
 Shortcuts and settings load too late with load method. <
 OEM keys string contains OEM.
+Fit to screen shortcut is missing.
 
 Small bugs that need to be fixed eventually:
 The delete button returns to the hover state after a file deletion. It won't go back to active state until you pass over it with the mouse.
