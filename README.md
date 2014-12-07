@@ -15,7 +15,7 @@ Table of Contents
 -------------------------------
 **Animated GIF Viewer** is a small program that can open animated GIF images and play them. It functions as an image viewer, supporting image types such as JPEGs, BMPs, PNGs, ICOs, and TIFFs. The viewer draws heavy influence from the standard Windows Photo Viewer that is shipped with Windows OS, but features notable differences.
 
-Animated GIF Viewer is a free program that is distributed under the GNU General Public License. See [LICENSE.txt](https://bitbucket.org/jessezhong/animatedgifviewer/src/59dc56699bb402382f55e4cdce5632173237d35c/LICENSE.txt?at=master).
+Animated GIF Viewer is a free program that is distributed under the GNU General Public License. See [LICENSE.txt](https://github.com/JesseZhong/AnimatedGifViewer/blob/master/LICENSE.txt).
 
 2. Why?
 -------
@@ -33,9 +33,9 @@ This project aims to address these desires.
 
 3. Download & Installation
 --------------------------
-The most recent version is **1.0.5328**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5328.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5328.zip)
+~~The most recent version is **1.0.5328**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5328.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5328.zip)
 
-New and old releases of the viewer are available on the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page.
+New and old releases of the viewer are available on the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page.~~
 
 Make sure your system has **Microsoft .NET Framework 4.5** installed and updated. If you keep your system fully updated, you should be fine.
 
@@ -82,7 +82,7 @@ These are the prerequisites that you will need to have downloaded and installed 
 
 **Obtaining the Source**
 
-To obtain the source you can download the repository from the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page. Here's a direct link: [Download repository](https://bitbucket.org/jessezhong/animatedgifviewer/get/9476dfddbec2.zip).
+To obtain the source you can download the repository from this link: [Download repository](https://github.com/JesseZhong/AnimatedGifViewer/archive/master.zip).
 
 Alternatively, you may clone the repository using Git or a SCM client, such as SmartGit/Hg.
 
@@ -102,7 +102,7 @@ The actual program's executable  is called **Animated GIF Viewer.exe**. You may 
 **Notes**
 
 The build sequence uses the Microsoft utility **ILMerge** to merge all the assemblies in the project into a single executable. 
-I have included and referenced a local copy of the utility in the [Tools/ILMerge](https://bitbucket.org/jessezhong/animatedgifviewer/src/ffd3eb3230c22903d48a9d4e71d5ed4a5022ce19/Tools/ILMerge/?at=master) for the sake of portability.
+I have included and referenced a local copy of the utility in the [Tools/ILMerge](https://github.com/JesseZhong/AnimatedGifViewer/tree/master/Tools/ILMerge) for the sake of portability.
 Please refer to the documentation in the directory if you need more information.
 
 6. Documentation
