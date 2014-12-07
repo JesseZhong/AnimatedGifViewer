@@ -22,11 +22,6 @@ namespace AnimatedGifViewer {
 
 		#region Constants
 		/// <summary>
-		/// The vertical padding above and below the image box.
-		/// </summary>
-		private const int IMG_BOX_H_PAD = 94;
-
-		/// <summary>
 		/// The filter used by the program to scan
 		/// for image files in the working directory.
 		/// </summary>
@@ -52,8 +47,11 @@ namespace AnimatedGifViewer {
 		private ImageBox mImageBox;
 		private MainFormImageBoxMenu mImageBoxMenu;
 		private FullScreenForm mFullScreenForm;
+		private PreferencesForm mPreferencesForm;
+		
 		private System.Windows.Forms.ToolTip mToolTip;
 		private System.Windows.Forms.TrackBar mSlider;
+		private SystemBrowser mSystemBrowser;
 
 		private List<string> mFilenames;
 		private int mFilenameIndex;
@@ -137,6 +135,10 @@ namespace AnimatedGifViewer {
 
 			// Grab all the files from the directory.
 			this.mLoadedFilenames();
+			if (this.mSystemBrowser.InvokeRequired)
+				this.mSystemBrowser.Invoke(new MethodInvoker(() => this.mSystemBrowser.UpdateBrowser()));
+			else
+				this.mSystemBrowser.UpdateBrowser();
 			return true;
 		}
 
@@ -496,6 +498,13 @@ namespace AnimatedGifViewer {
 					assign();
 			}
 		}
+
+		/// <summary>
+		/// Toggles the visibility of the side panel.
+		/// </summary>
+		private void ToggleSidePanel() {
+			this.SplitContainer.Panel2Collapsed = !this.SplitContainer.Panel2Collapsed;
+		}
 		#endregion
 
 		#region Loading
@@ -507,10 +516,15 @@ namespace AnimatedGifViewer {
 		/// <param name="args">Program arguments.</param>
 		public MainForm(string[] args = null) {
 
+            // Get assembly information.
+            object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+            this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+
 			// Initialize the form's components.
 			this.InitializeMainForm();
 			this.InitializeComponent();
 			this.InitializeImageBox();
+			this.InitializeBrowser();
 			this.InitializeEventHandlers();
 
 			// Initialize variables.
@@ -519,10 +533,6 @@ namespace AnimatedGifViewer {
 			this.mFilenames = new List<string>();
 			this.mSearchPatterns = FILE_TYPES.Split('|');
 			this.mPrevSliderValue = 0;
-
-			// Get assembly information.
-			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			this.mAssemblyProduct = (attributes.Length == 0) ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
 		}
 
 		/// <summary>
@@ -536,12 +546,15 @@ namespace AnimatedGifViewer {
 			this.KeyPreview = true;
 			this.Location = global::AnimatedGifViewer.Properties.Settings.Default.FormLocation;
 			this.Size = global::AnimatedGifViewer.Properties.Settings.Default.FormSize;
-			this.Text = this.mAssemblyProduct;
 			this.WindowState = global::AnimatedGifViewer.Properties.Settings.Default.FormWindowState;
 
 			// Full Screen Form.
 			this.mFullScreenForm = new FullScreenForm();
 			this.mFullScreenForm.Hide();
+
+			// Preferences Form.
+			this.mPreferencesForm = new PreferencesForm();
+			this.mPreferencesForm.Hide();
 
 			// Tool tip settings.
 			this.mToolTip = new ToolTip();
@@ -562,7 +575,6 @@ namespace AnimatedGifViewer {
 			this.mSlider.TickStyle = TickStyle.None;
 			this.mSlider.Hide();
 
-
 			this.Controls.Add(this.mSlider);
 		}
 
@@ -577,14 +589,13 @@ namespace AnimatedGifViewer {
 				(AnchorStyles.Top | AnchorStyles.Bottom |
 				AnchorStyles.Left | AnchorStyles.Right);
 
-			this.mImageBox.Location = new Point(0, 24);
+			this.mImageBox.Location = new Point(0, 0);
 			this.mImageBox.Margin = new System.Windows.Forms.Padding(0);
 			this.mImageBox.Name = "ImageBox";
-			this.mImageBox.Size = new System.Drawing.Size(this.ClientSize.Width,
-				(this.ClientSize.Height > IMG_BOX_H_PAD ? this.ClientSize.Height - IMG_BOX_H_PAD : this.ClientSize.Height));
+			this.mImageBox.Size = this.SplitContainer.Panel1.ClientSize;
 			this.mImageBox.TabIndex = 0;
 			this.mImageBox.TabStop = false;
-			this.Controls.Add(this.mImageBox);
+			this.SplitContainer.Panel1.Controls.Add(this.mImageBox);
 
 			// ImageBoxMenu.
 			this.mImageBoxMenu = new MainFormImageBoxMenu();
@@ -602,6 +613,22 @@ namespace AnimatedGifViewer {
 			this.mImageBoxMenu.CopyMenuItem.Click += new System.EventHandler(this.ImageBoxMenuCopy_Click);
 			this.mImageBoxMenu.DeleteMenuItem.Click += new System.EventHandler(this.ImageBoxMenuDelete_Click);
 			this.mImageBoxMenu.PropertiesMenuItem.Click += new System.EventHandler(this.ImageBoxMenuProperties_Click);
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		private void InitializeBrowser() {
+
+			this.mSystemBrowser = new SystemBrowser();
+			this.mSystemBrowser.Anchor = (System.Windows.Forms.AnchorStyles)
+				(AnchorStyles.Top | AnchorStyles.Bottom |
+				AnchorStyles.Left | AnchorStyles.Right);
+			this.mSystemBrowser.Location = new Point(0, 0);
+			this.mSystemBrowser.Name = "File Browser";
+			this.mSystemBrowser.Size = this.SplitContainer.Panel2.ClientSize;
+
+			this.SplitContainer.Panel2.Controls.Add(this.mSystemBrowser);
 		}
 
 		/// <summary>
@@ -698,6 +725,9 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">MainForm</param>
 		/// <param name="e">Event arguments.</param>
 		private void MainForm_Load(object sender, EventArgs e) {
+
+            // Alter the name of the form.
+            this.Text = this.mAssemblyProduct;
 
 			// Buttons.
 			this.EnableButtons(false);
@@ -1043,6 +1073,18 @@ namespace AnimatedGifViewer {
 		}
 
 		/// <summary>
+		/// Displays the preferences form if it is hidden. Bring it forward if it is visible.
+		/// </summary>
+		/// <param name="sender">PreferencesMenuItem</param>
+		/// <param name="e">Event arguments.</param>
+		private void PreferencesMenuItem_Click(object sender, EventArgs e) {
+			if (!this.mPreferencesForm.Visible)
+				this.mPreferencesForm.Show();
+			else
+				this.mPreferencesForm.Activate();
+		}
+
+		/// <summary>
 		/// Creates and shows the about form when the about menu item is clicked.
 		/// </summary>
 		/// <param name="sender">AboutMenuItem</param>
@@ -1060,6 +1102,9 @@ namespace AnimatedGifViewer {
 		/// <param name="sender">ImageBox</param>
 		/// <param name="e">Event arguments.</param>
 		private void ImageBox_SetSlider(object sender, ZoomEventArgs e) {
+			if (e == null)
+				return;
+
 			System.Drawing.Rectangle screen = System.Windows.Forms.Screen.FromControl(this).WorkingArea;
 
 			// Calculate the aspect ratios for the image and screen.
@@ -1108,8 +1153,9 @@ namespace AnimatedGifViewer {
 		/// <param name="msg"></param>
 		/// <param name="keyData"></param>
 		private void FullScreenForm_ExitFullScreen(Keys keyData) {
-			if (((keyData == Keys.Escape) || (keyData == Keys.Down) ||
-				(keyData == Keys.S)) && !this.Visible) {
+			if (((keyData == Keys.Escape) 
+				|| this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.ExitFullscreen, keyData)) 
+				&& !this.Visible) {
 				this.mFullScreenForm.Hide();
 				this.Show();
 			}
@@ -1266,31 +1312,32 @@ namespace AnimatedGifViewer {
 
 			MainFormDelegate handKeys = delegate() {
 
-				if ((keyData == Keys.Left) ||
-					(keyData == Keys.A)) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.PreviousImage, keyData)) {
 					this.PrevButton_Click(this, null);
 				}
 
-				if ((keyData == Keys.Right) ||
-					(keyData == Keys.D)) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.NextImage, keyData)) {
 					this.NextButton_Click(this, null);
 				}
 
-				if ((keyData == Keys.Up) ||
-					(keyData == Keys.W)) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.EnterFullscreen, keyData)) {
 					this.FullScreenButton.PerformClick();
 				}
 
-				if (keyData == Keys.Space) {
-					this.FitSizeButton.PerformClick();
-				}
+// 				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut., keyData)) {
+// 					this.FitSizeButton.PerformClick();
+// 				}
 
-				if (keyData == Keys.Oemcomma) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.RotateImageClockwise, keyData)) {
 					this.RotateCounterButton_Click(this, null);
 				}
 
-				if (keyData == Keys.OemPeriod) {
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.RotateImageCounterClockwise, keyData)) {
 					this.RotateClockwiseButton_Click(this, null);
+				}
+
+				if (this.mPreferencesForm.WasShortcutTriggered(KeyboardShortcut.ToggleSidePanel, keyData)) {
+					this.ToggleSidePanel();
 				}
 
 				if (keyData == Keys.Delete) {

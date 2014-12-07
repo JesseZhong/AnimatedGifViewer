@@ -37,6 +37,7 @@
 			this.MenuItemSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenWithMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.PreferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SizeButton = new System.Windows.Forms.Button();
 			this.FitSizeButton = new System.Windows.Forms.Button();
@@ -46,7 +47,10 @@
 			this.FullScreenButton = new System.Windows.Forms.Button();
 			this.NextButton = new System.Windows.Forms.Button();
 			this.PrevButton = new System.Windows.Forms.Button();
+			this.SplitContainer = new System.Windows.Forms.SplitContainer();
 			this.MenuStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
+			this.SplitContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MenuStrip
@@ -55,6 +59,7 @@
 			this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenuItem,
             this.OpenWithMenuItem,
+            this.PreferencesMenuItem,
             this.AboutMenuItem});
 			this.MenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.MenuStrip.Name = "MenuStrip";
@@ -151,6 +156,13 @@
 			this.OpenWithMenuItem.Name = "OpenWithMenuItem";
 			this.OpenWithMenuItem.Size = new System.Drawing.Size(69, 20);
 			this.OpenWithMenuItem.Text = "Open With";
+			// 
+			// PreferencesMenuItem
+			// 
+			this.PreferencesMenuItem.Name = "PreferencesMenuItem";
+			this.PreferencesMenuItem.Size = new System.Drawing.Size(76, 20);
+			this.PreferencesMenuItem.Text = "Preferences";
+			this.PreferencesMenuItem.Click += new System.EventHandler(this.PreferencesMenuItem_Click);
 			// 
 			// AboutMenuItem
 			// 
@@ -287,12 +299,30 @@
 			this.PrevButton.UseVisualStyleBackColor = false;
 			this.PrevButton.Click += new System.EventHandler(this.PrevButton_Click);
 			// 
+			// SplitContainer
+			// 
+			this.SplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.SplitContainer.Location = new System.Drawing.Point(0, 24);
+			this.SplitContainer.Margin = new System.Windows.Forms.Padding(0);
+			this.SplitContainer.Name = "SplitContainer";
+			// 
+			// SplitContainer.Panel1
+			// 
+			this.SplitContainer.Panel1.BackColor = System.Drawing.SystemColors.Control;
+			this.SplitContainer.Panel2Collapsed = true;
+			this.SplitContainer.Size = new System.Drawing.Size(674, 329);
+			this.SplitContainer.SplitterDistance = 516;
+			this.SplitContainer.TabIndex = 10;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.ClientSize = new System.Drawing.Size(674, 410);
+			this.Controls.Add(this.SplitContainer);
 			this.Controls.Add(this.MenuStrip);
 			this.Controls.Add(this.SizeButton);
 			this.Controls.Add(this.FitSizeButton);
@@ -311,6 +341,8 @@
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.MenuStrip.ResumeLayout(false);
 			this.MenuStrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).EndInit();
+			this.SplitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -340,6 +372,8 @@
 		private System.Windows.Forms.Button FitSizeButton;
 		private System.Windows.Forms.Button SizeButton;
 		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
+		private System.Windows.Forms.SplitContainer SplitContainer;
+		private System.Windows.Forms.ToolStripMenuItem PreferencesMenuItem;
 	}
 }
 

@@ -89,6 +89,13 @@
     <Compile Include="FullScreenForm.Designer.cs">
       <DependentUpon>FullScreenForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardShortcut.cs" />
+    <Compile Include="KeyMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyMessageBox.Designer.cs">
+      <DependentUpon>KeyMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +103,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MouseHandler.cs" />
+    <Compile Include="PreferencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainFormImageBoxMenu.cs">
       <SubType>Component</SubType>
@@ -343,9 +356,15 @@
     <EmbeddedResource Include="FullScreenForm.resx">
       <DependentUpon>FullScreenForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="KeyMessageBox.resx">
+      <DependentUpon>KeyMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreferencesForm.resx">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -437,9 +456,19 @@
     <ProjectReference Include="..\ImageBox\ImageBox.csproj">
       <Project>{ca18dbf4-9d52-474a-8b26-01d633cb5b20}</Project>
       <Name>ImageBox</Name>
-	  <IlMerge>True</IlMerge>
+      <IlMerge>True</IlMerge>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemBrowser\SystemBrowser.csproj">
+      <Project>{cb050801-388c-4fb4-98eb-28a0e86d2b8e}</Project>
+      <Name>SystemBrowser</Name>
+      <IlMerge>True</IlMerge>
     </ProjectReference>
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>PROJECT_DIR="$(ProjectDir)"</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
