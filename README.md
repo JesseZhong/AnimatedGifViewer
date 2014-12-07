@@ -33,9 +33,9 @@ This project aims to address these desires.
 
 3. Download & Installation
 --------------------------
-~~The most recent version is **1.0.5328**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5328.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5328.zip)
+~~The most recent version is **1.0.5328**, which can be downloaded here: [AnimatedGIFViewer-v1.0.5328.zip](https://bitbucket.org/jessezhong/animatedgifviewer/downloads/AnimatedGIFViewer-v1.0.5328.zip)~~
 
-New and old releases of the viewer are available on the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page.~~
+~~New and old releases of the viewer are available on the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page.~~
 
 Make sure your system has **Microsoft .NET Framework 4.5** installed and updated. If you keep your system fully updated, you should be fine.
 
