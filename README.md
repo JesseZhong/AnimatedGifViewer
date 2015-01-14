@@ -75,18 +75,13 @@ The following is an list of features exclusive to the **Animated GIF Viewer**:
 
 These are the prerequisites that you will need to have downloaded and installed before you can build the source:
 
-- Microsoft Visual Studio 2012
-	- You can download the free Express version here: [http://www.microsoft.com/en-us/download/details.aspx?id=34673](http://www.microsoft.com/en-us/download/details.aspx?id=34673)
+- Microsoft Visual Studio 2013 Community Edition ( [http://www.visualstudio.com/en-us/products/free-developer-offers-vs](http://www.visualstudio.com/en-us/products/free-developer-offers-vs) )
 - Git (optional) ( [http://git-scm.com/downloads](http://git-scm.com/downloads) ) or SmartGit/Hg (optional) ( [http://www.syntevo.com/smartgit/](http://www.syntevo.com/smartgit/) )
 
 
 **Obtaining the Source**
 
-<<<<<<< HEAD
 To obtain the source you can download the repository from this link: [Download repository](https://github.com/JesseZhong/AnimatedGifViewer/archive/master.zip).
-=======
-To obtain the source you can download the repository from the [Downloads](https://bitbucket.org/jessezhong/animatedgifviewer/downloads) page. Here's a direct link: [Download repository](https://bitbucket.org/jessezhong/animatedgifviewer/get/9476dfddbec2.zip).
->>>>>>> master
 
 Alternatively, you may clone the repository using Git or a SCM client, such as SmartGit/Hg.
 
@@ -106,11 +101,9 @@ The actual program's executable  is called **Animated GIF Viewer.exe**. You may 
 **Notes**
 
 The build sequence uses the Microsoft utility **ILMerge** to merge all the assemblies in the project into a single executable. 
-<<<<<<< HEAD
+
 I have included and referenced a local copy of the utility in the [Tools/ILMerge](https://github.com/JesseZhong/AnimatedGifViewer/tree/master/Tools/ILMerge) for the sake of portability.
-=======
-I have included and referenced a local copy of the utility in the [Tools/ILMerge](https://bitbucket.org/jessezhong/animatedgifviewer/src/ffd3eb3230c22903d48a9d4e71d5ed4a5022ce19/Tools/ILMerge/?at=master) for the sake of portability.
->>>>>>> master
+
 Please refer to the documentation in the directory if you need more information.
 
 6. Documentation
